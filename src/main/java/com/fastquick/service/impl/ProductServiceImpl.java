@@ -27,6 +27,13 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
+  	@Override
+    public ProductDetailResponseDTO detailProduct(Long productId) throws NoSuchElementException{
+      Product product = this.productRepository.findById(productId).orElseThrow();
+
+      return ProductDetailResponseDTO.ProductFactory(product);
+    }
+  
     @Override
     public List<ProductListResponseDTO> productList(String productName, Integer page) {
     	final int pageSize = 10;

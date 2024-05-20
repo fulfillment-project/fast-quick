@@ -11,7 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 import javax.persistence.PrePersist;
+
 
 @Entity
 @NoArgsConstructor
@@ -20,6 +22,7 @@ import javax.persistence.PrePersist;
 @Getter
 @Setter
 public class Product extends BaseEntity {
+
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +50,7 @@ public class Product extends BaseEntity {
 
     @Column(name = "barcode", unique = true, nullable = false)
     private Long barcode;
+
     
     @PrePersist
     public void prePersist() {
