@@ -1,0 +1,108 @@
+<div th:include="fragments/head.html"></div>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+		<div th:include="fragments/sidebar.html"></div>
+
+		        <!-- Content Start -->
+		        <div class="content">
+		            
+		<div th:include="fragments/header.html"></div>
+
+
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">            
+                    <div class="col-sm-12 col-xl-7">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h4 class="mb-4">재고 관리</h4>
+                            <div class="d-md-flex">
+                                <form class="d-md-flex mb-3">
+                                    <input class="form-control border-0 me-2" type="search" style="width: 70%;" placeholder="Search">
+                                    <button type="submit" class="btn btn-primary">검색</button>
+                                </form>
+                                <a href="#" class="btn btn-primary mb-3 ms-auto">주문 수집</a>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">상품명</th>
+                                        <th scope="col">상품코드</th>
+                                        <th scope="col">보유재고</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>John</td>
+                                        <td>10242</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Mark</td>
+                                        <td>10242</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Jacob</td>
+                                        <td>10242</td>
+                                        <td>100</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-xl-5">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h4 class="mb-4">재고 정보</h4>
+                            <a href="#" class="btn btn-primary mb-3"> <b>입고</b></a>
+                            <a href="#" class="btn btn-primary mb-3" style="background-color: white; color: black;"> <b>출고</b></a>
+                            <form>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">나이키 신발</th>
+                                        <th scope="col">보유 재고 : 100</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2">상품 코드 : 10230</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">안전 재고 : 50</td>
+                                    </tr>
+                                        <tr>
+                                            <td>입고 수량</td>
+                                            <td><input class="form-control border-0 me-2" type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>메모</td>
+                                            <td> <textarea class="form-control" id="floatingTextarea" style="height: 150px;"></textarea>
+                                            </td>
+                                        </tr>
+                                    </tr>                          
+                                </tbody>
+                            </table>
+                            <button type="submit" class="btn btn-primary mb-3" style="width: 100%;">등록</button>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table End -->
+
+			<div th:include="fragments/footer.html"></div>

@@ -1,0 +1,65 @@
+<div th:include="fragments/head.html"></div>
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+		<div th:include="fragments/sidebar.html"></div>
+
+		 <!-- Content Start -->
+		 <div class="content">
+		            
+		 <div th:include="fragments/header.html"></div>
+
+
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">            
+                    <div class="col-sm-12 col-xl-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h4 class="mb-4">주문목록 상세</h4>
+
+                                <img src="" style="width: 80%; height: 70%; margin: 0 auto;">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">상품명</th>
+                                        <th scope="col">우편번호</th>
+                                        <th scope="col">구매 가격</th>
+                                        <th scope="col">구매 수</th>
+                                        <th scope="col">주소(상세)</th>
+                                        <th scope="col">요청 사항</th>
+                                        <th scope="col">송장 번호</th>
+                                        <th scope="col">쇼핑몰</th>
+                                        <th scope="col">비고</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>나이키</td>
+                                        <td>10230</td>
+                                        <td>100,000</td>
+                                        <td>1</td>
+                                        <td>서울시</td>
+                                        <td>빨리와</td>
+                                        <td>214124</td>
+                                        <td>네이버</td>
+                                        <td>반품</td>
+                                    </tr>                          
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Table End -->
+
+
+           <div th:include="fragments/footer.html"></div>

@@ -1,0 +1,71 @@
+<div th:include="fragments/head.html"></div>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+		<div th:include="fragments/sidebar.html"></div>
+
+		 <!-- Content Start -->
+		 <div class="content">
+		            
+		 <div th:include="fragments/header.html"></div>
+
+
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">            
+                    <div class="col-sm-12 col-xl-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h4 class="mb-4">전체 쇼핑몰 주문목록</h4>
+                            <a href="#" class="btn btn-primary mb-3"> <b>전체</b></a>
+                            <a href="#" class="btn btn-primary mb-3" style="background-color: white; color: black;"> <b>쇼핑몰1</b></a>
+                            <a href="#" class="btn btn-primary mb-3" style="background-color: white; color: black;"> <b>쇼핑몰2</b></a>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">주문 취소</th>
+                                        <th scope="col">상품명</th>
+                                        <th scope="col">주문날짜</th>
+                                        <th scope="col">구매 수</th>
+                                        <th scope="col">구매 가격</th>
+                                        <th scope="col">배송 상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="#" class="linkbtn"> 출고 취소</a></td>
+                                        <td><a th:href="@{/order/orderDetail}" style="color: #757575;">John</a></td>
+                                        <td>2024-05.19</td>
+                                        <td>1</td>
+                                        <td>100,000</td>
+                                        <td>배송 준비중</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#" class="linkbtn"> 출고 취소</a></td>
+                                        <td><a th:href="@{/order/orderDetail}" style="color: #757575;">John</a></td>
+                                        <td>2024-05.19</td>
+                                        <td>2</td>
+                                        <td>200,000</td>
+                                        <td>배송중</td>
+                                    </tr>                                
+                                </tbody>
+                            </table>
+                            <div style="width: 20%; margin: 0 auto; text-align: center;">
+                            <a href="#" class="btn btn-primary mb-3" style="width: 100%;"> <b>출고</b></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Table End -->
+
+
+           <div th:include="fragments/footer.html"></div>

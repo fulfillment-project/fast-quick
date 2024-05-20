@@ -1,0 +1,130 @@
+<div th:include="fragments/head.html"></div>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+		<div th:include="fragments/sidebar.html"></div>
+
+		        <!-- Content Start -->
+		        <div class="content">
+		            
+		<div th:include="fragments/header.html"></div>
+
+
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">            
+                    <div class="col-sm-12 col-xl-7">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h4 class="mb-4">상품 목록</h4>
+                            <div class="d-md-flex">
+                                <form class="d-md-flex mb-3">
+                                    <input class="form-control border-0 me-2" type="search" style="width: 70%;" placeholder="Search">
+                                    <button type="submit" class="btn btn-primary">검색</button>
+                                </form>
+                                <a th:href="@{/product/productWrite}" class="btn btn-primary mb-3 ms-auto">상품 등록</a>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">상품명</th>
+                                        <th scope="col">상품코드</th>
+                                        <th scope="col">보유재고</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>John</td>
+                                        <td>10242</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Mark</td>
+                                        <td>10242</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Jacob</td>
+                                        <td>10242</td>
+                                        <td>100</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <a href="#" class="btn btn-primary mb-3" style="width: 100%;"> <b>연동된 쇼핑몰 불러오기</b></a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-xl-5">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h4 class="mb-4">상품 정보</h4>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">상품명</th>
+                                        <th scope="col">상품코드</th>
+                                        <th scope="col">안전재고</th>
+                                        <th scope="col">보유재고</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>100</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>100</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>200</td>
+                                        <td>100</td>
+                                    </tr>                                   
+                                </tbody>
+                            </table>
+                            <a href="#" class="btn btn-primary mb-3" style="width: 100%;"> <b>쇼핑몰 상품 연동</b></a>
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">상품명</th>
+                                        <th scope="col">재고</th>
+                                        <th scope="col">쇼핑몰</th>
+                                        <th scope="col">연동</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>100</td>
+                                        <td><a href="#" class="linkbtn"> 연동 해제</a></td>
+                                    </tr>
+                            
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table End -->
+
+
+			<div th:include="fragments/footer.html"></div>
