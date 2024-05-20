@@ -4,15 +4,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.fastquick.data.dto.response.ProductDetailResponseDTO;
+import com.fastquick.data.dto.response.ProductListResponseDTO;
 
-@Service
+
 public interface ProductService {
 	
   public List<ProductListResponseDTO> productList(String productName, Integer page);
 
-  // 상세
+  	// 상세
 	ProductDetailResponseDTO detailProduct(Long productId);
 	
-	// 등록
-	ProductDetailResponseDTO getProduct(Integer productId);
 }

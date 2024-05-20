@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fastquick.data.dto.response.ProductListResponseDTO;
 import com.fastquick.service.ProductService;
 
 import com.fastquick.data.dto.response.ProductDetailResponseDTO;
+import com.fastquick.data.dto.response.ProductListResponseDTO;
 import com.fastquick.service.ProductService;
 
 import java.util.NoSuchElementException;

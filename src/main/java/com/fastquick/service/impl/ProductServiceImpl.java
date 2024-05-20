@@ -1,5 +1,6 @@
 package com.fastquick.service.impl;
 
+import com.fastquick.data.dto.response.ProductDetailResponseDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
 import com.fastquick.data.entity.Member;
 import com.fastquick.data.entity.Product;
@@ -9,6 +10,7 @@ import com.fastquick.service.MemberService;
 import com.fastquick.service.ProductService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.PageRequest;
@@ -58,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
     	}   
     	
     	return products.stream().map(product ->
-    			new ProductListResponseDTO(product.getProductName(), product.getBarcode(), product.getQuantity())
+    			new ProductListResponseDTO(product.getProductId(), product.getProductName(), product.getBarcode(), product.getQuantity())
     			).collect(Collectors.toList());
     	
     }
