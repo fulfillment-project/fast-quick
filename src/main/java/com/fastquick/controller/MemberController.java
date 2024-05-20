@@ -22,18 +22,14 @@ public class MemberController {
     }
 
     @GetMapping("/register")
-    public String refister() {
+    public String register() {
     	return "member/register";
     }
     
     //로그인
     @PostMapping("/login")
     public String login(@RequestParam("id") String id, @RequestParam("pwd") String pwd){
-        System.out.println(id);
-        System.out.println(pwd);
         Integer memberId = memberService.login(id, pwd);
-        System.out.println("로그인 성공");
-        System.out.println(memberId);
-        return "main/main";
+        return "/index";
     }
 }

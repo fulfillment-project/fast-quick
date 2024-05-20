@@ -24,22 +24,18 @@
                         <div class="col-sm-12 col-xl-8">
                             <div class="bg-light rounded h-100 p-4">
                                 <h3 class="mb-4">상품 등록</h3>
-                                <form>
+                                <form th:action="@{/product/productWrite}"  method="post">
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">상품명</label>
-                                        <input type="text" class="form-control"  name="productName">
+                                        <input type="text" class="form-control"  name="productName"  required>
                                     </div>
                                    <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">재고</label>
                                         <input type="text" class="form-control"  name="quantity">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">입고량</label>
-                                        <input type="text" class="form-control"  name="import">
-                                    </div>
+                                    </div>                                  
                                      <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">출고량</label>
-                                        <input type="text" class="form-control"  name="export">
+                                        <label for="exampleInputPassword1" class="form-label">안전 재고</label>
+                                        <input type="text" class="form-control"  name="safeQuantity">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">상품 바코드</label>

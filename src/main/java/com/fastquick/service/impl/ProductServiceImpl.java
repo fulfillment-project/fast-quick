@@ -1,5 +1,6 @@
 package com.fastquick.service.impl;
 
+import com.fastquick.data.dto.request.ProductWriteRequestDTO;
 import com.fastquick.data.dto.response.ProductDetailResponseDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
 import com.fastquick.data.entity.Member;
@@ -29,6 +30,21 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
+    @Override
+    public Integer productInsert(ProductWriteRequestDTO productWriteRequestDTO) {
+    	Product product = Product.builder()
+    			.productName(productWriteRequestDTO.getProductName())
+    			.quantity(productWriteRequestDTO.getQuantity())
+    			.safeQuantity(productWriteRequestDTO.getSafeQuantity())
+    			.barcode(productWriteRequestDTO.getBarcode())
+    			.memberId(productWriteRequestDTO.getMemberId())
+    			.image(productWriteRequestDTO.getImage())
+    			.build();
+    			this.productRepository.save(product);
+    			return product.getProductId();
+    }
+    
+    
   	@Override
     public ProductDetailResponseDTO detailProduct(Long productId) throws NoSuchElementException{
       Product product = this.productRepository.findById(productId).orElseThrow();
@@ -56,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     		
     		Sort sort = Sort.by(Order.desc("insertDateTime"));
 			pageable.getSort().and(sort);
-			products = this.productRepository.findByProductName(productName, pageable);
+			products = this.productRepository.findByProductNameContaining(productName, pageable);
     	}   
     	
     	return products.stream().map(product ->

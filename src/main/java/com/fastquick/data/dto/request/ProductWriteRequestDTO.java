@@ -1,5 +1,7 @@
 package com.fastquick.data.dto.request;
 
+import com.fastquick.data.entity.Member;
+
 import lombok.*;
 
 @Getter
@@ -8,21 +10,15 @@ public class ProductWriteRequestDTO {
 	
     private Long barcode;
 	
-	@NonNull
-    private Integer export;
-	
-	
     private String image;
-    
-    @NonNull
-    private Integer importAmount;
     
     @NonNull
     private String productName;
     
-    @NonNull
+    private Integer safeQuantity;
+    
     private Integer quantity;
     
     @NonNull
-    private Integer memberId;
+    private Member memberId;
 }

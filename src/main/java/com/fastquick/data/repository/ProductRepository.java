@@ -9,5 +9,5 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-	public List<Product> findByProductName(String productName, Pageable pageable) ;
+	public List<Product> findByProductNameContaining(String productName, Pageable pageable) ;
 }

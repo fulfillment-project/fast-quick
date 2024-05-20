@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class ProductDetailResponseDTO {
-	private Long productId;
+	private Integer productId;
 	private String productName;
 	private Integer quantity;
 	private Long barcode;
