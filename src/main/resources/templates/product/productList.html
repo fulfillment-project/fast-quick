@@ -1,7 +1,8 @@
+<html xmlns:th="http://www.thymeleaf.org">
 <div th:include="fragments/head.html"></div>
 
 <body>
-    <div class="container-xxl position-relative bg-white d-flex p-0">
+    <div class="position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -26,8 +27,8 @@
                         <div class="bg-light rounded h-100 p-4">
                             <h4 class="mb-4">상품 목록</h4>
                             <div class="d-md-flex">
-                                <form class="d-md-flex mb-3">
-                                    <input class="form-control border-0 me-2" type="search" style="width: 70%;" placeholder="Search">
+                                <form class="d-md-flex mb-3"   th:action="@{/product/productList}">
+                                    <input class="form-control border-0 me-2"  type="search"  name="productName" style="width: 70%;" placeholder="Search">
                                     <button type="submit" class="btn btn-primary">검색</button>
                                 </form>
                                 <a th:href="@{/product/productWrite}" class="btn btn-primary mb-3 ms-auto">상품 등록</a>
@@ -35,30 +36,16 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
                                         <th scope="col">상품명</th>
                                         <th scope="col">상품코드</th>
                                         <th scope="col">보유재고</th>
                                     </tr>
-                                </thead>
+                                </thead>                    
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>10242</td>
-                                        <td>100</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Mark</td>
-                                        <td>10242</td>
-                                        <td>100</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Jacob</td>
-                                        <td>10242</td>
-                                        <td>100</td>
+                                    <tr th:each="products : ${products}">
+                                        <td th:text="${products.productName}"></td>
+                                        <td th:text="${products.barcode}"></td>
+                                        <td th:text="${products.quantity}">100</td>
                                     </tr>
                                 </tbody>
                             </table>
