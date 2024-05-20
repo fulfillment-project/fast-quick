@@ -36,15 +36,16 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">상품명</th>
-                                        <th scope="col">상품코드</th>
-                                        <th scope="col">보유재고</th>
+                                    	<th width="10%"  scope="col">상품코드</th>
+                                        <th width="40%"  scope="col">상품명</th>
+                                        <th width="30%"  scope="col">바코드번호</th>
+                                        <th width="20%"  scope="col">보유재고</th>
                                     </tr>
                                 </thead>                    
                                 <tbody>
                                     <tr th:each="products : ${products}">
-                                 <td><a th:href="@{/product/productDetail/{productId}(productId=${products.productId})}" th:text="${products.productName}"></td>
-                                      	
+                                    	<td align="center" th:text="${products.productId}"></td>
+                                 		<td><a style="color: #757575" th:href="@{/product/productDetail/{productId}(productId=${products.productId})}" th:text="${products.productName}"></td>                                    	
                                         <td th:text="${products.barcode}"></td>
                                         <td th:text="${products.quantity}"></td>
                                     </tr>
@@ -67,7 +68,11 @@
                                         <th scope="col">상품명</th>
                                         <th scope="col">상품코드</th>
                                         <th scope="col">재고</th>
+<<<<<<< HEAD
                                         <th scope="col">상품바코드번호</th>
+=======
+                                        <th scope="col">바코드번호</th>
+>>>>>>> 2d4181f41e93685c2e49fe3cff7d79ac219dcb0b
                                         <th scope="col">등록일자</th>
                                     </tr>
                                 </thead>

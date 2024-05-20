@@ -27,25 +27,25 @@ public class Product extends BaseEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productId")
-    private Long productId;
+    private Integer productId;
 
     @ManyToOne
-    @JoinColumn(name = "memberId")
-    private Member member;
+    @JoinColumn(name = "memberId" , nullable = false)
+    private Member memberId;
 
     @Column(name = "productName", nullable = false)
     private String productName;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private Integer quantity;
     
-    @Column(name = "safeQuantity", nullable = false)
+    @Column(name = "safeQuantity")
     private Integer safeQuantity;
 
-    @Column(name = "import", nullable = false)
+    @Column(name = "import")
     private Integer importAmount;
 
-    @Column(name = "export", nullable = false)
+    @Column(name = "export")
     private Integer exportAmount;
 
     @Column(name = "image")
@@ -64,7 +64,7 @@ public class Product extends BaseEntity {
     }
 
     private Long generateRandomBarcode() {
-        // 100000부터 999999까지의 랜덤값 생성
-        return (long) (new Random().nextInt(900000) + 100000);
+        // 10000000부터 99999999까지의 랜덤값 생성
+        return (long) (new Random().nextInt(90000000) + 10000000);
     }
 }
