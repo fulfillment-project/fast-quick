@@ -38,6 +38,9 @@ public class Product extends BaseEntity {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+    
+    @Column(name = "safeQuantity", nullable = false)
+    private Integer safeQuantity;
 
     @Column(name = "import", nullable = false)
     private Integer importAmount;

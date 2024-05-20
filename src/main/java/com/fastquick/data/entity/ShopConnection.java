@@ -41,9 +41,9 @@ public class ShopConnection extends BaseEntity implements Serializable{
 
     @Column(name = "lastProductDate")
     @Temporal(TemporalType.DATE)
-    private Date lastProductDate;
+    private String lastProductDate;
 
     @Column(name = "lastOrderDate")
     @Temporal(TemporalType.DATE)
-    private Date lastOrderDate;
+    private String lastOrderDate;
 }
