@@ -1,7 +1,7 @@
 <div th:include="fragments/head.html"></div>
 
 <body>
-    <div class="container-xxl position-relative bg-white d-flex p-0">
+    <div class="position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -27,20 +27,33 @@
                                 <form>
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">상품명</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control"  name="productName">
+                                    </div>
+                                   <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">재고</label>
+                                        <input type="text" class="form-control"  name="quantity">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">입고량</label>
+                                        <input type="text" class="form-control"  name="import">
+                                    </div>
+                                     <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">출고량</label>
+                                        <input type="text" class="form-control"  name="export">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">상품 바코드</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control"  name="barcode">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">재고</label>
-                                        <input type="text" class="form-control">
-                                    </div>
+                                        <label for="exampleInputPassword1" class="form-label">멤버id(임시)</label>
+                                        <input type="text" class="form-control"  name="memberId">
+                                    </div>              
                                     <div class="mb-3">
                                         <label for="formFile" class="form-label">상품 이미지</label>
-                                        <input class="form-control" type="file" id="formFile">
+                                        <input class="form-control" type="file" id="formFile"  name="image">
                                     </div>
+           
                                     <div class="mb-3 text-center">
                                         <a href="product.html" class="btn btn-primary me-4 pe-3 ps-3">취소</a>
                                         <button type="submit" class="btn btn-primary pe-3 ps-3">등록</button>
