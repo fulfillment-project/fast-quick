@@ -13,6 +13,6 @@ public interface ProductService {
   public List<ProductListResponseDTO> productList(String productName, Integer page);
 
   	// 상세
-  ProductDetailResponseDTO detailProduct(Long productId);
+  ProductDetailResponseDTO detailProduct(Integer productId);
   public Integer productInsert(ProductWriteRequestDTO productWriteRequestDTO);
 }

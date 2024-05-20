@@ -47,7 +47,7 @@ public class ProductController {
     }
     
     @GetMapping(value = ("/productDetail/{productId}"))
-    public ModelAndView detail(@PathVariable("productId") Long productId) throws NoSuchElementException {
+    public ModelAndView detail(@PathVariable("productId") Integer productId) throws NoSuchElementException {
         ModelAndView mav = new ModelAndView();
         ProductDetailResponseDTO productDetailResponseDTO = this.productService.detailProduct(productId);
         mav.addObject("productDetailResponseDTO", productDetailResponseDTO);

@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
     
     
   	@Override
-    public ProductDetailResponseDTO detailProduct(Long productId) throws NoSuchElementException{
+    public ProductDetailResponseDTO detailProduct(Integer productId) throws NoSuchElementException{
       Product product = this.productRepository.findById(productId).orElseThrow();
 
       return ProductDetailResponseDTO.ProductFactory(product);
