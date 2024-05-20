@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
     		
     		Sort sort = Sort.by(Order.desc("insertDateTime"));
 			pageable.getSort().and(sort);
-			products = this.productRepository.findByProductName(productName, pageable);
+			products = this.productRepository.findByProductNameContaining(productName, pageable);
     	}   
     	
     	return products.stream().map(product ->
