@@ -39,22 +39,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="order : ${orders}">
                                         <td><a href="#" class="linkbtn"> 출고 취소</a></td>
-                                        <td><a th:href="@{/order/orderDetail}" style="color: #757575;">John</a></td>
-                                        <td>2024-05.19</td>
-                                        <td>1</td>
-                                        <td>100,000</td>
-                                        <td>배송 준비중</td>
+                                        <td><a th:href="@{/order/orderDetail}" style="color: #757575;" th:text="${order.productName}"></a></td>
+                                        <td th:text="${order.time}"></td>
+                                        <td th:text="${order.count}"></td>
+                                        <td th:text="${order.price}"></td>
+                                        <td th:text="${order.status}"></td>
                                     </tr>
-                                    <tr>
-                                        <td><a href="#" class="linkbtn"> 출고 취소</a></td>
-                                        <td><a th:href="@{/order/orderDetail}" style="color: #757575;">John</a></td>
-                                        <td>2024-05.19</td>
-                                        <td>2</td>
-                                        <td>200,000</td>
-                                        <td>배송중</td>
-                                    </tr>                                
                                 </tbody>
                             </table>
                             <div style="width: 20%; margin: 0 auto; text-align: center;">
