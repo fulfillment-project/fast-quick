@@ -22,9 +22,4 @@ public class Member extends BaseEntity {
     private String id;
 
     private String pwd;
-
-	public Integer getMemberId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
