@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fastquick.service.ProductService;
-
+import com.fastquick.data.dto.request.ProductWriteRequestDTO;
 import com.fastquick.data.dto.response.ProductDetailResponseDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
 import com.fastquick.service.ProductService;
@@ -35,10 +35,15 @@ public class ProductController {
 
     }
     
-    // 등록
     @GetMapping("/productWrite")
-    public String productWrite() {
-        return "product/productWrite";
+    public String writePage() {
+    	return "product/productWrite";
+    }
+    
+    @PostMapping("/productWrite")
+    public String productWrite(ProductWriteRequestDTO productWriteRequestDTO) {
+        Integer productId = this.productService.productInsert(productWriteRequestDTO);
+    	return String.format("redirect:/product/productList");
     }
     
     @GetMapping(value = ("/productDetail/{productId}"))
