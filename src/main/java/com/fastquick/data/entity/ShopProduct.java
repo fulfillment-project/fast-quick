@@ -60,4 +60,10 @@ public class ShopProduct extends BaseEntity {
 
     @Column(name = "salePrice")
     private Integer salePrice;
+
+    @Column(name = "shopInsertDate")
+    private String shopInsertDate;
+
+    @Column(name = "sellerProductId")
+    private Long sellerProductId;
 }
