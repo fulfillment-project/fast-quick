@@ -23,7 +23,9 @@ public class StorageServiceImpl implements StorageService{
 				.member(storageCreateRequestDTO.getMemberId())
 				.count(storageCreateRequestDTO.getCount())
 				.warehouse(storageCreateRequestDTO.getWarehouse())
+				.zipcode(storageCreateRequestDTO.getZipcode())
 				.address(storageCreateRequestDTO.getAddress())
+				.addressDetail(storageCreateRequestDTO.getAddressDetail())
 				.bigo(storageCreateRequestDTO.getBigo())
 				.shopProduct(storageCreateRequestDTO.getShopProductId())
 				.build();

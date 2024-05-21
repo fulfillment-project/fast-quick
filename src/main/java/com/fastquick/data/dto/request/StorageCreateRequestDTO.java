@@ -20,7 +20,11 @@ public class StorageCreateRequestDTO {
 	
 	private String warehouse;
 	
+	private String zipcode;
+	
 	private String address;
+	
+	private String addressDetail;
 	
 	private String bigo;
 	
