@@ -11,8 +11,6 @@ import com.fastquick.data.dto.response.ProductListResponseDTO;
 public interface ProductService {
 	
   public List<ProductListResponseDTO> productList(String productName, Integer page);
-
-  	// 상세
-  ProductDetailResponseDTO detailProduct(Integer productId);
+  public ProductDetailResponseDTO detailProduct(Integer productId);
   public Integer productInsert(ProductWriteRequestDTO productWriteRequestDTO);
 }
