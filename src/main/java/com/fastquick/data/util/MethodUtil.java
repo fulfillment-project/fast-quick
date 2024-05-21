@@ -22,6 +22,7 @@ public class MethodUtil {
                 }
             }
             if (!matchFound) {
+                api.setShopId(shopId);
                 resultList.add(api);
             }
         }

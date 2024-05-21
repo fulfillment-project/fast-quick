@@ -14,6 +14,7 @@ public class ShopProductInquiryResponseDTO {
     private String brand;
     private String image;
     private Integer deliveryCharge;
+    private String shopId;
     private String insertDateTime;
     private String updateDateTime;
 }
