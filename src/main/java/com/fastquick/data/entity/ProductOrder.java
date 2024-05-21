@@ -1,5 +1,6 @@
 package com.fastquick.data.entity;
 
+import com.fastquick.data.util.DeliveryStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -47,5 +48,10 @@ public class ProductOrder extends BaseEntity {
 	private String address;
 	private String addressDetail;
 	private String customMemo;
+
+	@Enumerated(EnumType.STRING)
+	private DeliveryStatus status;
+
+
 
 }
