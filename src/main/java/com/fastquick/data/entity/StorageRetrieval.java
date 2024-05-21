@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class Storage implements Serializable {
+public class StorageRetrieval implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +21,16 @@ public class Storage implements Serializable {
     @JoinColumn(name = "shopProductId", nullable = false)
     private ShopProduct shopProduct;
 
-    @Column(nullable = false)
-    private Integer connectionId;
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(name = "connectionId", referencedColumnName = "connectionId"),
+        @JoinColumn(name = "shopId", referencedColumnName = "shopId")
+    })
+    private ShopConnection shopConnection;
 
-    @Column(nullable = false)
-    private Integer shopId;
-
-    @Column(nullable = false)
-    private Integer memberId;
+    @ManyToOne
+    @JoinColumn(name = "memberId", nullable = false)
+    private Member member;
 
     @Column
     private Integer productOrderId;
@@ -59,5 +61,4 @@ public class Storage implements Serializable {
 
     @Column
     private String bigo;
-
 }

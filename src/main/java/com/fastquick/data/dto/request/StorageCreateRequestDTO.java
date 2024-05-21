@@ -2,7 +2,6 @@ package com.fastquick.data.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Getter

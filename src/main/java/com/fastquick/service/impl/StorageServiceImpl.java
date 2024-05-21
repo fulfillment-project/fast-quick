@@ -3,7 +3,7 @@ package com.fastquick.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.fastquick.data.dto.request.StorageCreateRequestDTO;
-import com.fastquick.data.entity.Storage;
+import com.fastquick.data.entity.StorageRetrieval;
 import com.fastquick.data.repository.StorageRepository;
 import com.fastquick.service.StorageService;
 
@@ -18,15 +18,15 @@ public class StorageServiceImpl implements StorageService{
 
 	@Override
 	public Integer storageCreate(StorageCreateRequestDTO storageCreateRequestDTO) {
-		Storage storage = Storage.builder()
+		StorageRetrieval storageRetrieval = StorageRetrieval.builder()
 				.productName(storageCreateRequestDTO.getProductName())
 				.count(storageCreateRequestDTO.getCount())
 				.warehouse(storageCreateRequestDTO.getWarehouse())
 				.address(storageCreateRequestDTO.getAddress())
 				.bigo(storageCreateRequestDTO.getBigo())
 				.build();
-			this.storageRepository.save(storage);
-		return storage.getStorageId();
+			this.storageRepository.save(storageRetrieval);
+		return storageRetrieval.getStorageId();
 	}
 
 }
