@@ -11,10 +11,17 @@ public class ProductOrder extends BaseEntity {
 	@Column(name = "productOrderId")
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shopProductId")
 	private ShopProduct shopProduct;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({
+			@JoinColumn(name = "connectionId"),
+			@JoinColumn(name = "shopId")
+	})
+	private ShopConnection shopConnection;
 
+<<<<<<< HEAD
 	/*
 	 * @OneToMany(mappedBy = "shopConnection") private List<JoinTableEntity>
 	 * joinTableEntities = new ArrayList<>();
@@ -24,6 +31,9 @@ public class ProductOrder extends BaseEntity {
 	private List<JoinTableEntity> joinTableEntities = new ArrayList<>();
 
 	@ManyToOne
+=======
+	@ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> f85427917f7f0b75ee59fff5d327d96bf747bdfd
 	@JoinColumn(name = "memberId")
 	private Member member;
 
@@ -33,7 +43,7 @@ public class ProductOrder extends BaseEntity {
 	private int salePrice;
 
 	private int totalPrice;
-	private int customId; // 있는 이유 물어보기
+	private int customId; // 주문자 이름
 	private String phoneNumber;
 	private String zipCode;
 	private String address;

@@ -57,6 +57,26 @@ public class Product extends BaseEntity {
     
     @PrePersist
     public void prePersist() {
+    	
+    	// quantity가 null이면 0으로 설정
+        if (quantity == null) {
+            this.quantity = 0;
+        }
+
+        // importAmount가 null이면 0으로 설정
+        if (importAmount == null) {
+            this.importAmount = 0;
+        }
+
+        // exportAmount가 null이면 0으로 설정
+        if (exportAmount == null) {
+            this.exportAmount = 0;
+        }
+
+        // safeQuantity가 null이면 0으로 설정
+        if (safeQuantity == null) {
+            this.safeQuantity = 0;
+        }
         // barcode 필드가 비어있으면 랜덤한 6자리 숫자를 생성하여 할당
         if (barcode == null) {
             this.barcode = generateRandomBarcode();
