@@ -3,7 +3,7 @@ package com.fastquick.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.fastquick.data.dto.request.StorageCreateRequestDTO;
-import com.fastquick.data.entity.Storage;
+import com.fastquick.data.entity.StorageRetrieval;
 import com.fastquick.data.repository.StorageRepository;
 import com.fastquick.service.StorageService;
 
@@ -18,15 +18,24 @@ public class StorageServiceImpl implements StorageService{
 
 	@Override
 	public Integer storageCreate(StorageCreateRequestDTO storageCreateRequestDTO) {
-		Storage storage = Storage.builder()
+		StorageRetrieval storageRetrieval = StorageRetrieval.builder()
 				.productName(storageCreateRequestDTO.getProductName())
+				.member(storageCreateRequestDTO.getMemberId())
 				.count(storageCreateRequestDTO.getCount())
 				.warehouse(storageCreateRequestDTO.getWarehouse())
+				.zipcode(storageCreateRequestDTO.getZipcode())
 				.address(storageCreateRequestDTO.getAddress())
+				.addressDetail(storageCreateRequestDTO.getAddressDetail())
 				.bigo(storageCreateRequestDTO.getBigo())
+				.shopProduct(storageCreateRequestDTO.getShopProductId())
 				.build();
-			this.storageRepository.save(storage);
-		return storage.getStorageId();
+			this.storageRepository.save(storageRetrieval);
+		return storageRetrieval.getStorageId();
 	}
 
+	/*
+	 * private StorageCreateRequestDTO ToStorageDTO(StorageRetrieval
+	 * storageRetrieval) { StorageCreateRequestDTO storageCreateRequestDTO =
+	 * StorageCreateRequestDTO.builder() .s }
+	 */
 }

@@ -1,5 +1,13 @@
 <div th:include="fragments/head.html"></div>
-
+<script th:src="@{https://code.jquery.com/jquery-3.4.1.min.js}"></script>
+<script>
+    $(document).ready(function() {
+        $('#productSelect').change(function() {
+            var selectedProductId = $(this).find(':selected').data('productId');
+            $('#shopProductId').val(selectedProductId);
+        });
+    });
+</script>
 <body>
     <div class="position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
@@ -10,7 +18,7 @@
         </div>
         <!-- Spinner End -->
 
-
+</div>
 		<div th:include="fragments/sidebar.html"></div>
 
 		 <div class="content">
@@ -25,34 +33,49 @@
                             <div class="bg-light rounded h-100 p-4">
                                 <h3 class="mb-4">입고 신청</h3>
                                 <form th:action="@{/storage/storageRequest}"  method="post">
-    								<div class="mb-3">
-   									 <label for="productSelect" class="form-label">상품명</label>
-   								 		<select class="form-select mb-3" id="productSelect" aria-label="상품 선택">
-      									  <option selected>상품 선택</option>
-       										<option th:each="product : ${products}" th:value="${product.productId}" th:text="${product.productName}"></option>
-   								 		</select>
-									</div>
+	    							<div class="mb-3">
+	    							 <label for="exampleInputEmail1" class="form-label">상품명</label>
+	                           		 <select class="form-select mb-3" id="productSelect" name="productName" aria-label="상품 선택">
+	      									  <option selected>상품 선택</option>
+	       										<option th:each="product : ${products}" th:value="${product.productName}" th:data-product-id="${product.productId}" th:text="${product.productName}"></option>
+	   								 </select>
+	                          		 </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">상품 수량</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="count">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">입고 센터</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="warehouse">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">주소</label>
-                                        <input type="text" class="form-control">
+                                     	<p style="width:80%;">
+				                            <input type="text" id="zipCode" name="zipcode" placeholder="우편번호" required readonly>
+				                            <button type="button" onclick="daumPostcode()" style="margin-bottom:15px;">우편번호 찾기</button><br>
+				                            <input type="text" id="address" name="address" placeholder="주소" style="width:35%;" required readonly>
+				                            <input type="text" id="addressDetail" name="addressDetail" placeholder="상세주소" style="width:35%;" required>
+				                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">멤버 id(임시)</label>
+                                        <input type="text" class="form-control" name="memberId">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">요청 사항</label>
-                                        <textarea class="form-control" id="floatingTextarea" style="height: 150px;"></textarea>
+                                        <textarea class="form-control" id="floatingTextarea" style="height: 150px;" name="bigo"></textarea>
                                     </div>
+                                    
+	    			
+                              	   <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">shop product id(임시)</label>
+                                        <input type="text" class="form-control" id="shopProductId" name="shopProductId">
+                                    </div>
+                                 
                                     <div class="mb-3 text-center">
                                         <a th:href="@{/product/productList}" class="btn btn-primary me-4 pe-3 ps-3">취소</a>
-                                        <button type="submit" class="btn btn-primary pe-3 ps-3">입고 신청</button>
-                                
+                                        <button type="submit" class="btn btn-primary pe-3 ps-3">입고 신청</button>                            
                                     </div>
+                                    
                                 </form>
                             </div>
                         </div>
@@ -61,6 +84,25 @@
                 </div>
             </div>
             <!-- Form End -->
-
+            <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+			<script>
+		        function daumPostcode() {
+		            new daum.Postcode({
+		                oncomplete: function(data) {
+		                    var addr = ''; // 주소 변수
+		
+		                    if (data.userSelectedType === 'R') {
+		                        addr = data.roadAddress;
+		                    } else {
+		                        addr = data.jibunAddress;
+		                    }
+		
+		                    document.getElementById("zipCode").value = data.zonecode;
+		                    document.getElementById("address").value = addr;
+		                    document.getElementById("addressDetail").focus();
+		                }
+		            }).open();
+		        }
+			</script>
 
             <div th:include="fragments/footer.html"></div>
