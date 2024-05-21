@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "shopconnection")
+@Table(name = "shopConnection")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

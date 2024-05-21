@@ -1,10 +1,18 @@
 package com.fastquick.data.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "productOrder")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class ProductOrder extends BaseEntity {
 	@Id
 	@GeneratedValue
@@ -14,10 +22,11 @@ public class ProductOrder extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shopProductId")
 	private ShopProduct shopProduct;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
-			@JoinColumn(name = "connectionId"),
-			@JoinColumn(name = "shopId")
+			@JoinColumn(name = "shopId"),
+			@JoinColumn(name = "connectionId")
 	})
 	private ShopConnection shopConnection;
 
