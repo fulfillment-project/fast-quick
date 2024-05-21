@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class Storage implements Serializable {
+public class Storage extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
