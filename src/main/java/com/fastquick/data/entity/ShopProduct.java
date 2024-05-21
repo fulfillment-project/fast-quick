@@ -22,7 +22,7 @@ public class ShopProduct extends BaseEntity {
     @Column(name = "shopProductId")
     private Integer shopProductId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "shopId"),
             @JoinColumn(name = "connectionId")
@@ -30,7 +30,7 @@ public class ShopProduct extends BaseEntity {
     })
     private ShopConnection shopConnection;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
 
