@@ -24,8 +24,9 @@ public class ShopProduct extends BaseEntity {
 
     @ManyToOne
     @JoinColumns({
-        @JoinColumn(name = "connectionId"),
-        @JoinColumn(name = "shopId")
+            @JoinColumn(name = "shopId"),
+            @JoinColumn(name = "connectionId")
+
     })
     private ShopConnection shopConnection;
 

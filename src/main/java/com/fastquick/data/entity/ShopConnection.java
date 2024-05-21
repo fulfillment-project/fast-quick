@@ -16,9 +16,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+<<<<<<< HEAD
 @Table(name = "shopconnection")
 @Getter
 @Setter
+=======
+@Table(name = "shopConnection")
+>>>>>>> 52e6a36db1d0c1566d70733fd8f4054d6199b2b4
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

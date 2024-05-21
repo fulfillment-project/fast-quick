@@ -11,7 +11,11 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
+<<<<<<< HEAD:src/main/java/com/fastquick/data/entity/StorageRetrieval.java
 public class StorageRetrieval implements Serializable {
+=======
+public class Storage extends BaseEntity implements Serializable {
+>>>>>>> 52e6a36db1d0c1566d70733fd8f4054d6199b2b4:src/main/java/com/fastquick/data/entity/Storage.java
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
