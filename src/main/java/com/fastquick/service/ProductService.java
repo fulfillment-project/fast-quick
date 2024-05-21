@@ -16,4 +16,6 @@ public interface ProductService {
   public ProductDetailResponseDTO detailProduct(Integer productId);
   
   public Integer productInsert(ProductWriteRequestDTO productWriteRequestDTO);
+  
+  public long countTotalProducts(String productName);
 }
