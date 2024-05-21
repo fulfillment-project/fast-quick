@@ -1,9 +1,9 @@
 package com.fastquick.service.impl;
 
-import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties.Storage;
 import org.springframework.stereotype.Service;
 
 import com.fastquick.data.dto.request.StorageCreateRequestDTO;
+import com.fastquick.data.entity.Storage;
 import com.fastquick.data.repository.StorageRepository;
 import com.fastquick.service.StorageService;
 
@@ -19,15 +19,14 @@ public class StorageServiceImpl implements StorageService{
 	@Override
 	public Integer storageCreate(StorageCreateRequestDTO storageCreateRequestDTO) {
 		Storage storage = Storage.builder()
-				.prouctName(storageCreateRequestDTO.getProductName()
+				.productName(storageCreateRequestDTO.getProductName())
 				.count(storageCreateRequestDTO.getCount())
+				.warehouse(storageCreateRequestDTO.getWarehouse())
 				.address(storageCreateRequestDTO.getAddress())
 				.bigo(storageCreateRequestDTO.getBigo())
 				.build();
-				this.storageRepository.save(storage);
-		return storage.getstorageId();
+			this.storageRepository.save(storage);
+		return storage.getStorageId();
 	}
 
-	
-	
 }

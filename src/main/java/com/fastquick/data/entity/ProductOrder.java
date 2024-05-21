@@ -15,7 +15,12 @@ public class ProductOrder extends BaseEntity {
 	@JoinColumn(name = "shopProductId")
 	private ShopProduct shopProduct;
 
-	@OneToMany(mappedBy = "shopConnection")
+	/*
+	 * @OneToMany(mappedBy = "shopConnection") private List<JoinTableEntity>
+	 * joinTableEntities = new ArrayList<>();
+	 */
+	
+	@OneToMany(mappedBy = "productOrder")
 	private List<JoinTableEntity> joinTableEntities = new ArrayList<>();
 
 	@ManyToOne

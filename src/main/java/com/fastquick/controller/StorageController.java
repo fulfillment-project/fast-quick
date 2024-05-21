@@ -19,9 +19,14 @@ public class StorageController {
     	return "storage/storageList";
     }
     
+    @GetMapping("/storageRequest")
+    public String storageRequest() {
+    	return "storage/storageRequest";
+    }
+    
     @PostMapping("/storageRequest")
-    public String storageRequest(StorageCreateRequestDTO storageCreateRequestDTO) {
+    public String storageCreate(StorageCreateRequestDTO storageCreateRequestDTO) {
     	Integer storageId = this.storageService.storageCreate(storageCreateRequestDTO);
-    	return String.format("redirect:/storage/storageList");
+    	return String.format("redirect:/storage/storageRequest");
     }
 }
