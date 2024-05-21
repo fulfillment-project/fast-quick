@@ -25,34 +25,46 @@
                             <div class="bg-light rounded h-100 p-4">
                                 <h3 class="mb-4">입고 신청</h3>
                                 <form th:action="@{/storage/storageRequest}"  method="post">
-    								<div class="mb-3">
-   									 <label for="productSelect" class="form-label">상품명</label>
-   								 		<select class="form-select mb-3" id="productSelect" aria-label="상품 선택">
-      									  <option selected>상품 선택</option>
-       										<option th:each="product : ${products}" th:value="${product.productId}" th:text="${product.productName}"></option>
-   								 		</select>
-									</div>
+    	<div class="mb-3">
+    							 <label for="exampleInputEmail1" class="form-label">상품명</label>
+                           		 <select class="form-select mb-3" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                           		 </select>
+                          		 </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">상품 수량</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="count">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">입고 센터</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="warehouse">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">주소</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="address">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">멤버 id(임시)</label>
+                                        <input type="text" class="form-control" name="memberId">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">요청 사항</label>
-                                        <textarea class="form-control" id="floatingTextarea" style="height: 150px;"></textarea>
+                                        <textarea class="form-control" id="floatingTextarea" style="height: 150px;" name="bigo"></textarea>
                                     </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">product id(임시)</label>
+                                        <input type="text" class="form-control" name="shopProductId">
+                                    </div>
+                                    
                                     <div class="mb-3 text-center">
                                         <a th:href="@{/product/productList}" class="btn btn-primary me-4 pe-3 ps-3">취소</a>
-                                        <button type="submit" class="btn btn-primary pe-3 ps-3">입고 신청</button>
-                                
+                                        <button type="submit" class="btn btn-primary pe-3 ps-3">입고 신청</button>                            
                                     </div>
+                                    
                                 </form>
                             </div>
                         </div>

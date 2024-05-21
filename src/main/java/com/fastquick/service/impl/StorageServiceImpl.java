@@ -20,13 +20,20 @@ public class StorageServiceImpl implements StorageService{
 	public Integer storageCreate(StorageCreateRequestDTO storageCreateRequestDTO) {
 		StorageRetrieval storageRetrieval = StorageRetrieval.builder()
 				.productName(storageCreateRequestDTO.getProductName())
+				.member(storageCreateRequestDTO.getMemberId())
 				.count(storageCreateRequestDTO.getCount())
 				.warehouse(storageCreateRequestDTO.getWarehouse())
 				.address(storageCreateRequestDTO.getAddress())
 				.bigo(storageCreateRequestDTO.getBigo())
+				.shopProduct(storageCreateRequestDTO.getShopProductId())
 				.build();
 			this.storageRepository.save(storageRetrieval);
 		return storageRetrieval.getStorageId();
 	}
 
+	/*
+	 * private StorageCreateRequestDTO ToStorageDTO(StorageRetrieval
+	 * storageRetrieval) { StorageCreateRequestDTO storageCreateRequestDTO =
+	 * StorageCreateRequestDTO.builder() .s }
+	 */
 }

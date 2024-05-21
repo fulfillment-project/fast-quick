@@ -1,5 +1,8 @@
 package com.fastquick.data.dto.request;
 
+import com.fastquick.data.entity.Member;
+import com.fastquick.data.entity.ShopProduct;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +23,10 @@ public class StorageCreateRequestDTO {
 	private String address;
 	
 	private String bigo;
+	
+	private Member memberId;
+	
+	private ShopProduct shopProductId;
 	
 	
 }
