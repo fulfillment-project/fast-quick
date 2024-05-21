@@ -17,6 +17,7 @@ public class StorageCreateRequestDTO {
 	//주소
 	@NonNull
 	private String zipcode;
+	private String address;
 	
 	//비고
 	private String bigo;

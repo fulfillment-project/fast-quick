@@ -1,0 +1,9 @@
+diff a/src/main/java/com/fastquick/data/dto/request/StorageCreateRequestDTO.java b/src/main/java/com/fastquick/data/dto/request/StorageCreateRequestDTO.java	(rejected hunks)
+@@ -17,7 +17,6 @@
+ 	//주소
+ 	@NonNull
+ 	private String zipcode;
+-	private String address;
+ 	
+ 	//비고
+ 	private String bigo;
