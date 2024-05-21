@@ -25,10 +25,14 @@
                             <div class="bg-light rounded h-100 p-4">
                                 <h3 class="mb-4">입고 신청</h3>
                                 <form>
-                                    <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">상품명</label>
-                                        <input type="text" class="form-control">
-                                    </div>
+    								<div class="mb-3">
+   									 <label for="productSelect" class="form-label">상품명</label>
+   								 		<select class="form-select mb-3" id="productSelect" aria-label="상품 선택">
+      									  <option selected>상품 선택</option>
+       										<option th:each="product : ${products}" th:value="${product.productId}" th:text="${product.productName}"></option>
+   								 		</select>
+									</div>
+									
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">상품 수량</label>
                                         <input type="text" class="form-control">
@@ -46,8 +50,9 @@
                                         <textarea class="form-control" id="floatingTextarea" style="height: 150px;"></textarea>
                                     </div>
                                     <div class="mb-3 text-center">
-                                        <a href="storage.html" class="btn btn-primary me-4 pe-3 ps-3">취소</a>
-                                        <button type="submit" class="btn btn-primary pe-3 ps-3">입고 신청</button>
+                                        <a th:href="@{/product/productList}" class="btn btn-primary me-4 pe-3 ps-3">취소</a>
+                                        <a th:href="@{/storage/storageList}" class="btn btn-primary pe-3 ps-3">입고 신청</a>
+                                
                                     </div>
                                 </form>
                             </div>
