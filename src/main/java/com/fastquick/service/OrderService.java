@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fastquick.data.dto.OrderDTO;
 import com.fastquick.data.dto.request.MemberRequestDTO;
+import com.fastquick.data.repository.ProductOrderRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,9 @@ import java.net.URI;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
-
+	private final ProductOrderRepository productOrderRepository;
 	public String getName() {
 		URI uri = UriComponentsBuilder
 				.fromUriString("http://localhost:8080")
@@ -48,6 +51,9 @@ public class OrderService {
 		List<LinkedHashMap> data = (List<LinkedHashMap>) result.getBody().get("data");
 		ObjectMapper mapper = new ObjectMapper();
 		CollectionType listType = mapper.getTypeFactory().constructCollectionType(List.class, OrderDTO.class);
+
+
+
 		return mapper.convertValue(data, listType);
 	}
 }
