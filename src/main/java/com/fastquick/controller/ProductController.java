@@ -3,6 +3,7 @@ package com.fastquick.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,10 +48,8 @@ public class ProductController {
     }
     
     @GetMapping(value = ("/productDetail/{productId}"))
-    public ModelAndView detail(@PathVariable("productId") Integer productId) throws NoSuchElementException {
-        ModelAndView mav = new ModelAndView();
+    public ResponseEntity<ProductDetailResponseDTO> detail(@PathVariable("productId") Integer productId) throws NoSuchElementException {
         ProductDetailResponseDTO productDetailResponseDTO = this.productService.detailProduct(productId);
-        mav.addObject("productDetailResponseDTO", productDetailResponseDTO);
-        return mav;
+        return ResponseEntity.ok().body(productDetailResponseDTO);
     }
 }
