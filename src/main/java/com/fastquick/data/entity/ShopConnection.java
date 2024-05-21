@@ -1,16 +1,14 @@
 package com.fastquick.data.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,13 +17,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "shopConnection")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
-public class ShopConnection extends BaseEntity implements Serializable{
+public class ShopConnection extends BaseEntity implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
     @Column(name = "connectionId")
@@ -34,8 +36,8 @@ public class ShopConnection extends BaseEntity implements Serializable{
 	@Id
     @Column(name = "shopId")
     private String shopId;
-    
-    @ManyToOne
+	
+	@ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;
 

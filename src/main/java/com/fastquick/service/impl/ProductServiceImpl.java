@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
   
     @Override
     public List<ProductListResponseDTO> productList(String productName, Integer page) {
-    	final int pageSize = 10;
+    	final int pageSize = 3;
     	
     	List<Product> products;
     	
@@ -64,6 +64,7 @@ public class ProductServiceImpl implements ProductService {
 		} else {
 			page -=1;
 		}
+    	
     	
     	if(productName == null) {
     		Pageable pageable = PageRequest.of(page, pageSize, Direction.DESC , "insertDateTime");
@@ -81,4 +82,15 @@ public class ProductServiceImpl implements ProductService {
     			).collect(Collectors.toList());
     	
     }
+    
+    public long countTotalProducts(String productName) {
+        if (productName == null) {
+            // productName이 null이면 모든 상품의 수를 반환
+            return productRepository.count();
+        } else {
+            // productName이 포함되는 상품의 수를 반환
+            return productRepository.countByProductNameContaining(productName);
+        }
+    }
+    
 }

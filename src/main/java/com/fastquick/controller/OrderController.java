@@ -21,7 +21,7 @@ public class OrderController {
 
 	@GetMapping("/orderList")
     public String orderList(Model model) {
-		model.addAttribute("orders", orderService.postWithParamAndBody());
+		// model.addAttribute("orders", orderService.postWithParamAndBody());
     	return "order/orderList";
     }
     

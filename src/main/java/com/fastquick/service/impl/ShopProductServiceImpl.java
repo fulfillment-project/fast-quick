@@ -28,7 +28,7 @@ public class ShopProductServiceImpl implements ShopProductService {
         List<ShopProductInquiryResponseDTO> bShopProductList = RestTemplateUtil.inquiryShopProductList("http://localhost:9090","/v2/providers/seller_api/apis/api/v1/marketplace/select/seller-products", requestDTO);
         List<ShopProduct> productsList =  this.shopProductRepository.findByMemberId(1);
         MethodUtil.filterList(productsList, aShopProductList, resultList, "A");
-        MethodUtil.filterList(productsList, bShopProductList, resultList, "A");
+        MethodUtil.filterList(productsList, bShopProductList, resultList, "B");
 
         return resultList;
     }
