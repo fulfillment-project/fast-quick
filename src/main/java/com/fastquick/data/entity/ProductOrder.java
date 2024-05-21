@@ -21,19 +21,8 @@ public class ProductOrder extends BaseEntity {
 	})
 	private ShopConnection shopConnection;
 
-<<<<<<< HEAD
-	/*
-	 * @OneToMany(mappedBy = "shopConnection") private List<JoinTableEntity>
-	 * joinTableEntities = new ArrayList<>();
-	 */
-	
-	@OneToMany(mappedBy = "productOrder")
-	private List<JoinTableEntity> joinTableEntities = new ArrayList<>();
-
-	@ManyToOne
-=======
 	@ManyToOne(fetch = FetchType.LAZY)
->>>>>>> f85427917f7f0b75ee59fff5d327d96bf747bdfd
+
 	@JoinColumn(name = "memberId")
 	private Member member;
 

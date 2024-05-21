@@ -17,8 +17,9 @@ public class Storage implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer storageId;
 
-    @Column(nullable = false)
-    private Integer shopProductId;
+    @ManyToOne
+    @JoinColumn(name = "shopProductId", nullable = false)
+    private ShopProduct shopProduct;
 
     @Column(nullable = false)
     private Integer connectionId;
