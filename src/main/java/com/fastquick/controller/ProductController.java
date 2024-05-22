@@ -2,12 +2,16 @@ package com.fastquick.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.fastquick.data.dto.response.ShopProductListResponseDTO;
+import com.fastquick.service.impl.ShopProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +37,9 @@ public class ProductController {
     
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ShopProductServiceImpl shopProductService;
     	
     @GetMapping("/productList")
     public ModelAndView productList(String productName, Integer page, ModelAndView mav) {
@@ -45,7 +52,7 @@ public class ProductController {
     		page = 1;
     	}
     	
-        final int pageSize = 5;
+        final int pageSize = 10;
         System.out.println("controller : " + productName );
         long totalCount = productService.countTotalProducts(productName);
         
@@ -89,9 +96,15 @@ public class ProductController {
     }
     
     @GetMapping(value = ("/productDetail/{productId}"))
-    public ResponseEntity<ProductDetailResponseDTO> detail(@PathVariable("productId") Integer productId) throws NoSuchElementException {
+    public ResponseEntity<Map<String, Object>> detail(@PathVariable("productId") Integer productId) throws NoSuchElementException {
         ProductDetailResponseDTO productDetailResponseDTO = this.productService.detailProduct(productId);
-        return ResponseEntity.ok().body(productDetailResponseDTO);
+        List<ShopProductListResponseDTO> productListResponseDTOList = this.shopProductService.selectShopProduct(productId);
+        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> data = new HashMap<>();
+        data.put("product", productDetailResponseDTO);
+        data.put("shopList", productListResponseDTOList);
+        map.put("data", data);
+        return ResponseEntity.ok().body(map);
     }
     
     @GetMapping("/downloadExcel")

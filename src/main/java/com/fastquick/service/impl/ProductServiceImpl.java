@@ -61,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
   
     @Override
     public List<ProductListResponseDTO> productList(String productName, Integer page) {
-    	final int pageSize = 5;
+    	final int pageSize = 10;
     	
     	List<Product> products;
     	
