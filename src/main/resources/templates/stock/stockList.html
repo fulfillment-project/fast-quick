@@ -30,7 +30,10 @@
                                     <input class="form-control border-0 me-2" type="search" style="width: 70%;" placeholder="Search">
                                     <button type="submit" class="btn btn-primary">검색</button>
                                 </form>
-                                <a href="#" class="btn btn-primary mb-3 ms-auto">주문 수집</a>
+                                <div class="ms-auto">
+	                                <button class="btn btn-primary mb-3" th:onclick="'generateExcel()'">Excel</button>
+	                                <a href="#" class="btn btn-primary mb-3 ms-auto">주문 수집</a>
+                                 </div>
                             </div>
                             <table class="table table-hover">
                                 <thead>
@@ -104,5 +107,32 @@
                 </div>
             </div>
             <!-- Table End -->
+            
+            <script>
+			    function generateExcel() {
+			        // 서버로 엑셀 파일 생성 요청을 보냅니다.
+			        fetch('/product/downloadExcel')
+			            .then(response => {
+			                if (!response.ok) {
+			                    throw new Error('Failed to generate Excel file');
+			                }
+			                return response.blob();
+			            })
+			            .then(blob => {
+			                // 엑셀 파일 다운로드를 위한 링크 생성
+			                const url = window.URL.createObjectURL(blob);
+			                const a = document.createElement('a');
+			                a.href = url;
+			                a.download = 'products.xlsx';
+			                document.body.appendChild(a);
+			                a.click();
+			                window.URL.revokeObjectURL(url);
+			            })
+			            .catch(error => {
+			                console.error('Error:', error);
+			            });
+			    }
+			</script>
+           
 
 			<div th:include="fragments/footer.html"></div>
