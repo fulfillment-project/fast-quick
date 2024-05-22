@@ -3,17 +3,28 @@ package com.fastquick.data.dto;
 import com.fastquick.data.util.DeliveryStatus;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Builder
 public class OrderDTO {
-    private String productName;
-    private String time;
-    private int count;
-    private int price;
-    private DeliveryStatus status;
+        private Long orderId;
+        private Long sellerProductId;
+        private String sellerProductName;
+        private Integer customId;
+        private String customName;
+        private Integer vendorId;
+        private Integer buyProductCount;
+        private Integer salePrice;
+        private Integer totalPrice;
+        private String phoneNumber;
+        private String zipCode;
+        private String address;
+        private String addressDetail;
+        private String memo;
+        private String deliveryStatus;
+        private String insertDateTime;
+        private String updateDateTime;
+        private DeliveryStatus status;
 }

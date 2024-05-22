@@ -28,7 +28,7 @@ public class StorageCreateRequestDTO {
 	
 	private String bigo;
 	
-	private Member memberId;
+	private Integer memberId;
 	
 	private Integer shopProductId;
 	

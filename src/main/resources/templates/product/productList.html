@@ -7,17 +7,32 @@
             type: 'GET',
             url: '/product/productDetail/' + productId,
             success: function (data) {
-               var dateTime = new Date(data.insertDateTime);
+
+            var dateTime = new Date(data.data.product.insertDateTime);
             var formattedDate = dateTime.toLocaleDateString();
             var formattedTime = dateTime.toLocaleTimeString();
+            let shopList = data.data.shopList;
             	
                 $('#detailTable tbody').html('<tr>' +
-                    '<td>' + data.productId + '</td>' +
-                    '<td>' + data.productName + '</td>' +
-                    '<td>' + data.quantity + '</td>' +
-                    '<td>' + data.barcode + '</td>' +
+                    '<td> ' + data.data.product.productId + '</td>' +
+                    '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:25%; max-width:200px;">' + data.data.product.productName + '</td>' +
+                    '<td>' + data.data.product.quantity + '</td>' +
+                    '<td>' + data.data.product.barcode + '</td>' +
                     '<td>' + formattedDate + '</td>' +
                     '</tr>');
+
+                $('#productKey').val(data.data.product.productId);
+
+                for(let i=0; i<shopList.length; i++){
+                    $('#detailShopTable tbody').append('<tr>' +
+                        '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:25%; max-width:320px;" >' + shopList[i].sellerProductName + '</td>' +
+                        '<td>' + shopList[i].quantity + '</td>' +
+                        '<td>' + shopList[i].shopName + '</td>' +
+                        '<td style="width:30%;"><a href="#" class="linkbtn">연동해제</a></td>' +
+                        '</tr>');
+
+                    }
+
             },
             error: function () {
                 console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
@@ -73,7 +88,7 @@
 							<tbody>
                             <tr th:each="products : ${products}">
                                 <td align="center" th:text="${products.productId}"></td>
-                                <td><a style="color: #757575" th:id="'productLink_' + ${products.productId}" href="#" th:text="${products.productName}" onclick="fetchProductDetails(this.getAttribute('data-product-id')); return false;" th:attr="data-product-id=${products.productId}"></a></td>
+                                <td onclick="javascript:toggleProductDetail();"><a style="color: #757575; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:450px;" th:id="'productLink_' + ${products.productId}" href="#" th:text="${products.productName}" onclick="fetchProductDetails(this.getAttribute('data-product-id')); return false;" th:attr="data-product-id=${products.productId}"></a></td>
                                 <!-- th:href="@{/product/productDetail/{productId}(productId=${products.productId})}"   -->
                                 <td th:text="${products.barcode}"></td>
                                 <td th:text="${products.quantity}"></td>
@@ -107,13 +122,14 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-xl-5">
+                <div class="col-sm-12 col-xl-5" style="display:none;" id="product-detail">
                     <div class="bg-light rounded h-100 p-4">
                         <h4 class="mb-4">상품 정보</h4>
                         <div class="text-end">
                             <a th:href="@{/stock/stockList}" class="btn btn-primary mb-3">재고 신청</a>
                             <a th:href="@{/storage/storageRequest}" class="btn btn-primary mb-3 ms-auto">입고 신청</a>
                         </div>
+                        <input type="hidden" id="productKey" >
                         <table class="table table-hover text-center"  id="detailTable">
                             <thead>
                             <tr>
@@ -135,24 +151,19 @@
                             </tbody>
                         </table>
 
-                        <a href="#" class="btn btn-primary mb-3" style="width: 100%;"> <b>쇼핑몰 상품 연동</b></a>
+                        <button th:onclick="javascript:modalOpen();" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#todoModals" style="width: 100%;"> <b>쇼핑몰 상품 연동</b></button>
 
-                        <table class="table table-hover">
+                        <table id="detailShopTable" class="table table-hover">
                             <thead>
                             <tr>
-                                <th scope="col">상품명</th>
-                                <th scope="col">재고</th>
-                                <th scope="col">쇼핑몰</th>
-                                <th scope="col">연동</th>
+                                <th width="30%" scope="col">상품명</th>
+                                <th width="20%" scope="col">재고</th>
+                                <th width="20%" scope="col">쇼핑몰</th>
+                                <th width="30%" scope="col">연동</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>John</td>
-                                <td>Doe</td>
-                                <td>100</td>
-                                <td><a href="#" class="linkbtn"> 연동 해제</a></td>
-                            </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -164,7 +175,8 @@
         <div id="todoModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-labelledby="todoModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1600px !important;">
                 <div class="modal-content">
-                    <div style="margin-top:100px; margin-bottom:80px; display:flex">
+                    <p id="closeModal" style="font-size:60px; font-weight:bold; padding-right:16px; cursor: pointer; margin:10px 30px 0px 0; text-align: right;" data-bs-dismiss="modal" onclick="closeTodoModal();">X</p>
+                    <div style="margin-bottom:20px; display:flex">
                         <div class="row content bg-light" style="margin: 0px 20px 20px 20px; width: 760px;">
                             <div class="col">
                                 <div class="modal-body">
@@ -172,7 +184,7 @@
                                         <input class="form-control border-0 me-2" id="searchModal"  type="search"  name="productName" style="width: 40%;" placeholder="Search">
                                         <button type="button" class="btn btn-primary">검색</button>
                                     </form>
-                                    <div style="height:800px; overflow-y: auto;">
+                                    <div style="height:700px; overflow-y: auto;">
                                         <table class="table table-hover text-center">
                                             <thead>
                                             <tr>
@@ -187,8 +199,7 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>                          
-
+                            </div>
                         </div>
                         <div class="row content bg-light" id="product-registration-form" style="margin: 0px 20px 20px 20px; width: 760px;">
                             <div class="col">
@@ -196,11 +207,6 @@
                                     <h3 class="mb-4" th:onclick="javascript:searchShopProduct();">상품 등록</h3>
                                     <form th:action="@{/product/productWrite}"  method="post">
                                         <input type="hidden" name="member" value="1"/>
-                                        <div class="mb-3">
-                                            <label for="formFile" class="form-label">상품 이미지</label>
-                                            <img src="http://localhost:9080/static/img/keyboard1.jpg" alt="상품이미지" style="width:200px; height:200px; margin-left:20px;" />
-                                            <input type="hidden" class="form-control" id="formFile"  name="image" value="">
-                                        </div>
                                         <div class="mb-3">
                                             <label class="form-label">상품명</label>
                                             <input type="text" id="productName" class="form-control" name="productName" value=""  required>
@@ -227,6 +233,45 @@
             </div>
         </div>
 
+        <div id="todoModals" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-labelledby="todoModals" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <p id="closeModal2" style="font-size:60px; font-weight:bold; padding-right:16px; cursor: pointer; margin:10px 30px 0px 0; text-align: right;" data-bs-dismiss="modal" onclick="closeTodoModal1();">X</p>
+                    <div style="margin-bottom:20px; display:flex">
+                        <div class="row content bg-light" style="margin: 0px 20px 20px 20px; width: 760px;">
+                            <div class="col">
+                                <div class="modal-body">
+                                    <form class="d-md-flex mb-3">
+                                        <input class="form-control border-0 me-2" id="searchModal2"  type="search"  name="productName" style="width: 40%;" placeholder="Search">
+                                        <button type="button" class="btn btn-primary">검색</button>
+                                    </form>
+                                    <div style="height:700px; overflow-y: auto;">
+                                        <table class="table table-hover text-center">
+                                            <thead>
+                                            <tr>
+                                                <th width="15%"  scope="col">쇼핑몰</th>
+                                                <th width="65%"  scope="col">상품명</th>
+                                                <th width="15%"  scope="col">재고</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="left-modal-tbody2">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mb-3 text-center">
+                                        <button type="button" class="btn btn-primary me-4 pe-3 ps-3">취소</button>
+                                        <button type="button" class="btn btn-primary pe-3 ps-3" th:onclick="sendDataToConnect();">연동하기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script>
             $(document).ready(function(){
                 $('#inquiry-button').click(function() {
@@ -239,8 +284,22 @@
                     filterTable(searchTerm);
                 });
 
+                // 등록된 상품에서 쇼핑몰 연결시 검색 입력란 이벤트 핸들러
+                $('#searchModal2').on('input', function() {
+                    const searchTerm = $(this).val().toLowerCase();
+                    filterTable2(searchTerm);
+                });
+
                 // 행 클릭 시 체크박스 클릭 이벤트 트리거
                 $('#left-modal-tbody').on('click', 'tr', function(event) {
+                    if (event.target.type !== 'checkbox') {
+                        const checkbox = $(this).find('.select-row');
+                        checkbox.prop('checked', !checkbox.prop('checked'));
+                    }
+                });
+
+                // 행 클릭 시 체크박스 클릭 이벤트 트리거
+                $('#left-modal-tbody2').on('click', 'tr', function(event) {
                     if (event.target.type !== 'checkbox') {
                         const checkbox = $(this).find('.select-row');
                         checkbox.prop('checked', !checkbox.prop('checked'));
@@ -252,12 +311,24 @@
                     toggleProductForm();
                 });
 
+                // 체크박스 상태 변경 시 이벤트 핸들러
+                $('#left-modal-tbody2').on('click', 'tr', function() {
+                    toggleProductForm2();
+                });
+
                 // 초기 상태 설정
                 toggleProductForm();
+                toggleProductForm2();
 
             });
 
+            function modalOpen(){
+               searchShopProduct1();
+            }
+
+            //연동된 쇼핑몰 상품 조회
             function searchShopProduct() {
+                window.fullData = [];
                 $('#left-modal-tbody').empty();
                 var _toDate = getCurrentDateFormatted();
                 var _data = {
@@ -279,9 +350,48 @@
                                 shopName = "쿼리마켓";
                             }
                             $('#left-modal-tbody').append('<tr data-index="'+ index +'" style="cursor:pointer;">' +
-                                '<td><input type="checkbox" class="select-row" data-index="' + index +'"/>' + shopName + '</td>' +
-                                '<td style="text-align: left; width: 65%; margin-left: 10px;">' + '<img src="' + item.image + '" style="width:80px; height:80px" />' + item.sellerProductName + '</td>' +
-                                '<td style="width:15%;">' + item.quantity + '</td>' +
+                                '<td><span style="line-height: 5;margin-left: 10px;display: inline-block;"><input type="checkbox" class="select-row" data-index="' + index +'"/>' + shopName + '</span></td>' +
+                                '<td style="text-align: left; width: 65%; margin-left: 10px;">' + '<img src="' + item.image + '" style="width:80px; height:80px" /><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:320px; line-height: 1;margin-left: 10px;display: inline-block;">' + item.sellerProductName + '</span></td>' +
+                                '<td style="width:15%;"><span style="line-height: 5;margin-left: 10px;display: inline-block;">' + item.quantity + '</span></td>' +
+                                '</tr>');
+                        });
+
+                        // 전체 데이터를 저장
+                        window.fullData = arr;
+
+                    },
+                    error: function () {
+                        console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
+                    }
+                });
+            }
+
+            function searchShopProduct1() {
+                window.fullData = [];
+                $('#left-modal-tbody2').empty();
+                var _toDate = getCurrentDateFormatted();
+                var _data = {
+                    "toDate" : _toDate
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/shop-product/inquiryProduct',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(_data),
+                    success: function (data) {
+                        let arr = data.data;
+
+                        arr.forEach(function(item, index){
+                            let shopName;
+                            if(item.shopId == "A"){
+                                shopName = "AI_SHOP";
+                            } else {
+                                shopName = "쿼리마켓";
+                            }
+                            $('#left-modal-tbody2').append('<tr data-index="'+ index +'" style="cursor:pointer;">' +
+                                '<td><span style="line-height: 5;margin-left: 10px;display: inline-block;"><input type="checkbox" class="select-row" data-index="' + index +'"/>' + shopName + '</span></td>' +
+                                '<td style="text-align: left; width: 65%; margin-left: 10px;">' + '<img src="' + item.image + '" style="width:80px; height:80px" /><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:320px; line-height: 1;margin-left: 10px;display: inline-block;">' + item.sellerProductName + '</span></td>' +
+                                '<td style="width:15%;"><span style="line-height: 5;margin-left: 10px;display: inline-block;">' + item.quantity + '</span></td>' +
                                 '</tr>');
                         });
 
@@ -321,9 +431,59 @@
                 });
             }
 
-            // 등록 폼 숨기기/보이기 함수
+            // 테이블 필터링 함수
+            function filterTable2(searchTerm) {
+                $('#left-modal-tbody2 tr').each(function() {
+                    const rowText = $(this).text().toLowerCase();
+                    if (rowText.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+            //연동된 쇼핑몰 상품 불러오는 모달창 닫기
+            function closeTodoModal(){
+                toggleProductForm(0);
+            }
+
+            // 등록 폼 숨기기/보이기 함수1
             function toggleProductForm(checkCount) {
                 let checkedCount = $('#left-modal-tbody .select-row:checked').length;
+                if(checkCount == 0){
+                    checkedCount = 0;
+                }
+
+
+                if (checkedCount === 0) {
+                    $('#product-registration-form').hide();
+                    clearFormData();
+                } else {
+                    $('#product-registration-form').show();
+                }
+            }
+
+            //상품 상세정보 페이지 노출
+            function toggleProductDetail(){
+                console.log("클릭");
+                $('#product-detail').show();
+            }
+
+            // 등록 폼 데이터 초기화 함수
+            function clearFormData() {
+                $('#product-registration-form').find('input[type="text"], input[type="hidden"]').val('');
+            }
+
+            //등록된 상품에 연동시키는 모달창 닫기
+            function closeTodoModal1(){
+                toggleProductForm2();
+            }
+
+
+            // 등록 폼 숨기기 보이기 함수2
+            function toggleProductForm2(checkCount) {
+                let checkedCount = $('#left-modal-tbody2 .select-row:checked').length;
                 if(checkCount == 0){
                     checkedCount = 0;
                 }
@@ -340,7 +500,6 @@
             // 등록 폼 데이터 초기화 함수
             function clearFormData() {
                 $('#product-registration-form').find('input[type="text"], input[type="hidden"]').val('');
-                $('#product-registration-form').find('img').attr('src', 'http://localhost:9080/static/img/keyboard1.jpg');
             }
 
             // 등록 함수
@@ -375,6 +534,47 @@
                         });
                         $('.select-row').prop('checked', false);
                         toggleProductForm();
+                    },
+                    error: function() {
+                        console.log('데이터 전송 중 오류가 발생했습니다.');
+                    },
+                    complete: function(){
+
+                    }
+                });
+            }
+
+            //등록된 상품에 쇼핑몰 연동
+            function sendDataToConnect() {
+                const _shopProductList = [];
+                $('.select-row:checked').each(function() {
+                    const index = $(this).data('index');
+                    _shopProductList.push(window.fullData[index]);
+                    $(this).closest('tr').css('display', 'none');
+                });
+
+                let _productId = $('#productKey').val();
+                console.log(_productId);
+
+                let _data = {
+                    "productId" : _productId,
+                    "shopProductList" : _shopProductList
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/shop-product/connect-shop-product',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(_data),
+                    success: function(response) {
+                        console.log('데이터 전송 성공:', response);
+                        _shopProductList.forEach(function(index) {
+                            $('#left-modal-tbody2 tr').eq(index).css('display', 'none');
+                        });
+                        $('.select-row').prop('checked', false);
+                        toggleProductForm2();
+                        fetchProductDetails(_productId);
+                        $('#todoModals').modal('hide');
                     },
                     error: function() {
                         console.log('데이터 전송 중 오류가 발생했습니다.');

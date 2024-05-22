@@ -36,7 +36,13 @@ public class ShopProductController {
     @PostMapping("/connect-product")
     public ResponseEntity<Map<String, Object>> connectProject(@RequestBody(required = false)ShopProductConnectRequestDTO requestDTO){
         this.shopProductService.connectProduct(requestDTO);
-        System.out.println("데이터 들어옴?: ===========>" +  requestDTO.getShopProductList().size());
+        return null;
+    }
+
+    @ResponseBody
+    @PostMapping("/connect-shop-product")
+    public ResponseEntity<Map<String, Object>> connectShopProduct(@RequestBody(required = false)ShopProductConnectRequestDTO requestDTO){
+        this.shopProductService.connectShopProduct(requestDTO);
         return null;
     }
 }

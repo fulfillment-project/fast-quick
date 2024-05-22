@@ -5,6 +5,7 @@ import com.fastquick.data.dto.request.ShopProductConnectRequestDTO;
 import com.fastquick.data.dto.request.ShopProductCreateRequestDTO;
 import com.fastquick.data.dto.request.ShopProductInquiryRequestDTO;
 import com.fastquick.data.dto.response.ShopProductInquiryResponseDTO;
+import com.fastquick.data.dto.response.ShopProductListResponseDTO;
 import com.fastquick.data.entity.ShopProduct;
 import com.fastquick.data.repository.ShopProductRepository;
 import com.fastquick.data.util.MethodUtil;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ShopProductServiceImpl implements ShopProductService {
@@ -75,5 +77,43 @@ public class ShopProductServiceImpl implements ShopProductService {
             RestTemplateUtil.connectShopProduct(url, "/v2/providers/seller_api/apis/api/v1/marketplace/update/seller-products/change-connect/{sellerProductId}", shopProduct.getSellerProductId());
         }
         return 1;
+    }
+
+    @Override
+    public List<ShopProductListResponseDTO> selectShopProduct(Integer productId) {
+        List<ShopProduct> shopProductList = this.shopProductRepository.findByProductId(productId);
+        return shopProductList.stream().map(product ->
+                ShopProductListResponseDTO.ShopProductFactory(product)
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public void connectShopProduct(ShopProductConnectRequestDTO requestDTO) {
+        for(ShopProductCreateRequestDTO shopProduct : requestDTO.getShopProductList()){
+            String url;
+            String shopName;
+            if(shopProduct.getShopId().equals("A")){
+                shopName = "AI_SHOP";
+                url = "http://localhost:9080";
+            } else {
+                shopName = "쿼리마켓";
+                url = "http://localhost:9090";
+            }
+            ShopProduct product = ShopProduct.builder()
+                    .quantity(shopProduct.getQuantity())
+                    .safeQuantity(0)
+                    .shopName(shopName)
+                    .image(shopProduct.getImage())
+                    .productId(requestDTO.getProductId())
+                    .sellerProductName(shopProduct.getSellerProductName())
+                    .salePrice(shopProduct.getSalePrice())
+                    .shopInsertDate(shopProduct.getInsertDateTime())
+                    .sellerProductId(shopProduct.getSellerProductId())
+                    .build();
+            product.setShopConnection(shopProduct.getShopId(), 258942);
+            product.setMember(1);
+            this.shopProductRepository.save(product);
+            RestTemplateUtil.connectShopProduct(url, "/v2/providers/seller_api/apis/api/v1/marketplace/update/seller-products/change-connect/{sellerProductId}", shopProduct.getSellerProductId());
+        }
     }
 }

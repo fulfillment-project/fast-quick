@@ -11,8 +11,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.fastquick.data.dto.request.StorageCreateRequestDTO;
+<<<<<<< HEAD
 import com.fastquick.data.dto.response.StorageListResponseDTO;
+=======
+import com.fastquick.data.entity.Member;
+>>>>>>> 6bc0ca36e7339877e1790e527fdb06a03bb04c46
 import com.fastquick.data.entity.StorageRetrieval;
+import com.fastquick.data.repository.MemberRepository;
 import com.fastquick.data.repository.StorageRepository;
 import com.fastquick.service.StorageService;
 
@@ -20,14 +25,20 @@ import com.fastquick.service.StorageService;
 public class StorageServiceImpl implements StorageService{
 
 	private final StorageRepository storageRepository;
+<<<<<<< HEAD
 	private String productName;
+=======
+	private final MemberRepository memberRepository;
+>>>>>>> 6bc0ca36e7339877e1790e527fdb06a03bb04c46
 	
-	public StorageServiceImpl(StorageRepository storageRepository) {
+	public StorageServiceImpl(StorageRepository storageRepository, MemberRepository memberRepository) {
 		this.storageRepository = storageRepository;
+		 this.memberRepository = memberRepository;
 	}
 
 	@Override
 	public Integer storageCreate(StorageCreateRequestDTO storageCreateRequestDTO) {
+<<<<<<< HEAD
 		StorageRetrieval storageRetrieval = StorageRetrieval.builder()
 				.productName(storageCreateRequestDTO.getProductName())
 				.member(storageCreateRequestDTO.getMemberId())
@@ -41,6 +52,24 @@ public class StorageServiceImpl implements StorageService{
 				.build();
 			this.storageRepository.save(storageRetrieval);
 		return storageRetrieval.getStorageId();
+=======
+		Member member = memberRepository.findById(storageCreateRequestDTO.getMemberId())
+	            .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
+
+	    StorageRetrieval storageRetrieval = new StorageRetrieval();
+	    storageRetrieval.setProductName(storageCreateRequestDTO.getProductName());
+	    storageRetrieval.setMember(member);
+	    storageRetrieval.setCount(storageCreateRequestDTO.getCount());
+	    storageRetrieval.setWarehouse(storageCreateRequestDTO.getWarehouse());
+	    storageRetrieval.setZipcode(storageCreateRequestDTO.getZipcode());
+	    storageRetrieval.setAddress(storageCreateRequestDTO.getAddress());
+	    storageRetrieval.setAddressDetail(storageCreateRequestDTO.getAddressDetail());
+	    storageRetrieval.setBigo(storageCreateRequestDTO.getBigo());
+	    storageRetrieval.setShopProductId(storageCreateRequestDTO.getShopProductId());
+
+	    this.storageRepository.save(storageRetrieval);
+	    return storageRetrieval.getStorageId();
+>>>>>>> 6bc0ca36e7339877e1790e527fdb06a03bb04c46
 	}
 
 	@Override

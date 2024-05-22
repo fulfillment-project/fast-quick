@@ -22,24 +22,36 @@ public class OrderController {
 	}
 
 	@GetMapping("/orderList")
-    public String orderList(HttpServletRequest request, Model model) {
+	public String orderList(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
-		Long userId = (Long)session.getAttribute("id");
+		Integer userId = (Integer) session.getAttribute("id");
+		System.out.println("userId = " + userId);
 		model.addAttribute("orders", orderService.getReadyOrders(userId));
-    	return "order/orderList";
-    }
-
-	@GetMapping("/update")
-	public String getAPIorder()
-	{
-
 		return "order/orderList";
 	}
-    
-    @GetMapping("/orderDetail")
-    public String orderDetail() {
-    	return "order/orderDetail";
-    }
 
+	@GetMapping("/update")
+	public String getAPIorder(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Integer userId = (Integer) session.getAttribute("id");
+		orderService.updateOrderById(userId);
+		return "redirect:/order/orderList";
+	}
 
+	@GetMapping("/orderDetail")
+	public String orderDetail() {
+		return "order/orderDetail";
+	}
+
+	@GetMapping("/order/release")
+	public String orderRelease() {
+
+		return "redirect:/order/orderList";
+	}
+
+//	@GetMapping("/order/release")
+//	public String orderRelease(@RequestParam("hiddenValue") String hidden) {
+//
+//		return "redirect:/order/orderList";
+//	}
 }
