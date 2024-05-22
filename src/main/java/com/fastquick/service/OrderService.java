@@ -14,6 +14,7 @@ import com.fastquick.data.repository.ShopConnectionRepository;
 import com.fastquick.data.repository.ShopProductRepository;
 import com.fastquick.data.util.DeliveryStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
 	private final ProductOrderRepository productOrderRepository;
 	private final MemberRepository memberRepository;
 	private final ShopConnectionRepository shopConnectionRepository;
 	private final ShopProductRepository shopProductRepository;
-	private static Map<String, String> adapter = new HashMap<>();
+	private Map<String, String> adapter = new HashMap<>();
+
+	@Autowired
+	public OrderService(ProductOrderRepository productOrderRepository, MemberRepository memberRepository, ShopConnectionRepository shopConnectionRepository, ShopProductRepository shopProductRepository) {
+		this.productOrderRepository = productOrderRepository;
+		this.memberRepository = memberRepository;
+		this.shopConnectionRepository = shopConnectionRepository;
+		this.shopProductRepository = shopProductRepository;
+		siteInit();
+	}
 
 	private void siteInit() {
 		adapter.put("A", "http://localhost:8080/api/get/order");
@@ -44,17 +53,26 @@ public class OrderService {
 	@Transactional
 	public void postWithParamAndBody() {
 		List<Member> members = memberRepository.findAll();
-		List<OrderDTO> orders = null;
 		for (Member member : members) {
-			List<ShopConnection> shopConnections = shopConnectionRepository.findByMemberId(member.getMemberId());
-			for (ShopConnection shopConnection : shopConnections) {
-				ShopProduct shopProduct = shopProductRepository.findOneByMemberAndShopConnection(member.getMemberId(), shopConnection.getConnectionId(), shopConnection.getShopId());
-				Optional<String> site = getSite(shopConnection.getShopId());
-				if (site.isPresent()) {
-					orders = getByOrderDTOByAPI(site.get(), shopConnection.getConnectionId());
-					for (OrderDTO orderDTO : orders) {
-						productOrderRepository.save(ProductOrder.toEntity(orderDTO, member, shopProduct, shopConnection));
-					}
+			saveOrderByMember(member);
+		}
+	}
+
+	@Transactional
+	public void updateOrderById (Long id){
+		Optional<Member> member = memberRepository.findById(id);
+		saveOrderByMember(member.get());
+	}
+
+	private void saveOrderByMember(Member member){
+		List<ShopConnection> shopConnections = shopConnectionRepository.findByMemberId(member.getMemberId());
+		for (ShopConnection shopConnection : shopConnections) {
+			ShopProduct shopProduct = shopProductRepository.findOneByMemberAndShopConnection(member.getMemberId(), shopConnection.getConnectionId(), shopConnection.getShopId());
+			Optional<String> site = getSite(shopConnection.getShopId());
+			if (site.isPresent()) {
+				List<OrderDTO> orders = getByOrderDTOByAPI(site.get(), shopConnection.getConnectionId());
+				for (OrderDTO orderDTO : orders) {
+					productOrderRepository.save(ProductOrder.toEntity(orderDTO, member, shopProduct, shopConnection));
 				}
 			}
 		}
