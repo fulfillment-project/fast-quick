@@ -161,62 +161,6 @@
         </div>
         <!-- Table End -->
 
-        <script>
-            $(document).ready(function(){
-               $('#inquiry-button').click(function() {
-                    searchShopProduct();
-                });
-            });
-
-            function searchShopProduct() {
-                $('#left-modal-tbody').empty();
-                var _toDate = getCurrentDateFormatted();
-                var _data = {
-                    "toDate" : _toDate
-                }
-                $.ajax({
-                    type: 'POST',
-                    url: '/shop-product/inquiryProduct',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(_data),
-                    success: function (data) {
-                        let arr = data.data;
-
-                        for(let i=0; i<arr.length; i++){
-                            let shopName;
-                            if(arr[i].shopId == "A"){
-                                shopName = "AI_SHOP";
-                            } else {
-                                shopName = "마켓쿼리";
-                            }
-                            $('#left-modal-tbody').append('<tr>' +
-                                '<td>' + shopName + '</td>' +
-                                '<td style="text-align: left; width: 65%; margin-left: 10px;">' + '<img src="' + arr[i].image + '" style="width:80px; height:80px" />' + arr[i].sellerProductName + '</td>' +
-                                '<td style="width:15%;">' + arr[i].quantity + '</td>' +
-                                '</tr>');
-                        }
-
-                    },
-                    error: function () {
-                        console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
-                    }
-                });
-            }
-
-            function getCurrentDateFormatted() {
-                const date = new Date();
-
-                let year = date.getFullYear();
-                let month = date.getMonth() + 1;
-                month = month < 10 ? '0' + month : month;
-
-                let day = date.getDate();
-                day = day < 10 ? '0' + day : day;
-
-                return `${year}-${month}-${day}`;
-            }
-        </script>
-
         <div id="todoModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-labelledby="todoModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1600px !important;">
                 <div class="modal-content">
@@ -225,10 +169,10 @@
                             <div class="col">
                                 <div class="modal-body">
                                     <form class="d-md-flex mb-3">
-                                        <input class="form-control border-0 me-2"  type="search"  name="productName" style="width: 40%;" placeholder="Search">
+                                        <input class="form-control border-0 me-2" id="searchModal"  type="search"  name="productName" style="width: 40%;" placeholder="Search">
                                         <button type="button" class="btn btn-primary">검색</button>
                                     </form>
-                                    <div style="height:700px; overflow-y: auto;">
+                                    <div style="height:800px; overflow-y: auto;">
                                         <table class="table table-hover text-center">
                                             <thead>
                                             <tr>
@@ -246,11 +190,12 @@
                             </div>                          
 
                         </div>
-                        <div class="row content bg-light" style="margin: 0px 20px 20px 20px; width: 760px;">
+                        <div class="row content bg-light" id="product-registration-form" style="margin: 0px 20px 20px 20px; width: 760px;">
                             <div class="col">
                                 <div class="modal-body">
                                     <h3 class="mb-4" th:onclick="javascript:searchShopProduct();">상품 등록</h3>
                                     <form th:action="@{/product/productWrite}"  method="post">
+                                        <input type="hidden" name="member" value="1"/>
                                         <div class="mb-3">
                                             <label for="formFile" class="form-label">상품 이미지</label>
                                             <img src="http://localhost:9080/static/img/keyboard1.jpg" alt="상품이미지" style="width:200px; height:200px; margin-left:20px;" />
@@ -258,28 +203,187 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">상품명</label>
-                                            <input type="text" class="form-control"  name="productName"  required>
+                                            <input type="text" id="productName" class="form-control" name="productName" value=""  required>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">재고</label>
-                                            <input type="text" class="form-control"  name="quantity">
+                                            <input type="text" id="quantity" class="form-control" name="quantity" value="">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">상품 바코드</label>
-                                            <input type="text" class="form-control"  name="barcode">
+                                            <input type="text" id="barcode" class="form-control" name="barcode" value="">
                                         </div>
 
                                         <div class="mb-3 text-center">
                                             <button type="button" class="btn btn-primary me-4 pe-3 ps-3">취소</button>
-                                            <button type="button" class="btn btn-primary pe-3 ps-3">등록</button>
+                                            <button type="button" class="btn btn-primary pe-3 ps-3" th:onclick="sendDataToServer();">등록</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            $(document).ready(function(){
+                $('#inquiry-button').click(function() {
+                    searchShopProduct();
+                });
+
+                // 검색 입력란 이벤트 핸들러
+                $('#searchModal').on('input', function() {
+                    const searchTerm = $(this).val().toLowerCase();
+                    filterTable(searchTerm);
+                });
+
+                // 행 클릭 시 체크박스 클릭 이벤트 트리거
+                $('#left-modal-tbody').on('click', 'tr', function(event) {
+                    if (event.target.type !== 'checkbox') {
+                        const checkbox = $(this).find('.select-row');
+                        checkbox.prop('checked', !checkbox.prop('checked'));
+                    }
+                });
+
+                // 체크박스 상태 변경 시 이벤트 핸들러
+                $('#left-modal-tbody').on('click', 'tr', function() {
+                    toggleProductForm();
+                });
+
+                // 초기 상태 설정
+                toggleProductForm();
+
+            });
+
+            function searchShopProduct() {
+                $('#left-modal-tbody').empty();
+                var _toDate = getCurrentDateFormatted();
+                var _data = {
+                    "toDate" : _toDate
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/shop-product/inquiryProduct',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(_data),
+                    success: function (data) {
+                        let arr = data.data;
+
+                        arr.forEach(function(item, index){
+                            let shopName;
+                            if(item.shopId == "A"){
+                                shopName = "AI_SHOP";
+                            } else {
+                                shopName = "쿼리마켓";
+                            }
+                            $('#left-modal-tbody').append('<tr data-index="'+ index +'" style="cursor:pointer;">' +
+                                '<td><input type="checkbox" class="select-row" data-index="' + index +'"/>' + shopName + '</td>' +
+                                '<td style="text-align: left; width: 65%; margin-left: 10px;">' + '<img src="' + item.image + '" style="width:80px; height:80px" />' + item.sellerProductName + '</td>' +
+                                '<td style="width:15%;">' + item.quantity + '</td>' +
+                                '</tr>');
+                        });
+
+                        // 전체 데이터를 저장
+                        window.fullData = arr;
+
+                    },
+                    error: function () {
+                        console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
+                    }
+                });
+            }
+
+            //현재 날짜 함수
+            function getCurrentDateFormatted() {
+                const date = new Date();
+
+                let year = date.getFullYear();
+                let month = date.getMonth() + 1;
+                month = month < 10 ? '0' + month : month;
+
+                let day = date.getDate();
+                day = day < 10 ? '0' + day : day;
+
+                return `${year}-${month}-${day}`;
+            }
+
+            // 테이블 필터링 함수
+            function filterTable(searchTerm) {
+                $('#left-modal-tbody tr').each(function() {
+                    const rowText = $(this).text().toLowerCase();
+                    if (rowText.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+            // 등록 폼 숨기기/보이기 함수
+            function toggleProductForm(checkCount) {
+                let checkedCount = $('#left-modal-tbody .select-row:checked').length;
+                if(checkCount == 0){
+                    checkedCount = 0;
+                }
+
+
+                if (checkedCount === 0) {
+                    $('#product-registration-form').hide();
+                    clearFormData();
+                } else {
+                    $('#product-registration-form').show();
+                }
+            }
+
+            // 등록 폼 데이터 초기화 함수
+            function clearFormData() {
+                $('#product-registration-form').find('input[type="text"], input[type="hidden"]').val('');
+                $('#product-registration-form').find('img').attr('src', 'http://localhost:9080/static/img/keyboard1.jpg');
+            }
+
+            // 등록 함수
+            function sendDataToServer() {
+                const _shopProductList = [];
+                $('.select-row:checked').each(function() {
+                    const index = $(this).data('index');
+                    _shopProductList.push(window.fullData[index]);
+                    $(this).closest('tr').css('display', 'none');
+                });
+
+                let _productName = $('#productName').val();
+                let _quantity = $('#quantity').val();
+                let _barcode = $('#barcode').val();
+
+                let _data = {
+                    "productName" : _productName,
+                    "quantity"    : _quantity,
+                    "barcode"     : _barcode,
+                    "shopProductList" : _shopProductList
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/shop-product/connect-product',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(_data),
+                    success: function(response) {
+                        console.log('데이터 전송 성공:', response);
+                        _shopProductList.forEach(function(index) {
+                            $('#left-modal-tbody tr').eq(index).css('display', 'none');
+                        });
+                        $('.select-row').prop('checked', false);
+                        toggleProductForm();
+                    },
+                    error: function() {
+                        console.log('데이터 전송 중 오류가 발생했습니다.');
+                    },
+                    complete: function(){
+
+                    }
+                });
+            }
+        </script>
+
         <div th:include="fragments/footer.html"></div></div></div>

@@ -22,17 +22,29 @@ public class ShopProduct extends BaseEntity {
     @Column(name = "shopProductId")
     private Integer shopProductId;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "shopId"),
-            @JoinColumn(name = "connectionId")
+            @JoinColumn(name = "connectionId"),
+            @JoinColumn(name = "shopId")
 
     })
     private ShopConnection shopConnection;
 
+    public void setShopConnection(String shopId, Integer connectionId) {
+        this.shopConnection = new ShopConnection();
+        this.shopConnection.setConnectionId(connectionId);
+        this.shopConnection.setShopId(shopId);
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
+
+    public void setMember(Integer memberId) {
+        this.member = new Member();
+        this.member.setMemberId(memberId);
+    }
 
     @Column(name = "quantity")
     private Integer quantity;
