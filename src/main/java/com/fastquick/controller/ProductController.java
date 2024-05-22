@@ -26,29 +26,21 @@ public class ProductController {
     @GetMapping("/productList")
     public ModelAndView productList(String productName, Integer page, ModelAndView mav) {
     	
-    	if (productName == null) {
-            productName = "";  // null 대신 빈 문자열 할당
-        }
+    	if (page == null || 0 > page) {
+    		page = 1;
+    	}
+    	
+        final int pageSize = 5;
+        long totalCount = productService.countTotalProducts(productName);
+    	int totalPages = (int) Math.ceil((double) totalCount / pageSize);
     	
     	mav.setViewName("/product/productList");
-    	final int pageSize = 10;
-    	
-    	long totalProducts = this.productService.countTotalProducts(productName);
-    	int totalPages = (int) Math.ceil((double) totalProducts / pageSize);   	
-
-        if (page == null || page < 1) {
-            page = 1;
-        }
-
-        if (page > totalPages) {
-            page = totalPages;
-        }
         
         List<ProductListResponseDTO> products = this.productService.productList(productName, page);
-        mav.addObject("currentPage", page);
-        mav.addObject("totalPages", totalPages);   
+
+        mav.addObject("page", page);
+        mav.addObject("totalPages", totalPages);
         mav.addObject("products", products);
-        mav.addObject("productName", productName);
     	
     	return mav;
 
