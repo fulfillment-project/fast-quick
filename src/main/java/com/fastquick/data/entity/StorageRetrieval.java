@@ -37,6 +37,9 @@ public class StorageRetrieval extends BaseEntity implements Serializable {
 
     @Column
     private String division;
+    
+    @Column
+    private String quantity;
 
     @Column
     private Integer count;
