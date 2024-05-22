@@ -1,9 +1,12 @@
 package com.fastquick.data.entity;
 
+import com.fastquick.data.dto.OrderDTO;
 import com.fastquick.data.util.DeliveryStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +55,31 @@ public class ProductOrder extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private DeliveryStatus status;
 
+	public static ProductOrder toEntity(OrderDTO orderDTO, Member member, ShopProduct shopProduct, ShopConnection shopConnection) {
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime time = LocalDateTime.parse(orderDTO.getTime() + " 00:00:00", formatter);
+		ProductOrder productOrder = ProductOrder.builder()
+				.member(member)
+				.shopProduct(shopProduct)
+				.shopConnection(shopConnection) // 관련 엔티티 설정
+				.orderName(orderDTO.getProductName())
+				.buyProductCount(orderDTO.getCount())
+				.salePrice(orderDTO.getPrice())
+				.totalPrice(orderDTO.getPrice() * orderDTO.getCount())
+				.status(DeliveryStatus.READY)
+				.build();
+		productOrder.setInsertDateTime(time);
+		return productOrder;
+	}
 
+	/**
+	 * 주문 취소
+	 */
+	public void cancel() {
+		if (status == DeliveryStatus.COMP) {
+			throw new IllegalStateException("이미 배송완료되어 취소 불가능합니다.");
+		}
+		this.setStatus(DeliveryStatus.CANCEL);
+	}
 
 }

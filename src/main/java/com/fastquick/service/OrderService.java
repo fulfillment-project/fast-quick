@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fastquick.data.dto.OrderDTO;
 import com.fastquick.data.dto.request.MemberRequestDTO;
 import com.fastquick.data.entity.ProductOrder;
+import com.fastquick.data.repository.MemberRepository;
 import com.fastquick.data.repository.ProductOrderRepository;
 import com.fastquick.data.util.DeliveryStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -23,8 +25,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class OrderService {
 	private final ProductOrderRepository productOrderRepository;
+	private final MemberRepository memberRepository;
 
 	// Post 형식의 RestTemplate
+	@Transactional
 	public void postWithParamAndBody() {
 		URI uri = UriComponentsBuilder
 				.fromUriString("http://localhost:8080")
@@ -45,7 +49,7 @@ public class OrderService {
 		CollectionType listType = mapper.getTypeFactory().constructCollectionType(List.class, OrderDTO.class);
 		List<OrderDTO> orders = mapper.convertValue(data, listType);
 		for (OrderDTO orderDTO : orders){
-			productOrderRepository.save(toEntity(orderDTO));
+//			productOrderRepository.save(ProductOrder.toEntity());
 		}
 	}
 
@@ -56,20 +60,6 @@ public class OrderService {
 			orders.add(toDTO(productOrder));
 		}
 		return orders;
-	}
-
-	private ProductOrder toEntity(OrderDTO orderDTO) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime time = LocalDateTime.parse(orderDTO.getTime() + " 00:00:00", formatter);
-		ProductOrder productOrder = ProductOrder.builder()
-				.orderName(orderDTO.getProductName())
-				.buyProductCount(orderDTO.getCount())
-				.salePrice(orderDTO.getPrice())
-				.totalPrice(orderDTO.getPrice() * orderDTO.getCount())
-				.status(DeliveryStatus.READY)
-				.build();
-		productOrder.setInsertDateTime(time);
-		return productOrder;
 	}
 
 	private OrderDTO toDTO(ProductOrder productOrder) {
