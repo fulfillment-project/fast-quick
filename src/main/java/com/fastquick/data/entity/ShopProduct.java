@@ -78,4 +78,14 @@ public class ShopProduct extends BaseEntity {
 
     @Column(name = "sellerProductId")
     private Long sellerProductId;
+
+	public void minusStock(int count) {
+        if (quantity - count < 0)
+            throw new IllegalArgumentException("재고 이상으로 구매할 수 없습니다");
+        quantity -= count;
+	}
+
+    public void addStock(int buyProductCount) {
+        quantity += buyProductCount;
+    }
 }

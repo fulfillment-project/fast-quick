@@ -57,15 +57,15 @@ public class ProductOrder extends BaseEntity {
 
 	public static ProductOrder toEntity(OrderDTO orderDTO, Member member, ShopProduct shopProduct, ShopConnection shopConnection) {
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime time = LocalDateTime.parse(orderDTO.getTime() + " 00:00:00", formatter);
+		LocalDateTime time = LocalDateTime.parse(orderDTO.getInsertDateTime() + " 00:00:00", formatter);
 		ProductOrder productOrder = ProductOrder.builder()
 				.member(member)
 				.shopProduct(shopProduct)
 				.shopConnection(shopConnection) // 관련 엔티티 설정
-				.orderName(orderDTO.getProductName())
-				.buyProductCount(orderDTO.getCount())
-				.salePrice(orderDTO.getPrice())
-				.totalPrice(orderDTO.getPrice() * orderDTO.getCount())
+				.orderName(orderDTO.getSellerProductName())
+				.buyProductCount(orderDTO.getBuyProductCount())
+				.salePrice(orderDTO.getSalePrice())
+				.totalPrice(orderDTO.getTotalPrice())
 				.status(DeliveryStatus.READY)
 				.build();
 		productOrder.setInsertDateTime(time);
@@ -80,6 +80,11 @@ public class ProductOrder extends BaseEntity {
 			throw new IllegalStateException("이미 배송완료되어 취소 불가능합니다.");
 		}
 		this.setStatus(DeliveryStatus.CANCEL);
+		shopProduct.addStock(buyProductCount);
+	}
+
+	public void release() {
+		shopProduct.minusStock(buyProductCount);
 	}
 
 }
