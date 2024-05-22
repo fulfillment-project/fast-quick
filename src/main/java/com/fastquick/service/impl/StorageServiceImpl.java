@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.fastquick.data.dto.request.StorageCreateRequestDTO;
@@ -36,7 +37,7 @@ public class StorageServiceImpl implements StorageService{
 				.address(storageCreateRequestDTO.getAddress())
 				.addressDetail(storageCreateRequestDTO.getAddressDetail())
 				.bigo(storageCreateRequestDTO.getBigo())
-				.shopProduct(storageCreateRequestDTO.getShopProductId())
+				.shopProductId(storageCreateRequestDTO.getShopProductId())
 				.build();
 			this.storageRepository.save(storageRetrieval);
 		return storageRetrieval.getStorageId();
@@ -46,7 +47,6 @@ public class StorageServiceImpl implements StorageService{
 	public List<StorageListResponseDTO> storageList(String productName, Integer page) {
 	    final int pageSize = 5;
 
-	    List<StorageRetrieval> storages;
 
 	    if (page == null) {
 	        page = 0;
@@ -55,20 +55,29 @@ public class StorageServiceImpl implements StorageService{
 	    }
 
 	    Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("insertDateTime")));
-
+	    
+	    List<StorageRetrieval> storages;
+	    
 	    if (productName == null || productName.isEmpty()) {
 	        storages = this.storageRepository.findAll(pageable).toList();
 	    } else {
 	        storages = this.storageRepository.findByProductNameContaining(productName, pageable);
 	    }
 
-	    return storages.stream().map(storage ->
-	            new StorageListResponseDTO(storage.getDivision(), storage.getStorageId(), storage.getProductName(), storage.getQuantity(), storage.getBigo())
+	    return storages.stream()
+	    		.map(storage -> new StorageListResponseDTO(
+	    				storage.getDivision(),
+	    				storage.getStorageId(),
+	    				storage.getProductName(),
+	    				storage.getQuantity(),
+	    				storage.getBigo(),
+	    				storage.getInsertDateTime(),
+	    				storage.getUpdateDateTime())
 	    ).collect(Collectors.toList());
 	}
 
 	@Override
-	public long countTotalStorages(String productName) {
+	public long countTotalStorages(@Param("productName") String productName) {
 		if (productName == null) {
 			return storageRepository.count();
 		} else {
