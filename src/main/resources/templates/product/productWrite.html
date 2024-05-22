@@ -42,8 +42,7 @@
                                         <input type="text" class="form-control"  name="barcode">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">멤버id(임시)</label>
-                                        <input type="text" class="form-control"  name="memberId">
+                                        <input type="hidden" class="form-control"   th:value="${session.memberId}"  name="memberId">
                                     </div>              
                                     <div class="mb-3">
                                         <label for="formFile" class="form-label">상품 이미지</label>

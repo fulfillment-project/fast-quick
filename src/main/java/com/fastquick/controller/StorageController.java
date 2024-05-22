@@ -41,4 +41,5 @@ public class StorageController {
     	Integer storageId = this.storageService.storageCreate(storageCreateRequestDTO);
     	return String.format("redirect:/storage/storageList");
     }
+    
 }

@@ -59,7 +59,7 @@ public class OrderService {
 	}
 
 	@Transactional
-	public void updateOrderById (Long id){
+	public void updateOrderById (Integer id){
 		Optional<Member> member = memberRepository.findById(id);
 		saveOrderByMember(member.get());
 	}

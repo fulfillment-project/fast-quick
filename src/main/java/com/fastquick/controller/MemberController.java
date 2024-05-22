@@ -34,7 +34,14 @@ public class MemberController {
     public String login(HttpServletRequest request, @RequestParam("id") String id, @RequestParam("pwd") String pwd){
         Integer memberId = memberService.login(id, pwd);
         HttpSession session = request.getSession();
-        session.setAttribute("id", memberId);
+        session.setAttribute("memberId", memberId);
+        session.setAttribute("id", id);
         return "/index";
+    }
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();  // 세션 무효화
+        return "redirect:/index";  // 로그인 페이지로 리다이렉트
     }
 }
