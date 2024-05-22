@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fastquick.data.dto.OrderDTO;
 import com.fastquick.data.dto.request.MemberRequestDTO;
+import com.fastquick.data.entity.Member;
 import com.fastquick.data.entity.ProductOrder;
 import com.fastquick.data.repository.MemberRepository;
 import com.fastquick.data.repository.ProductOrderRepository;
@@ -30,6 +31,16 @@ public class OrderService {
 	// Post 형식의 RestTemplate
 	@Transactional
 	public void postWithParamAndBody() {
+		List<Member> members = memberRepository.findAll();
+		for (Member member : members) {
+			m
+		}
+		for (OrderDTO orderDTO : orders){
+//			productOrderRepository.save(ProductOrder.toEntity());
+		}
+	}
+
+	private List<OrderDTO> getByOrderDTOByAPI() {
 		URI uri = UriComponentsBuilder
 				.fromUriString("http://localhost:8080")
 				.path("/api/get/order")
@@ -37,9 +48,10 @@ public class OrderService {
 				.encode()
 				.build()
 				.toUri();
+
 		MemberRequestDTO memberRequestDTO = MemberRequestDTO.builder()
-				.id("coh")
-				.pwd("1234")
+				.id("")
+				.pwd("")
 				.build();
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -47,10 +59,7 @@ public class OrderService {
 		List<LinkedHashMap> data = (List<LinkedHashMap>) result.getBody().get("data");
 		ObjectMapper mapper = new ObjectMapper();
 		CollectionType listType = mapper.getTypeFactory().constructCollectionType(List.class, OrderDTO.class);
-		List<OrderDTO> orders = mapper.convertValue(data, listType);
-		for (OrderDTO orderDTO : orders){
-//			productOrderRepository.save(ProductOrder.toEntity());
-		}
+		return mapper.convertValue(data, listType);
 	}
 
 	public List<OrderDTO> getReadyOrders(Long id) {
