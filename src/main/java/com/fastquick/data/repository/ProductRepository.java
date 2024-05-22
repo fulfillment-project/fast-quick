@@ -12,6 +12,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	public List<Product> findByProductNameContaining(@Param("productName") String productName, Pageable pageable) ;
-
 	public long countByProductNameContaining(@Param("productName") String productName);
 }

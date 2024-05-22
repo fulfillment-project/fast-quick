@@ -3,6 +3,7 @@ package com.fastquick.service.impl;
 import com.fastquick.data.dto.request.ProductWriteRequestDTO;
 import com.fastquick.data.dto.response.ProductDetailResponseDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
+import com.fastquick.data.dto.response.StockListResponseDTO;
 import com.fastquick.data.entity.Member;
 import com.fastquick.data.entity.Product;
 import com.fastquick.data.repository.MemberRepository;
@@ -38,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     	 Member member = memberRepository.findById(productWriteRequestDTO.getMemberId())
                  .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
     	
-    	 Product product = new Product();
+    	 	Product product = new Product();
     	    product.setProductName(productWriteRequestDTO.getProductName());
     	    product.setQuantity(productWriteRequestDTO.getQuantity());
     	    product.setSafeQuantity(productWriteRequestDTO.getSafeQuantity());
@@ -61,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
   
     @Override
     public List<ProductListResponseDTO> productList(String productName, Integer page) {
-    	final int pageSize = 5;
+    	final int pageSize = 10;
     	
     	List<Product> products;
     	
@@ -91,12 +92,8 @@ public class ProductServiceImpl implements ProductService {
     
     public long countTotalProducts(@Param("productName") String productName) {
         if (productName == null || productName.isEmpty()) {
-        	System.out.println("c11 : " + productName);
-            // productName이 null이면 모든 상품의 수를 반환
             return productRepository.count();
         } else {
-        	System.out.println("c22: " + productName);
-            // productName이 포함되는 상품의 수를 반환
             return productRepository.countByProductNameContaining(productName);
         }
     }
@@ -107,4 +104,37 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 
+	@Override
+    public List<StockListResponseDTO> stockList(String productName, Integer page) {
+    	final int pageSize = 10;
+    	
+    	List<Product> products;
+    	
+    	if(page == null) {
+			page = 0;
+		} else {
+			page -=1;
+		}
+    	
+    	
+    	if(productName == null) {
+    		Pageable pageable = PageRequest.of(page, pageSize, Direction.DESC , "insertDateTime");
+    		products = this.productRepository.findAll(pageable).toList();
+    	} else {
+    		Pageable pageable = PageRequest.of(page, pageSize, Direction.DESC , "insertDateTime");
+    		
+    		Sort sort = Sort.by(Order.desc("insertDateTime"));
+			pageable.getSort().and(sort);
+			products = this.productRepository.findByProductNameContaining(productName, pageable);
+    	}   
+    	
+    	return products.stream().map(product ->
+    			new StockListResponseDTO(product.getProductId(), product.getProductName(), product.getImportAmount(), product.getExportAmount(), product.getQuantity(), product.getSafeQuantity())
+    			).collect(Collectors.toList());
+    	
+    }
+	
+	
+	
+	
 }

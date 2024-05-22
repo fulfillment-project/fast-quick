@@ -37,16 +37,15 @@ public class ProductController {
     @GetMapping("/productList")
     public ModelAndView productList(String productName, Integer page, ModelAndView mav) {
     	
-    	 if (productName == null) {
+    	if (productName == null) {
     	        productName = "";
-    	    }
+    	}
     	
     	if (page == null || 0 > page) {
     		page = 1;
     	}
     	
-        final int pageSize = 5;
-        System.out.println("controller : " + productName );
+        final int pageSize = 10;
         long totalCount = productService.countTotalProducts(productName);
         
     	int totalPages = (int) Math.ceil((double) totalCount / pageSize);
