@@ -19,27 +19,33 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final MemberRepository memberRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, MemberRepository memberRepository) {
         this.productRepository = productRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Override
     public Integer productInsert(ProductWriteRequestDTO productWriteRequestDTO) {
-    	Product product = Product.builder()
-    			.productName(productWriteRequestDTO.getProductName())
-    			.quantity(productWriteRequestDTO.getQuantity())
-    			.safeQuantity(productWriteRequestDTO.getSafeQuantity())
-    			.barcode(productWriteRequestDTO.getBarcode())
-    			.memberId(productWriteRequestDTO.getMemberId())
-    			.image(productWriteRequestDTO.getImage())
-    			.build();
+    	 Member member = memberRepository.findById(productWriteRequestDTO.getMemberId())
+                 .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
+    	
+    	 Product product = new Product();
+    	    product.setProductName(productWriteRequestDTO.getProductName());
+    	    product.setQuantity(productWriteRequestDTO.getQuantity());
+    	    product.setSafeQuantity(productWriteRequestDTO.getSafeQuantity());
+    	    product.setBarcode(productWriteRequestDTO.getBarcode());
+    	    product.setImage(productWriteRequestDTO.getImage());
+    	    product.setMemberId(member);
+    	
     			this.productRepository.save(product);
     			return product.getProductId();
     }
@@ -83,11 +89,13 @@ public class ProductServiceImpl implements ProductService {
     	
     }
     
-    public long countTotalProducts(String productName) {
-        if (productName == null) {
+    public long countTotalProducts(@Param("productName") String productName) {
+        if (productName == null || productName.isEmpty()) {
+        	System.out.println("c11 : " + productName);
             // productName이 null이면 모든 상품의 수를 반환
             return productRepository.count();
         } else {
+        	System.out.println("c22: " + productName);
             // productName이 포함되는 상품의 수를 반환
             return productRepository.countByProductNameContaining(productName);
         }

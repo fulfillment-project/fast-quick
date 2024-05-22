@@ -16,17 +16,14 @@ public class StorageRetrieval extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer storageId;
-
-    @ManyToOne
-    @JoinColumn(name = "shopProductId", nullable = false)
-    private ShopProduct shopProduct;
-
-    @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "connectionId", referencedColumnName = "connectionId"),
-        @JoinColumn(name = "shopId", referencedColumnName = "shopId")
-    })
-    private ShopConnection shopConnection;
+    
+    private Integer productId;
+    
+    private String shopId;
+    
+    private Integer connectionId;
+    
+    private Integer shopProductId;
 
     @ManyToOne
     @JoinColumn(name = "memberId", nullable = false)

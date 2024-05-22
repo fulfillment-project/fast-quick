@@ -1,5 +1,6 @@
 package com.fastquick.controller;
 
+import com.fastquick.data.dto.request.ShopProductConnectRequestDTO;
 import com.fastquick.data.dto.request.ShopProductInquiryRequestDTO;
 import com.fastquick.data.dto.response.ShopProductInquiryResponseDTO;
 import com.fastquick.service.impl.ShopProductServiceImpl;
@@ -29,5 +30,13 @@ public class ShopProductController {
         result.put("code", "SUCCESS");
         result.put("data", productList);
         return ResponseEntity.ok().body(result);
+    }
+
+    @ResponseBody
+    @PostMapping("/connect-product")
+    public ResponseEntity<Map<String, Object>> connectProject(@RequestBody(required = false)ShopProductConnectRequestDTO requestDTO){
+        this.shopProductService.connectProduct(requestDTO);
+        System.out.println("데이터 들어옴?: ===========>" +  requestDTO.getShopProductList().size());
+        return null;
     }
 }

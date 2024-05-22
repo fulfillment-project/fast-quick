@@ -20,5 +20,5 @@ public class ProductWriteRequestDTO {
     private Integer quantity;
     
     @NonNull
-    private Member memberId;
+    private Integer memberId;
 }
