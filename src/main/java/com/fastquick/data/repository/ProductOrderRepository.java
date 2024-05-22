@@ -13,7 +13,7 @@ public interface ProductOrderRepository extends JpaRepository<ProductOrder, Inte
 	@Query("select p from ProductOrder p where p.status =:status")
 	List<ProductOrder> findAllByStatus(DeliveryStatus status);
 
-	@Query("select p from ProductOrder p where p.status =:status and p.member.id =:id")
-	List<ProductOrder> findAllByStatusAndMemberId(DeliveryStatus status, Long id);
+	@Query("select p from ProductOrder p where p.status =:status and p.member.memberId =:id")
+	List<ProductOrder> findAllByStatusAndMemberId(DeliveryStatus status, int id);
 
 }
