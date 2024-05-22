@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ShopConnectionRepository extends JpaRepository<ShopConnection, ShopConnectionId> {
-	@Query("select s from ShopConnection s where s.member.memberId =: id")
+	@Query("select s from ShopConnection s where s.member.memberId=:id")
 	List<ShopConnection> findByMemberId(int id);
 }
