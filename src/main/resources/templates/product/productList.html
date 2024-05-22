@@ -284,6 +284,12 @@
                     filterTable(searchTerm);
                 });
 
+                // 등록된 상품에서 쇼핑몰 연결시 검색 입력란 이벤트 핸들러
+                $('#searchModal2').on('input', function() {
+                    const searchTerm = $(this).val().toLowerCase();
+                    filterTable2(searchTerm);
+                });
+
                 // 행 클릭 시 체크박스 클릭 이벤트 트리거
                 $('#left-modal-tbody').on('click', 'tr', function(event) {
                     if (event.target.type !== 'checkbox') {
@@ -416,6 +422,18 @@
             // 테이블 필터링 함수
             function filterTable(searchTerm) {
                 $('#left-modal-tbody tr').each(function() {
+                    const rowText = $(this).text().toLowerCase();
+                    if (rowText.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+            // 테이블 필터링 함수
+            function filterTable2(searchTerm) {
+                $('#left-modal-tbody2 tr').each(function() {
                     const rowText = $(this).text().toLowerCase();
                     if (rowText.includes(searchTerm)) {
                         $(this).show();
