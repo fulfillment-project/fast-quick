@@ -92,5 +92,11 @@ public class ProductServiceImpl implements ProductService {
             return productRepository.countByProductNameContaining(productName);
         }
     }
-    
+
+	@Override
+	public List<Product> findAllProducts() {
+		return productRepository.findAll();
+	}
+
+
 }

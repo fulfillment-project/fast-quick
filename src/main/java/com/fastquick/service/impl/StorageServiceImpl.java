@@ -33,9 +33,4 @@ public class StorageServiceImpl implements StorageService{
 		return storageRetrieval.getStorageId();
 	}
 
-	/*
-	 * private StorageCreateRequestDTO ToStorageDTO(StorageRetrieval
-	 * storageRetrieval) { StorageCreateRequestDTO storageCreateRequestDTO =
-	 * StorageCreateRequestDTO.builder() .s }
-	 */
 }
