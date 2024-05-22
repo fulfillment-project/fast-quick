@@ -27,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
 	private final ProductOrderRepository productOrderRepository;
 	private final MemberRepository memberRepository;
@@ -34,23 +35,14 @@ public class OrderService {
 	private final ShopProductRepository shopProductRepository;
 	private static Map<String, String> adapter = new HashMap<>();
 
-	public OrderService(ProductOrderRepository productOrderRepository, MemberRepository memberRepository, ShopConnectionRepository shopConnectionRepository, ShopProductRepository shopProductRepository) {
-		this.productOrderRepository = productOrderRepository;
-		this.memberRepository = memberRepository;
-		this.shopConnectionRepository = shopConnectionRepository;
-		this.shopProductRepository = shopProductRepository;
-		siteInit();
-	}
-
 	private void siteInit() {
-		adapter.put("A", "A사이트 URL");
+		adapter.put("A", "http://localhost:8080/api/get/order");
 		adapter.put("B", "B사이트 URL");
 	}
 
 	// Post 형식의 RestTemplate
 	@Transactional
 	public void postWithParamAndBody() {
-		siteInit();
 		List<Member> members = memberRepository.findAll();
 		List<OrderDTO> orders = null;
 		for (Member member : members) {
@@ -66,7 +58,6 @@ public class OrderService {
 				}
 			}
 		}
-
 	}
 
 	private Optional<String> getSite(String type) {
@@ -78,9 +69,8 @@ public class OrderService {
 
 	private List<OrderDTO> getByOrderDTOByAPI(String site, int connectionId) {
 		URI uri = UriComponentsBuilder
-				.fromUriString("http://localhost:8080")
-				.path("/api/get/order")
-				.queryParam("name", "coh")
+				.fromUriString(site)
+				.queryParam("vendorId", connectionId)
 				.encode()
 				.build()
 				.toUri();
