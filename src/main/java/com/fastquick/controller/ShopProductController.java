@@ -22,7 +22,8 @@ public class ShopProductController {
 
     @ResponseBody
     @PostMapping("/inquiryProduct")
-    public ResponseEntity<Map<String, Object>> inquiryProduct(@RequestBody ShopProductInquiryRequestDTO requestDTO){
+    public ResponseEntity<Map<String, Object>> inquiryProduct(@RequestBody(required = false) ShopProductInquiryRequestDTO requestDTO){
+        System.out.println(requestDTO.getToDate());
         List<ShopProductInquiryResponseDTO> productList = this.shopProductService.inquiryProduct(requestDTO);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("code", "SUCCESS");
