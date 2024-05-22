@@ -27,6 +27,7 @@
                             <a href="#" class="btn btn-primary mb-3"> <b>전체</b></a>
                             <a href="#" class="btn btn-primary mb-3" style="background-color: white; color: black;"> <b>쇼핑몰1</b></a>
                             <a href="#" class="btn btn-primary mb-3" style="background-color: white; color: black;"> <b>쇼핑몰2</b></a>
+                            <a href="/order/update" class="btn btn-primary mb-3" style="background-color: white; color: black;"> <b>업데이트</b></a>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -40,17 +41,17 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="order : ${orders}">
-                                        <td><a href="#" class="linkbtn"> 출고 취소</a></td>
-                                        <td><a th:href="@{/order/orderDetail}" style="color: #757575;" th:text="${order.productName}"></a></td>
-                                        <td th:text="${order.time}"></td>
-                                        <td th:text="${order.count}"></td>
-                                        <td th:text="${order.price}"></td>
+                                        <td><a th:href="@{/order/cancel/}" class="linkbtn"> 출고 취소</a></td>
+                                        <td><a th:href="@{/order/orderDetail}" style="color: #757575;" th:text="${order.sellerProductName}"></a></td>
+                                        <td th:text="${order.insertDateTime}"></td>
+                                        <td th:text="${order.buyProductCount}"></td>
+                                        <td th:text="${order.salePrice}"></td>
                                         <td th:text="${order.status}"></td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div style="width: 20%; margin: 0 auto; text-align: center;">
-                            <a href="#" class="btn btn-primary mb-3" style="width: 100%;"> <b>출고</b></a>
+                            <a href="/order/release" class="btn btn-primary mb-3" style="width: 100%;"> <b>출고</b></a>
                             </div>
                         </div>
                     </div>

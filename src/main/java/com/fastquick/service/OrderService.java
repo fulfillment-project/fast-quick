@@ -45,8 +45,8 @@ public class OrderService {
 	}
 
 	private void siteInit() {
-		adapter.put("A", "http://localhost:8080/api/get/order");
-		adapter.put("B", "B사이트 URL");
+		adapter.put("A", "http://localhost:9080/v2/providers/openapi/apis/api/v4/vendors/ordersheets");
+		adapter.put("B", "http://localhost:9090/v2/providers/openapi/apis/api/v4/vendors/ordersheets");
 	}
 
 	// Post 형식의 RestTemplate
@@ -59,7 +59,7 @@ public class OrderService {
 	}
 
 	@Transactional
-	public void updateOrderById (Integer id){
+	public void updateOrderById (int id){
 		Optional<Member> member = memberRepository.findById(id);
 		saveOrderByMember(member.get());
 	}
@@ -92,21 +92,18 @@ public class OrderService {
 				.encode()
 				.build()
 				.toUri();
-
-		MemberRequestDTO memberRequestDTO = MemberRequestDTO.builder()
-				.id("")
-				.pwd("")
-				.build();
-
+		OrderDTO requestDTO = new OrderDTO();
+		requestDTO.setVendorId(connectionId); // 원래라면 258942 connectionId가 들어가야 한다.
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<Map> result = restTemplate.postForEntity(uri, memberRequestDTO, Map.class);
+		ResponseEntity<Map> result = restTemplate.postForEntity(uri, requestDTO, Map.class);
 		List<LinkedHashMap> data = (List<LinkedHashMap>) result.getBody().get("data");
 		ObjectMapper mapper = new ObjectMapper();
 		CollectionType listType = mapper.getTypeFactory().constructCollectionType(List.class, OrderDTO.class);
-		return mapper.convertValue(data, listType);
+		List<OrderDTO> orders = mapper.convertValue(data, listType);
+		return orders;
 	}
 
-	public List<OrderDTO> getReadyOrders(Long id) {
+	public List<OrderDTO> getReadyOrders(int id) {
 		List<ProductOrder> readyOrders = productOrderRepository.findAllByStatusAndMemberId(DeliveryStatus.READY, id);
 		List<OrderDTO> orders = new ArrayList<>();
 		for (ProductOrder productOrder : readyOrders) {
@@ -118,11 +115,12 @@ public class OrderService {
 	private OrderDTO toDTO(ProductOrder productOrder) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return OrderDTO.builder()
-				.count(productOrder.getBuyProductCount())
-				.price(productOrder.getTotalPrice())
+				.orderId(productOrder.getId())
+				.buyProductCount(productOrder.getBuyProductCount())
+				.salePrice(productOrder.getTotalPrice())
 				.status(productOrder.getStatus())
-				.productName(productOrder.getOrderName())
-				.time(productOrder.getInsertDateTime().format(formatter))
+				.sellerProductName(productOrder.getOrderName())
+				.insertDateTime(productOrder.getInsertDateTime().format(formatter))
 				.build();
 	}
 
