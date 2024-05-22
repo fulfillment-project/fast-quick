@@ -11,7 +11,6 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-
 public class StorageRetrieval extends BaseEntity implements Serializable {
 
     @Id

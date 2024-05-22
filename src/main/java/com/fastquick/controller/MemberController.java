@@ -5,6 +5,9 @@ import com.fastquick.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -28,8 +31,10 @@ public class MemberController {
     
     //로그인
     @PostMapping("/login")
-    public String login(@RequestParam("id") String id, @RequestParam("pwd") String pwd){
+    public String login(HttpServletRequest request, @RequestParam("id") String id, @RequestParam("pwd") String pwd){
         Integer memberId = memberService.login(id, pwd);
+        HttpSession session = request.getSession();
+        session.setAttribute("id", memberId);
         return "/index";
     }
 }
