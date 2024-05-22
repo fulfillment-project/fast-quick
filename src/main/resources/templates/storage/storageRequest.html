@@ -61,8 +61,7 @@
                                 	    </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">멤버 id(임시)</label>
-                                        <input type="text" class="form-control" name="memberId">
+                                        <input type="hidden" class="form-control" name="memberId"   th:value="${session.memberId}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">요청 사항</label>
