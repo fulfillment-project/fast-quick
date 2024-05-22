@@ -9,7 +9,7 @@ import com.fastquick.data.entity.Product;
 import com.fastquick.data.entity.StorageRetrieval;
 
 public interface StorageRepository extends JpaRepository<StorageRetrieval, Integer>{
-	public List<StorageRetrieval> findByStorageNameContaining(String productName, Pageable pageable) ;
+	public List<StorageRetrieval> findByProductNameContaining(String productName, Pageable pageable) ;
 
 	public long countByProductNameContaining(String productName);
 }

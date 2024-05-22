@@ -9,7 +9,7 @@ public interface StorageService {
 	
 	public Integer storageCreate(StorageCreateRequestDTO storageCreateRequestDTO); 
 	
-	public List<StorageListResponseDTO> StorageList(String ProductName, Integer page);
-	
-	
+	public List<StorageListResponseDTO> storageList(String ProductName, Integer page);
+
+	public long countTotalStorages(String productName);
 }

@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fastquick.data.dto.request.StorageCreateRequestDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
+import com.fastquick.data.dto.response.StorageListResponseDTO;
 import com.fastquick.service.ProductService;
 import com.fastquick.service.StorageService;
 
@@ -23,8 +24,25 @@ public class StorageController {
 	private StorageService storageService;
 
     @GetMapping("/storageList")
-    public String storageList() {
-    	return "storage/storageList";
+    public ModelAndView storageList(String productName, Integer page, ModelAndView mav) {
+    	
+    	if (page == null || 0 > page) {
+    		page = 1;
+    	}
+    	
+    	final int pageSize = 5;
+    	long totalCount = storageService.countTotalStorages(productName);
+    	int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+    	mav.setViewName("/storage/storageList");
+    	
+    	List<StorageListResponseDTO> storages = this.storageService.storageList(productName, page);
+    	
+    	mav.addObject("page", page);
+    	mav.addObject("totalPages", totalPages);
+    	mav.addObject("storages", storages);
+    	
+    	return mav;
     }
     
     @GetMapping("/storageRequest")
