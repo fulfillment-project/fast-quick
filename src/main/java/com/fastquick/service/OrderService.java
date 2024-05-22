@@ -6,8 +6,12 @@ import com.fastquick.data.dto.OrderDTO;
 import com.fastquick.data.dto.request.MemberRequestDTO;
 import com.fastquick.data.entity.Member;
 import com.fastquick.data.entity.ProductOrder;
+import com.fastquick.data.entity.ShopConnection;
+import com.fastquick.data.entity.ShopProduct;
 import com.fastquick.data.repository.MemberRepository;
 import com.fastquick.data.repository.ProductOrderRepository;
+import com.fastquick.data.repository.ShopConnectionRepository;
+import com.fastquick.data.repository.ShopProductRepository;
 import com.fastquick.data.util.DeliveryStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
@@ -23,24 +27,56 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
 	private final ProductOrderRepository productOrderRepository;
 	private final MemberRepository memberRepository;
+	private final ShopConnectionRepository shopConnectionRepository;
+	private final ShopProductRepository shopProductRepository;
+	private static Map<String, String> adapter = new HashMap<>();
+
+	public OrderService(ProductOrderRepository productOrderRepository, MemberRepository memberRepository, ShopConnectionRepository shopConnectionRepository, ShopProductRepository shopProductRepository) {
+		this.productOrderRepository = productOrderRepository;
+		this.memberRepository = memberRepository;
+		this.shopConnectionRepository = shopConnectionRepository;
+		this.shopProductRepository = shopProductRepository;
+		siteInit();
+	}
+
+	private void siteInit() {
+		adapter.put("A", "A사이트 URL");
+		adapter.put("B", "B사이트 URL");
+	}
 
 	// Post 형식의 RestTemplate
 	@Transactional
 	public void postWithParamAndBody() {
+		siteInit();
 		List<Member> members = memberRepository.findAll();
+		List<OrderDTO> orders = null;
 		for (Member member : members) {
-			m
+			List<ShopConnection> shopConnections = shopConnectionRepository.findByMemberId(member.getMemberId());
+			for (ShopConnection shopConnection : shopConnections) {
+				ShopProduct shopProduct = shopProductRepository.findOneByMemberAndShopConnection(member.getMemberId(), shopConnection.getConnectionId(), shopConnection.getShopId());
+				Optional<String> site = getSite(shopConnection.getShopId());
+				if (site.isPresent()) {
+					orders = getByOrderDTOByAPI(site.get(), shopConnection.getConnectionId());
+					for (OrderDTO orderDTO : orders) {
+						productOrderRepository.save(ProductOrder.toEntity(orderDTO, member, shopProduct, shopConnection));
+					}
+				}
+			}
 		}
-		for (OrderDTO orderDTO : orders){
-//			productOrderRepository.save(ProductOrder.toEntity());
-		}
+
 	}
 
-	private List<OrderDTO> getByOrderDTOByAPI() {
+	private Optional<String> getSite(String type) {
+		return adapter.entrySet().stream()
+				.filter(i -> i.getKey().equals(type))
+				.map(Map.Entry::getValue)
+				.findAny();
+	}
+
+	private List<OrderDTO> getByOrderDTOByAPI(String site, int connectionId) {
 		URI uri = UriComponentsBuilder
 				.fromUriString("http://localhost:8080")
 				.path("/api/get/order")
