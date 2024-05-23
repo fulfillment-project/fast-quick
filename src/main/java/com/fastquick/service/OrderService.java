@@ -111,7 +111,7 @@ public class OrderService {
 	private ProductOrderResponse toDTO(ProductOrder productOrder) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return ProductOrderResponse.builder()
-				.orderId(productOrder.getId())
+				.productOrderId(productOrder.getId())
 				.buyProductCount(productOrder.getBuyProductCount())
 				.salePrice(productOrder.getTotalPrice())
 				.status(productOrder.getStatus())
@@ -143,5 +143,9 @@ public class OrderService {
 		product.minusStock(productOrder.getBuyProductCount());
 		StorageRetrieval storageRetrieval = StorageRetrieval.createStorageRetrieval(productOrder.getMember(), productOrder);
 		storageRepository.save(storageRetrieval);
+	}
+
+	public ProductOrder getProductOrder(Integer productId) {
+		return productOrderRepository.findById(productId).get();
 	}
 }

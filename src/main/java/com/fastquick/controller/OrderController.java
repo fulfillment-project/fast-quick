@@ -39,7 +39,7 @@ public class OrderController {
 
 	@GetMapping("/orderDetail/{productId}")
 	public String orderDetail(@PathVariable Integer productId, Model model) {
-		model.addAttribute("orderDetails", orderService.getReadyOrders(productId));
+		model.addAttribute("order", orderService.getProductOrder(productId));
 		return "order/orderDetail";
 	}
 

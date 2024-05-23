@@ -34,20 +34,20 @@
                                         <th scope="col">요청 사항</th>
                                         <th scope="col">송장 번호</th>
                                         <th scope="col">쇼핑몰</th>
-                                        <th scope="col">비고</th>
+                                        <th scope="col">상태</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>나이키</td>
-                                        <td>10230</td>
-                                        <td>100,000</td>
-                                        <td>1</td>
-                                        <td>서울시</td>
-                                        <td>빨리와</td>
-                                        <td>214124</td>
-                                        <td>네이버</td>
-                                        <td>반품</td>
+                                        <td th:text="${order.getOrderName()}"></td>
+                                        <td th:text="${order.getSalePrice()}"></td>
+                                        <td th:text="${order.totalPrice}"></td>
+                                        <td th:text="${order.getBuyProductCount()}"></td>
+                                        <td th:text="${order.address} + ${order.addressDetail}"></td>
+                                        <td th:text="${order.getCustomMemo()}"></td>
+                                        <td th:text="${order.customMemo}"></td>
+                                        <td th:text="${order.getShopConnection().getShopId()}"></td>
+                                        <td th:text="${order.status}"></td>
                                     </tr>                          
                                 </tbody>
                             </table>

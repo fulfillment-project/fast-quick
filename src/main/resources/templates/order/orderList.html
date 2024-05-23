@@ -56,13 +56,13 @@
 <!--                                        <td><a th:href="@{/order/release/{id}(id=${order.orderId})}" class="linkbtn">출고</a></td>-->
                                         <!-- "출고" 링크: order.status가 "ready"일 때만 표시 -->
                                         <td th:if="${order.status.name() == 'READY'}">
-                                            <a th:href="@{/order/release/{id}(id=${order.orderId})}" class="linkbtn">출고</a>
+                                            <a th:href="@{/order/release/{id}(id=${order.productOrderId})}" class="linkbtn">출고</a>
                                         <!-- "취소" 링크: order.status가 "released"일 때만 표시 -->
                                         <td th:if="${order.status.name() == 'RELEASED'}">
-                                            <a th:href="@{/order/cancel/{id}(id=${order.orderId})}" class="linkbtn" style="background-color:#dc3545;">취소</a>
+                                            <a th:href="@{/order/cancel/{id}(id=${order.productOrderId})}" class="linkbtn" style="background-color:#dc3545;">취소</a>
                                         </td>
 
-                                        <td><a th:href="@{/order/orderDetail}" style="color: #757575;" th:text="${order.sellerProductName}"></a></td>
+                                        <td><a th:href="@{/order/orderDetail/{id}(id=${order.productOrderId})}" style="color: #757575;" th:text="${order.sellerProductName}"></a></td>
                                         <td th:text="${order.insertDateTime}"></td>
                                         <td th:text="${order.buyProductCount}"></td>
                                         <td th:text="${order.salePrice}"></td>
