@@ -128,7 +128,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="product : ${productList}">
-                                    <td th:text="${product.productName}" ></td>
+                                    <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:260px;" th:text="${product.productName}" ></td>
                                     <td align="center" th:text="${product.safeQuantity}"></td>
                                     <td align="center" th:text="${product.quantity}"  class="text-center" ></td>
                                 </tr>

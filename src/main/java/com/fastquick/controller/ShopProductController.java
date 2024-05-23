@@ -45,4 +45,13 @@ public class ShopProductController {
         this.shopProductService.connectShopProduct(requestDTO);
         return null;
     }
+
+    @ResponseBody
+    @GetMapping("/connect-clear/{shopProductId}")
+    public ResponseEntity<Map<String,Object>>  connectClear(@PathVariable Integer shopProductId) throws Exception{
+        Integer connClear = this.shopProductService.connectClear(shopProductId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", "SUCCESS");
+        return ResponseEntity.ok().body(map);
+    }
 }
