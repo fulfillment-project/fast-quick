@@ -35,7 +35,6 @@ public class ProductOrder extends BaseEntity {
 	private ShopConnection shopConnection;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-
 	@JoinColumn(name = "memberId")
 	private Member member;
 
@@ -56,7 +55,7 @@ public class ProductOrder extends BaseEntity {
 	private DeliveryStatus status;
 
 	public static ProductOrder toEntity(OrderDTO orderDTO, Member member, ShopProduct shopProduct, ShopConnection shopConnection) {
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime time = LocalDateTime.parse(orderDTO.getInsertDateTime() + " 00:00:00", formatter);
 		ProductOrder productOrder = ProductOrder.builder()
 				.member(member)
@@ -67,6 +66,10 @@ public class ProductOrder extends BaseEntity {
 				.salePrice(orderDTO.getSalePrice())
 				.totalPrice(orderDTO.getTotalPrice())
 				.status(DeliveryStatus.READY)
+				.address(orderDTO.getAddress())
+				.customId(orderDTO.getCustomId())
+				.customMemo(orderDTO.getMemo())
+				.phoneNumber(orderDTO.getPhoneNumber())
 				.build();
 		productOrder.setInsertDateTime(time);
 		return productOrder;

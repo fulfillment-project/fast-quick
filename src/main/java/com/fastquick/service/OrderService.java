@@ -123,6 +123,7 @@ public class OrderService {
 	public void cancelOrder(int productOrderId){
 		Optional<ProductOrder> byId = productOrderRepository.findById(productOrderId);
 		ProductOrder productOrder = byId.get();
+		ShopProduct shopProduct = shopProductRepository.findById(productOrder.getShopProduct().getShopProductId()).get();
 
 		int productId = productOrder.getShopProduct().getProductId();
 		Product product = productRepository.findById(productId).get();
@@ -134,8 +135,8 @@ public class OrderService {
 	@Transactional
 	public void releaseOrder(int productOrderId){
 		ProductOrder productOrder = productOrderRepository.findById(productOrderId).get();
-		int productId = productOrder.getShopProduct().getProductId();
-		Product product = productRepository.findById(productId).get();
+		ShopProduct shopProduct = shopProductRepository.findById(productOrder.getShopProduct().getShopProductId()).get();
+		Product product = productRepository.findById(productOrder.getShopProduct().getProductId()).get();
 
 		productOrder.release();
 		product.minusStock(productOrder.getBuyProductCount());
