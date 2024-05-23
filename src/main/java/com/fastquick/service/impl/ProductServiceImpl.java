@@ -1,6 +1,7 @@
 package com.fastquick.service.impl;
 
 import com.fastquick.data.dto.request.ProductWriteRequestDTO;
+import com.fastquick.data.dto.request.StockEditRequestDTO;
 import com.fastquick.data.dto.response.ProductDetailResponseDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
 import com.fastquick.data.dto.response.StockDetailResponseDTO;
@@ -126,6 +127,16 @@ public class ProductServiceImpl implements ProductService {
 		return this.productRepository.countByMemberId(memberId);
 	}
 
+	public Product getProductById(Integer productId) {
+		return productRepository.findById(productId).orElseThrow();
+	}
+	
+	public void updateStock(Integer productId, StockEditRequestDTO request) {
+		Product product = productRepository.findById(productId).orElseThrow();
+		product.setTempQuantity(request.getTempQuantity());
+		product.setSafeQuantity(request.getSafeQuantity());
+		productRepository.save(product);
+	}
 
 	@Override
     public List<StockListResponseDTO> stockList(String productName, Integer page) {

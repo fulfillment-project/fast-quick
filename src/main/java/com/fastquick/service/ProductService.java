@@ -3,6 +3,7 @@ package com.fastquick.service;
 import java.util.List;
 
 import com.fastquick.data.dto.request.ProductWriteRequestDTO;
+import com.fastquick.data.dto.request.StockEditRequestDTO;
 import com.fastquick.data.dto.response.ProductDetailResponseDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
 import com.fastquick.data.dto.response.StockDetailResponseDTO;
@@ -24,6 +25,8 @@ public interface ProductService {
   
   public long countTotalProducts(String productName);
 
+  public void updateStock(Integer productId, StockEditRequestDTO request);
+  
   public List<Product> findAllProducts();
 
   public List<ProductListResponseDTO> findSafeProducts();

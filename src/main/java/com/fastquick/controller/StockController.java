@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fastquick.data.dto.request.StockEditRequestDTO;
 import com.fastquick.data.dto.response.StockDetailResponseDTO;
 import com.fastquick.data.dto.response.StockListResponseDTO;
+import com.fastquick.data.entity.Product;
 import com.fastquick.service.ProductService;
 
 @Controller
@@ -58,6 +60,12 @@ public class StockController {
     public ResponseEntity<StockDetailResponseDTO>  stockDetail(@PathVariable("productId") Integer productId) throws NoSuchElementException {
     	StockDetailResponseDTO stockDetailResponseDTO = this.productService.detailStock(productId);
     	return ResponseEntity.ok().body(stockDetailResponseDTO);
+    }
+    
+    @PostMapping("/edit/{productId}")
+    public ResponseEntity<?> updateStock(@PathVariable Integer productId, @RequestBody StockEditRequestDTO request) {
+    	productService.updateStock(productId, request);
+    	return ResponseEntity.ok().body(null);
     }
 
 }

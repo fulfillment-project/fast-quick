@@ -1,12 +1,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
+<script th:src="@{https://code.jquery.com/jquery-3.4.1.min.js}"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
+    
+    $(document).ready(function() {
+    $('#stockForm').on('submit', function(event) {
+        event.preventDefault();
+        var productId = $('#detailTable').data('product-id'); // 제품 ID를 가져오기 위해 설정
+        updateStockDetails(productId);
+	    });
+	});
+    
     function fetchStockDetails(productId) {
         $.ajax({
             type: 'GET',
             url: '/stock/stockDetail/' + productId,
            success: function (data) {
+            $('#detailTable').data('product-id', productId); // 제품 ID를 테이블에 저장
             $('#detailTable thead').html('<tr>' +
                 '<th scope="col" style="width:30%; font-size:20px;">상품명 : ' + data.productName + '</th>' +
                 '<th scope="col" style="width:70%; font-size:20px;">상품 코드 : ' + data.barcode + '</th>' +
@@ -14,26 +24,63 @@
             
             $('#detailTable tbody').html('<tr>' +
                 '<td>총 재고</td>' +
-                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data.quantity + '" readonly></td>' +
+                '<td><input class="form-control border-0 me-2" name="quantity" type="text"  value="' + data.quantity + '" readonly></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>창고 재고</td>' +
-                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + (data.quantity - data.tempQuantity) + '" readonly></td>' +
+                '<td><input class="form-control border-0 me-2" type="text"  value="' + (data.quantity - data.tempQuantity) + '" readonly></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>임시 재고</td>' +
-                '<td><input class="form-control border-0 me-2" name="quantity" type="text" value="' + data.tempQuantity + '"></td>' +
+                '<td><input class="form-control border-0 me-2" name="tempQuantity" type="text" value="' + data.tempQuantity + '"></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>안전 재고</td>' +
                 '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data.safeQuantity + '"></td>' +
                 '</tr>');
+                
+                $('#productKey').val(data.data.product.productId);
+
+                for(let i=0; i<shopList.length; i++){
+                    $('#detailShopTable tbody').append('<tr>' +
+                        '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:25%; max-width:320px;" >' + shopList[i].sellerProductName + '</td>' +
+                        '<td>' + shopList[i].quantity + '</td>' +
+                        '<td>' + shopList[i].shopName + '</td>' +
+                        '<td style="width:30%;"><a href="#" class="linkbtn">연동해제</a></td>' +
+                        '</tr>');
+
+                    }
+                
         },
             error: function () {
                 console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
             }
         });
     }
+    
+    function updateStockDetails(productId) {
+    var tempQuantity = $('input[name="tempQuantity"]').val();
+    var safeQuantity = $('input[name="safeQuantity"]').val();
+
+    $.ajax({
+        type: 'POST',
+        url: '/stock/edit/' + productId,
+        data: JSON.stringify({
+            productId: productId,
+            tempQuantity: tempQuantity,
+            safeQuantity: safeQuantity
+        }),
+        contentType: 'application/json',
+        success: function (data) {
+            window.location.reload();
+        },
+        error: function () {
+            console.log('제품 세부 정보를 수정하는 중 오류가 발생했습니다.');
+            // 실패 메시지 표시 또는 다른 동작 수행
+        }
+    });
+}
+    
     /*]]>*/
 </script>
 
@@ -124,7 +171,7 @@
                         <div class="bg-light rounded h-100 p-4">
                             <h4 class="mb-4">재고 수정</h4>
                             <a href="#" class="btn btn-primary mb-3"> <b>입고</b></a>
-                            <form>
+                            <form id="stockForm">
                             <table class="table table-hover"  id="detailTable">
                                 <thead>
                                     <tr>
@@ -138,6 +185,19 @@
                             </table>
                             <button type="submit" class="btn btn-primary mb-3" style="width: 100%;">등록</button>
                             </form> 
+                            <table id="detailShopTable" class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th width="30%" scope="col">상품명</th>
+                                <th width="20%" scope="col">재고</th>
+                                <th width="20%" scope="col">쇼핑몰</th>
+                                <th width="30%" scope="col">연동</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
                         </div>
                     </div>
                 </div>

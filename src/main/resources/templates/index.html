@@ -72,11 +72,10 @@
                                 <tr th:each="importList : ${importList}">
                                     <td th:text="${importList.productName}" ></td>
                                     <td align="center" th:text="${importList.count}"></td>
-<<<<<<< HEAD
+
                                     <td th:text="${#temporals.format(importList.insertDateTime,'yyyy-MM-dd')}"></td>
-=======
+
                                     <td align="center" th:text="${#temporals.format(importList.insertDateTime,'yyyy-MM-dd')}"></td>
->>>>>>> a86201c5c1f6d7729f710e185f44b16330d2e31b
                                 </tr>
                                 </tr>
                                 </tbody>
@@ -101,11 +100,11 @@
                                     <tr th:each="exportList : ${exportList}">
                                         <td th:text="${exportList.productName}" ></td>
                                         <td align="center" th:text="${exportList.count}"></td>
-<<<<<<< HEAD
+
                                         <td th:text="${#temporals.format(exportList.insertDateTime,'yyyy-MM-dd')}"></td>
-=======
+
                                         <td align="center" th:text="${#temporals.format(exportList.insertDateTime,'yyyy-MM-dd')}"></td>
->>>>>>> a86201c5c1f6d7729f710e185f44b16330d2e31b
+
                                     </tr>
                                 </tr>
                                 </tbody>
