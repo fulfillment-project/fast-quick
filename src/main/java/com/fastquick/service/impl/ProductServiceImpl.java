@@ -3,6 +3,7 @@ package com.fastquick.service.impl;
 import com.fastquick.data.dto.request.ProductWriteRequestDTO;
 import com.fastquick.data.dto.response.ProductDetailResponseDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
+import com.fastquick.data.dto.response.StockDetailResponseDTO;
 import com.fastquick.data.dto.response.StockListResponseDTO;
 import com.fastquick.data.entity.Member;
 import com.fastquick.data.entity.Product;
@@ -59,6 +60,14 @@ public class ProductServiceImpl implements ProductService {
       productDetailResponseDTO.fromProduct(product);
       return ProductDetailResponseDTO.ProductFactory(product);
     }
+  	
+  	@Override
+  	public StockDetailResponseDTO detailStock(Integer productId) throws NoSuchElementException {
+  		Product product = this.productRepository.findById(productId).orElseThrow();
+  		StockDetailResponseDTO stockDetailResponseDTO = new StockDetailResponseDTO();
+  		stockDetailResponseDTO.fromProduct(product);
+  		return StockDetailResponseDTO.ProductFactory(product);
+  	}
   
     @Override
     public List<ProductListResponseDTO> productList(String productName, Integer page) {

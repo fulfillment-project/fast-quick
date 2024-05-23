@@ -1,6 +1,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:include="fragments/head.html"></div>
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function fetchStockDetails(productId) {
+        $.ajax({
+            type: 'GET',
+            url: '/stock/stockDetail/' + productId,
+           success: function (data) {
+            $('#detailTable thead').html('<tr>' +
+                '<th scope="col" style="width:30%; font-size:20px;">' + data.productName + '</th>' +
+                '<th scope="col" style="width:70%; font-size:20px;">상품 코드 : ' + data.barcode + '</th>' +
+                '</tr>');
+            
+            $('#detailTable tbody').html('<tr>' +
+                '<td>보유 재고</td>' +
+                '<td><input class="form-control border-0 me-2" name="quantity" type="text" value="' + data.quantity + '"></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>안전 재고</td>' +
+                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data.safeQuantity + '"></td>' +
+                '</tr>');
+        },
+            error: function () {
+                console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
+            }
+        });
+    }
+    /*]]>*/
+</script>
+
+<div th:include="fragments/head.html"></div>
 <body>
     <div class="position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
@@ -48,7 +77,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="stock : ${stock}">
-                                       <td th:text="${stock.productName}"></td>
+                                       <td><a style="color: #757575" th:id="'productLink_' + ${stock.productId}" href="#" th:text="${stock.productName}" onclick="fetchStockDetails(this.getAttribute('data-product-id')); return false;" th:attr="data-product-id=${stock.productId}"></a></td>
 		                               <td th:text="${stock.quantity}"></td>
 		                                <td th:text="${stock.safeQuantity}"></td>
 		                                <td th:text="${stock.importAmount}"></td>
@@ -85,34 +114,25 @@
 
                     <div class="col-sm-12 col-xl-5">
                         <div class="bg-light rounded h-100 p-4">
-                            <h4 class="mb-4">재고 정보</h4>
+                            <h4 class="mb-4">재고 수정</h4>
                             <a href="#" class="btn btn-primary mb-3"> <b>입고</b></a>
-                            <a href="#" class="btn btn-primary mb-3" style="background-color: white; color: black;"> <b>출고</b></a>
                             <form>
-                            <table class="table table-hover">
+                            <table class="table table-hover"  id="detailTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">나이키 신발</th>
-                                        <th scope="col">보유 재고 : 100</th>
+                                        <th scope="col" style="width:30%; font-size:20px;">상품 명</th>
+                                        <th scope="col" style="width:70%; font-size:20px;">상품 코드</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td colspan="2">상품 코드 : 10230</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">안전 재고 : 50</td>
-                                    </tr>
                                         <tr>
-                                            <td>입고 수량</td>
+                                            <td>보유 재고</td>
                                             <td><input class="form-control border-0 me-2" type="text"></td>
                                         </tr>
-                                        <tr>
-                                            <td>메모</td>
-                                            <td> <textarea class="form-control" id="floatingTextarea" style="height: 150px;"></textarea>
-                                            </td>
-                                        </tr>
-                                    </tr>                          
+ 										<tr>
+                                            <td>안전 재고</td>
+                                            <td><input class="form-control border-0 me-2" type="text"></td>
+                                        </tr>                 
                                 </tbody>
                             </table>
                             <button type="submit" class="btn btn-primary mb-3" style="width: 100%;">등록</button>

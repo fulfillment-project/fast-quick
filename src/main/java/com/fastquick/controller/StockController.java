@@ -1,12 +1,15 @@
 package com.fastquick.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fastquick.data.dto.response.StockDetailResponseDTO;
 import com.fastquick.data.dto.response.StockListResponseDTO;
 import com.fastquick.service.ProductService;
 
@@ -50,8 +53,9 @@ public class StockController {
      	
     }
     
-    @GetMapping("/stockDetail")
-    public String stockDetail() {
-    	return "stock/stockDetail";
+    @GetMapping(value = ("/stockDetail/{productId}"))
+    public ResponseEntity<StockDetailResponseDTO>  stockDetail(@PathVariable("productId") Integer productId) throws NoSuchElementException {
+    	StockDetailResponseDTO stockDetailResponseDTO = this.productService.detailStock(productId);
+    	return ResponseEntity.ok().body(stockDetailResponseDTO);
     }
 }
