@@ -96,6 +96,7 @@ public class Product extends BaseEntity {
 
 	public void addStock(int count) {
         quantity += count;
+        exportAmount -= count;
 	}
 
     public void minusStock(int count) {
@@ -103,5 +104,6 @@ public class Product extends BaseEntity {
             throw new IllegalArgumentException("재고 이상으로 구매 불가");
         }
         quantity -= count;
+        exportAmount += count;
     }
 }
