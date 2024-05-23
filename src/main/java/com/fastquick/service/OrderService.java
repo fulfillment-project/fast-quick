@@ -4,14 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fastquick.data.dto.OrderDTO;
 import com.fastquick.data.dto.request.MemberRequestDTO;
-import com.fastquick.data.entity.Member;
-import com.fastquick.data.entity.ProductOrder;
-import com.fastquick.data.entity.ShopConnection;
-import com.fastquick.data.entity.ShopProduct;
-import com.fastquick.data.repository.MemberRepository;
-import com.fastquick.data.repository.ProductOrderRepository;
-import com.fastquick.data.repository.ShopConnectionRepository;
-import com.fastquick.data.repository.ShopProductRepository;
+import com.fastquick.data.entity.*;
+import com.fastquick.data.repository.*;
 import com.fastquick.data.util.DeliveryStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +22,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
+@Transactional(readOnly = true)
 public class OrderService {
 	private final ProductOrderRepository productOrderRepository;
 	private final MemberRepository memberRepository;
 	private final ShopConnectionRepository shopConnectionRepository;
 	private final ShopProductRepository shopProductRepository;
+	private final ProductRepository productRepository;
 	private Map<String, String> adapter = new HashMap<>();
 
-	@Autowired
-	public OrderService(ProductOrderRepository productOrderRepository, MemberRepository memberRepository, ShopConnectionRepository shopConnectionRepository, ShopProductRepository shopProductRepository) {
+	public OrderService(ProductOrderRepository productOrderRepository, MemberRepository memberRepository, ShopConnectionRepository shopConnectionRepository, ShopProductRepository shopProductRepository, ProductRepository productRepository) {
 		this.productOrderRepository = productOrderRepository;
 		this.memberRepository = memberRepository;
 		this.shopConnectionRepository = shopConnectionRepository;
 		this.shopProductRepository = shopProductRepository;
+		this.productRepository = productRepository;
 		siteInit();
 	}
 
@@ -67,11 +63,11 @@ public class OrderService {
 	private void saveOrderByMember(Member member){
 		List<ShopConnection> shopConnections = shopConnectionRepository.findByMemberId(member.getMemberId());
 		for (ShopConnection shopConnection : shopConnections) {
-			ShopProduct shopProduct = shopProductRepository.findOneByMemberAndShopConnection(member.getMemberId(), shopConnection.getConnectionId(), shopConnection.getShopId());
 			Optional<String> site = getSite(shopConnection.getShopId());
 			if (site.isPresent()) {
 				List<OrderDTO> orders = getByOrderDTOByAPI(site.get(), shopConnection.getConnectionId());
 				for (OrderDTO orderDTO : orders) {
+					ShopProduct shopProduct = shopProductRepository.findByOrderIdAndMemberId(orderDTO.getSellerProductId(), member.getMemberId());
 					productOrderRepository.save(ProductOrder.toEntity(orderDTO, member, shopProduct, shopConnection));
 				}
 			}
@@ -88,7 +84,6 @@ public class OrderService {
 	private List<OrderDTO> getByOrderDTOByAPI(String site, int connectionId) {
 		URI uri = UriComponentsBuilder
 				.fromUriString(site)
-				.queryParam("vendorId", connectionId)
 				.encode()
 				.build()
 				.toUri();
@@ -124,4 +119,26 @@ public class OrderService {
 				.build();
 	}
 
+	@Transactional
+	public void cancelOrder(int productOrderId){
+		Optional<ProductOrder> byId = productOrderRepository.findById(productOrderId);
+		ProductOrder productOrder = byId.get();
+		ShopProduct shopProduct = shopProductRepository.findById(productOrder.getShopProduct().getShopProductId()).get();
+
+		int productId = productOrder.getShopProduct().getProductId();
+		Product product = productRepository.findById(productId).get();
+
+		productOrder.cancel();
+		product.addStock(productOrder.getBuyProductCount());
+	}
+
+	@Transactional
+	public void releaseOrder(int productOrderId){
+		ProductOrder productOrder = productOrderRepository.findById(productOrderId).get();
+		ShopProduct shopProduct = shopProductRepository.findById(productOrder.getShopProduct().getShopProductId()).get();
+		Product product = productRepository.findById(productOrder.getShopProduct().getProductId()).get();
+
+		productOrder.release();
+		product.minusStock(productOrder.getBuyProductCount());
+	}
 }

@@ -13,10 +13,12 @@
                 '</tr>');
             
             $('#detailTable tbody').html('<tr>' +
-                '<td>보유 재고</td>' +
+                '<td>총 재고</td>' +
                 '<td><input class="form-control border-0 me-2" name="quantity" type="text" value="' + data.quantity + '"></td>' +
                 '</tr>' +
                 '<tr>' +
+                '<td>창고 재고</td>' +
+                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data-quantity - data.tempQuantity + '"></td>' +
                 '<td>안전 재고</td>' +
                 '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data.safeQuantity + '"></td>' +
                 '</tr>');
@@ -126,7 +128,11 @@
                                 </thead>
                                 <tbody>
                                         <tr>
-                                            <td>보유 재고</td>
+                                            <td>총 재고</td>
+                                            <td><input class="form-control border-0 me-2" type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>창고 재고</td>
                                             <td><input class="form-control border-0 me-2" type="text"></td>
                                         </tr>
  										<tr>

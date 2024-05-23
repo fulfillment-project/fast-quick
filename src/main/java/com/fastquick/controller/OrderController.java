@@ -24,7 +24,7 @@ public class OrderController {
 	@GetMapping("/orderList")
 	public String orderList(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
-		Integer userId = (Integer) session.getAttribute("id");
+		Integer userId = (Integer) session.getAttribute("memberId");
 		System.out.println("userId = " + userId);
 		model.addAttribute("orders", orderService.getReadyOrders(userId));
 		return "order/orderList";
@@ -33,7 +33,7 @@ public class OrderController {
 	@GetMapping("/update")
 	public String getAPIorder(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Integer userId = (Integer) session.getAttribute("id");
+		Integer userId = (Integer) session.getAttribute("memberId");
 		orderService.updateOrderById(userId);
 		return "redirect:/order/orderList";
 	}

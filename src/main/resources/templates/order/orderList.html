@@ -1,5 +1,17 @@
 <div th:include="fragments/head.html"></div>
-
+<script>
+    function toggleButton(element) {
+        if (element.getAttribute("data-status") === "cancel") {
+            element.setAttribute("data-status", "release");
+            element.setAttribute("href", "/order/release");
+            element.textContent = "출고";
+        } else {
+            element.setAttribute("data-status", "cancel");
+            element.setAttribute("href", "/order/cancel");
+            element.textContent = "취소";
+        }
+    }
+</script>
 <body>
     <div class="position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
@@ -41,12 +53,12 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="order : ${orders}">
-                                        <td><a th:href="@{/order/cancel/}" class="linkbtn"> 출고 취소</a></td>
+                                        <td><a th:href="@{/order/cancel/}" class="linkbtn"> 출고</a></td>
                                         <td><a th:href="@{/order/orderDetail}" style="color: #757575;" th:text="${order.sellerProductName}"></a></td>
                                         <td th:text="${order.insertDateTime}"></td>
                                         <td th:text="${order.buyProductCount}"></td>
                                         <td th:text="${order.salePrice}"></td>
-                                        <td th:text="${order.status}"></td>
+                                        <td th:if="${order.status != 'CANCEL'}" th:text="${order.status}"></td>
                                     </tr>
                                 </tbody>
                             </table>

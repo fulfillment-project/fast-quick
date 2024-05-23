@@ -10,16 +10,16 @@ public class StorageListResponseDTO {
 	private String division;
 	private Integer storageId;
     private String productName;
-    private String quantity;
+    private Integer count;
     private String bigo;
     private LocalDateTime insertDateTime;
     private LocalDateTime updateDateTime;
     
-	public StorageListResponseDTO(String division, Integer storageId, String productName, String quantity, String bigo, LocalDateTime insertDateTime, LocalDateTime updateDateTime) {
+	public StorageListResponseDTO(String division, Integer storageId, String productName, Integer count, String bigo, LocalDateTime insertDateTime, LocalDateTime updateDateTime) {
 		this.division = division;
 		this.storageId = storageId;
 		this.productName = productName;
-		this.quantity = quantity;
+		this.count = count;
 		this.bigo = bigo;
 		this.insertDateTime = insertDateTime;
 		this.updateDateTime = updateDateTime;
