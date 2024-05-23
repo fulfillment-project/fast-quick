@@ -1,4 +1,8 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+
 <div th:include="fragments/head.html"></div>
+
 <body>
     <div class="position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
@@ -24,8 +28,8 @@
                     <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
                             <h4 class="mb-4">입고/출고 내역</h4>
-                            <form class="d-none d-md-flex mb-3">
-                                <input class="form-control border-0 me-2" type="search" style="width: 20%; margin-left: auto;" placeholder="Search">
+                            <form class="d-none d-md-flex mb-3" th:action="@{/storage/storageList}">
+                                <input class="form-control border-0 me-2" type="search" name="productName" style="width: 20%; margin-left: auto;" placeholder="Search">
                                 <button type="submit" class="btn btn-primary">검색</button>
                             </form>
                             <table class="table table-hover">
@@ -34,33 +38,54 @@
                                         <th scope="col">입/출고</th>
                                         <th scope="col">상품명</th>
                                         <th scope="col">상품코드</th>
-                                        <th scope="col">입/출고 시간</th>
                                         <th scope="col">보유재고</th>
+                                        <th scope="col">등록일</th>
+                                        <th scope="col">수정일</th>
                                         <th scope="col">비고</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><a href="#" class="linkbtn pe-3 ps-3">출고</a></td>
-                                        <td>John</td>
-                                        <td>10242</td>
-                                        <td>100</td>
-                                        <td>100</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#" class="linkbtn pe-3 ps-3" style="background-color: yellowgreen;"> 입고 </a></td>
-                                        <td>Mark</td>
-                                        <td>10242</td>
-                                        <td>100</td>
-                                        <td>100</td>
-                                        <td>대량 입고</td>
-                                    </tr>                                
-                                </tbody>
+                            <tbody>
+                            <tr th:each="storages : ${storages}">
+                            	<!-- <td th:if="${storages.division} == 1"> --><td>
+                            	  <a th:text="${storages.division}" class="linkbtn pe-3 ps-3" style="background-color: yellowgreen;">
+                            	</td>
+                            <!-- 	<td th:if="${storages.division} == 0">
+                            	  <a th:text="${storages.division}" class="linkbtn pe-3 ps-3" style="background-color: yellowgreen;">
+                            	</td> -->                        	
+                                <td><a style="color: #757575" th:text="${storages.productName}" ></a></td>
+                                <td align="center" th:text="${storages.storageId}"></td>
+                                <td th:text="${storages.quantity}"></td>
+                                <td th:text="${#temporals.format(storages.insertDateTime,'yyyy-MM-dd')}"></td>
+                                <td th:text="${#temporals.format(storages.updateDateTime,'yyyy-MM-dd')}"></td>
+                                <td th:text="${storages.bigo}"></td>
+                            </tr>
+                            </tbody>
                             </table>
+                            
+                            <div th:if="${!#lists.isEmpty(storages)}">
+								<nav aria-label="Page navigation">
+								        <ul class="pagination">
+								            <li class="page-item" th:if="${page > 1}">
+								                <a class="page-link"  th:href="@{/storage/storageList(page=${page - 1})}" aria-label="Previous">
+								                    <span aria-hidden="true">&laquo;</span>
+								                </a>
+								            </li>
+											
+								            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == currentPage ? 'active' : ''}">
+												<a class="page-link" th:href="@{/storage/storageList(page=${i})}" th:text="${i}"></a>
+								            </li>
+											
+								            <li class="page-item" th:if="${page < totalPages}">
+								                <a class="page-link" th:href="@{/storage/storageList(page=${page + 1})}" aria-label="Next">
+								                    <span aria-hidden="true">&raquo;</span>
+								                </a>
+								            </li>
+								        </ul>
+								    </nav>
+							</div>
+							
                         </div>
                     </div>
-
                 </div>
             </div>
             <!-- Table End -->

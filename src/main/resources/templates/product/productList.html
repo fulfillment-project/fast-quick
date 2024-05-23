@@ -85,7 +85,7 @@
                                 <th width="20%"  scope="col">보유재고</th>
                             </tr>
                             </thead>
-                            <tbody>
+							<tbody>
                             <tr th:each="products : ${products}">
                                 <td align="center" th:text="${products.productId}"></td>
                                 <td onclick="javascript:toggleProductDetail();"><a style="color: #757575; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:450px;" th:id="'productLink_' + ${products.productId}" href="#" th:text="${products.productName}" onclick="fetchProductDetails(this.getAttribute('data-product-id')); return false;" th:attr="data-product-id=${products.productId}"></a></td>
