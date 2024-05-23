@@ -25,7 +25,6 @@ public class OrderController {
 	public String orderList(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		Integer userId = (Integer) session.getAttribute("memberId");
-		System.out.println("userId = " + userId);
 		model.addAttribute("orders", orderService.getReadyOrders(userId));
 		return "order/orderList";
 	}
@@ -38,20 +37,21 @@ public class OrderController {
 		return "redirect:/order/orderList";
 	}
 
-	@GetMapping("/orderDetail")
-	public String orderDetail() {
+	@GetMapping("/orderDetail/{productId}")
+	public String orderDetail(@PathVariable Integer productId, Model model) {
+		model.addAttribute("orderDetails", orderService.getReadyOrders(productId));
 		return "order/orderDetail";
 	}
 
-	@GetMapping("/order/release")
-	public String orderRelease() {
-
+	@GetMapping("/release/{productId}")
+	public String orderRelease(@PathVariable Integer productId) {
+		orderService.releaseOrder(productId);
 		return "redirect:/order/orderList";
 	}
 
-//	@GetMapping("/order/release")
-//	public String orderRelease(@RequestParam("hiddenValue") String hidden) {
-//
-//		return "redirect:/order/orderList";
-//	}
+	@GetMapping("/cancel/{productId}")
+	public String orderCancel(@PathVariable Integer productId) {
+		orderService.cancelOrder(productId);
+		return "redirect:/order/orderList";
+	}
 }

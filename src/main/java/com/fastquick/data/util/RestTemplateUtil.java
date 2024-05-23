@@ -3,6 +3,7 @@ package com.fastquick.data.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fastquick.data.dto.request.ShopProductInquiryRequestDTO;
+import com.fastquick.data.dto.request.StockUpdateRequeestDTO;
 import com.fastquick.data.dto.response.ShopProductInquiryResponseDTO;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -53,5 +54,23 @@ public class RestTemplateUtil {
 
     RestTemplate restTemplate = new RestTemplate();
     ResponseEntity<Map> result = restTemplate.exchange(uri, HttpMethod.PUT,entity, Map.class);
+    }
+
+    public static void updateStock(String url, String path, StockUpdateRequeestDTO requestDTO){
+        // Headers 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        HttpEntity<StockUpdateRequeestDTO> entity = new HttpEntity<>(requestDTO, headers);
+        URI uri = UriComponentsBuilder
+                .fromUriString(url)
+                .path(path)
+                .encode()
+                .build()
+                .expand(requestDTO.getSellerProductId())
+                .toUri();
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Map> result = restTemplate.exchange(uri, HttpMethod.PUT,entity, Map.class);
     }
 }

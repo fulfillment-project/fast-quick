@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 @Builder
 public class OrderDTO {
-        private Long orderId;
+        private Integer orderId;
         private Long sellerProductId;
         private String sellerProductName;
         private Integer customId;
@@ -26,5 +26,4 @@ public class OrderDTO {
         private String deliveryStatus;
         private String insertDateTime;
         private String updateDateTime;
-        private DeliveryStatus status;
 }
