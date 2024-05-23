@@ -36,6 +36,9 @@ public class Product extends BaseEntity {
 
     @Column(name = "quantity")
     private Integer quantity;
+
+    @Column(name = "tempQuantity")
+    private Integer tempQuantity;
     
     @Column(name = "safeQuantity")
     private Integer safeQuantity;
