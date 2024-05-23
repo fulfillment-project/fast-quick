@@ -9,6 +9,7 @@ import java.util.List;
 public class ShopProductConnectRequestDTO {
     private Integer productId;
     private String productName;
+    private Integer safeQuantity;
     private Long barcode;
     private Integer quantity;
     private Integer memberId;
