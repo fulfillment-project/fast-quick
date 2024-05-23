@@ -71,7 +71,7 @@
                                 <tbody>
                                 <tr th:each="importList : ${importList}">
                                     <td th:text="${importList.productName}" ></td>
-                                    <td align="center" th:text="${importList.quantity}"></td>
+                                    <td align="center" th:text="${importList.count}"></td>
                                     <td th:text="${#temporals.format(importList.insertDateTime,'yyyy-MM-dd')}"></td>
                                 </tr>
                                 </tr>
@@ -96,7 +96,7 @@
                                 <tbody>
                                     <tr th:each="exportList : ${exportList}">
                                         <td th:text="${exportList.productName}" ></td>
-                                        <td align="center" th:text="${exportList.quantity}"></td>
+                                        <td align="center" th:text="${exportList.count}"></td>
                                         <td th:text="${#temporals.format(exportList.insertDateTime,'yyyy-MM-dd')}"></td>
                                     </tr>
                                 </tr>

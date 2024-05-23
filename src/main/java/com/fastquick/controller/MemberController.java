@@ -36,7 +36,7 @@ public class MemberController {
         HttpSession session = request.getSession();
         session.setAttribute("memberId", memberId);
         session.setAttribute("id", id);
-        return "/index";
+        return "redirect:/index";
     }
     
     @GetMapping("/logout")
