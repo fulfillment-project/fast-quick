@@ -24,6 +24,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -142,6 +143,12 @@ public class ProductServiceImpl implements ProductService {
 		productRepository.save(product);
 	}
 
+	/*@Override
+	public void productDelete(@RequestParam("productId") Integer productId) {
+		Product product = this.productRepository.findById(productId).orElseThrow();
+		this.productRepository.delete(product);
+	} */
+	
 	@Override
     public List<StockListResponseDTO> stockList(String productName, Integer page) {
     	final int pageSize = 10;

@@ -75,6 +75,12 @@ public class ProductController {
     	return "product/productWrite";
     }
     
+    /*@PostMapping("/productDelete")
+    public String productDelete(@RequestParam("productId") Integer productId) {
+    	this.productService.productDelete(productId);
+    	return "redirect:/product/productList";
+    }*/
+    
     @PostMapping("/productWrite")
     public String productWrite(HttpServletRequest request, ProductWriteRequestDTO productWriteRequestDTO) {
     	HttpSession session = request.getSession();

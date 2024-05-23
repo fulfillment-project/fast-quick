@@ -19,6 +19,7 @@
                     '<td>' + data.data.product.quantity + '</td>' +
                     '<td>' + data.data.product.barcode + '</td>' +
                     '<td>' + formattedDate + '</td>' +
+                  //  '<td><button class="btn btn-danger btn-sm" onclick="deleteProduct(' + data.data.product.productId + ')">삭제</button></td>' +
                     '</tr>');
 
                 $('#productKey').val(data.data.product.productId);
@@ -40,6 +41,22 @@
         });
     }
     /*]]>*/
+    
+    function deleteProduct(productId) {
+    // 삭제 요청을 보냄
+    $.ajax({
+        type: 'DELETE',
+        url: '/product/pruductDelete/' + productId,
+        success: function (response) {
+            // 성공적으로 삭제되면 페이지를 새로고침
+            window.location.reload();
+        },
+        error: function () {
+            console.log('제품을 삭제하는 중 오류가 발생했습니다.');
+            alert('제품을 삭제하는 중 오류가 발생했습니다.');
+        }
+    });
+}
 </script>
 
 <div th:include="fragments/head.html"></div>

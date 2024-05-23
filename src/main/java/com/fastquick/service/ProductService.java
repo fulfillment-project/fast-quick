@@ -2,6 +2,8 @@ package com.fastquick.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.fastquick.data.dto.request.ProductWriteRequestDTO;
 import com.fastquick.data.dto.request.StockEditRequestDTO;
 import com.fastquick.data.dto.response.ProductDetailResponseDTO;
@@ -22,6 +24,8 @@ public interface ProductService {
   public StockDetailResponseDTO detailStock(Integer productId);
   
   public Integer productInsert(ProductWriteRequestDTO productWriteRequestDTO);
+  
+  // public void productDelete(@RequestParam("productId") Integer productId);
   
   public long countTotalProducts(String productName);
 
