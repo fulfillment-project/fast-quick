@@ -26,14 +26,18 @@ public class OrderService {
 	private final ShopConnectionRepository shopConnectionRepository;
 	private final ShopProductRepository shopProductRepository;
 	private final ProductRepository productRepository;
+	private final StorageRepository storageRepository;
 	private Map<String, String> adapter = new HashMap<>();
 
-	public OrderService(ProductOrderRepository productOrderRepository, MemberRepository memberRepository, ShopConnectionRepository shopConnectionRepository, ShopProductRepository shopProductRepository, ProductRepository productRepository) {
+	public OrderService(ProductOrderRepository productOrderRepository, MemberRepository memberRepository,
+						ShopConnectionRepository shopConnectionRepository, ShopProductRepository shopProductRepository,
+						ProductRepository productRepository, StorageRepository storageRepository) {
 		this.productOrderRepository = productOrderRepository;
 		this.memberRepository = memberRepository;
 		this.shopConnectionRepository = shopConnectionRepository;
 		this.shopProductRepository = shopProductRepository;
 		this.productRepository = productRepository;
+		this.storageRepository = storageRepository;
 		siteInit();
 	}
 
@@ -107,7 +111,7 @@ public class OrderService {
 	private ProductOrderResponse toDTO(ProductOrder productOrder) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return ProductOrderResponse.builder()
-				.orderId(productOrder.getId())
+				.productOrderId(productOrder.getId())
 				.buyProductCount(productOrder.getBuyProductCount())
 				.salePrice(productOrder.getTotalPrice())
 				.status(productOrder.getStatus())
@@ -124,9 +128,10 @@ public class OrderService {
 
 		int productId = productOrder.getShopProduct().getProductId();
 		Product product = productRepository.findById(productId).get();
-
 		productOrder.cancel();
 		product.addStock(productOrder.getBuyProductCount());
+		StorageRetrieval sr = storageRepository.findByProductOrderId(productOrderId);
+		storageRepository.delete(sr);
 	}
 
 	@Transactional
@@ -136,5 +141,11 @@ public class OrderService {
 		Product product = productRepository.findById(productOrder.getShopProduct().getProductId()).get();
 		productOrder.release();
 		product.minusStock(productOrder.getBuyProductCount());
+		StorageRetrieval storageRetrieval = StorageRetrieval.createStorageRetrieval(productOrder.getMember(), productOrder);
+		storageRepository.save(storageRetrieval);
+	}
+
+	public ProductOrder getProductOrder(Integer productId) {
+		return productOrderRepository.findById(productId).get();
 	}
 }

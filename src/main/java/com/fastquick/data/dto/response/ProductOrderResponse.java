@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 @Builder
 public class ProductOrderResponse {
-	private Integer orderId;
+	private Integer productOrderId;
 	private Long sellerProductId;
 	private String sellerProductName;
 	private Integer customId;
