@@ -45,7 +45,8 @@
                     $('#detailShopTable tbody').append('<tr>' +
                         '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:25%; max-width:320px;" >' + shopList[i].sellerProductName + '</td>' +
                         '<td>' + shopList[i].shopName + '</td>' +
-                        '<td>' + shopList[i].quantity + '</td>' +
+                        '<td><input class="form-control border-0 me-2" type="text" size="3" id="quantity' + i + '" value="' + shopList[i].quantity + '"></td>' +
+                        '<td style="width:30%;"><a href="javascript:updateQuantity( '+ i + ',' + '`' + shopList[i].shopId + '`' + ',' + shopList[i].sellerProductId + ',' + shopList[i].shopProductId +');" class="linkbtn">변경</a></td>' +
                         '</tr>');
 
                     }
@@ -142,7 +143,7 @@
 
 						<div th:if="${!#lists.isEmpty(stock)}">
 								<nav aria-label="Page navigation">
-								        <ul class="pagination justify-content-center" >
+								        <ul class="pagination">
 								            <li class="page-item" th:if="${page > 1}">
 								                <a class="page-link"  th:href="@{/stock/stockList(page=${page - 1})}" aria-label="Previous">
 								                    <span aria-hidden="true">&laquo;</span>
@@ -189,6 +190,7 @@
                                 <th width="30%" scope="col">상품명</th>
                                 <th width="20%" scope="col">쇼핑몰</th>
                                 <th width="20%" scope="col">재고</th>
+                                <th width="30%" scope="col">변경</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -248,11 +250,11 @@
                 function updateQuantity(_id,_shopId, _sellerProductId, _shopProductId){
                     let ids = "#quantity" + _id;
                     let _quantity = $(ids).val();
+                    console.log(_quantity);
                     if(confirm("해당 쇼핑몰 재고를 변경하시겠습니까?")){
                         $.ajax({
                             type: 'POST',
                             url: '/stock/update/shop',
-                            contentType: 'application/json; charset=utf-8',
                             data: {
                                 "shopId" : _shopId,
                                 "sellerProductId" : _sellerProductId,

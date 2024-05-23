@@ -42,11 +42,8 @@ public class StorageServiceImpl implements StorageService{
 	            .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
 
 		Product product = this.productRepository.findById(storageCreateRequestDTO.getProductId()).orElseThrow();
-		if(product.getTempQuantity() - storageCreateRequestDTO.getCount() < 0){
-			product.setQuantity(product.getQuantity() + storageCreateRequestDTO.getCount());
-		} else {
-			product.setTempQuantity(product.getQuantity() - storageCreateRequestDTO.getCount());
-		}
+		product.setQuantity(product.getQuantity() + storageCreateRequestDTO.getCount());
+		product.setImportAmount(product.getImportAmount() + storageCreateRequestDTO.getCount());
 
 		StorageRetrieval storageRetrieval = new StorageRetrieval();
 		storageRetrieval.setProductName(storageCreateRequestDTO.getProductName());
