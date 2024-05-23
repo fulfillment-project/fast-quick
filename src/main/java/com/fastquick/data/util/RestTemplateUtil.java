@@ -61,13 +61,13 @@ public class RestTemplateUtil {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 
-        HttpEntity<Long> entity = new HttpEntity<>(sellerProductId, headers);
+        HttpEntity<StockUpdateRequeestDTO> entity = new HttpEntity<>(requestDTO, headers);
         URI uri = UriComponentsBuilder
                 .fromUriString(url)
                 .path(path)
                 .encode()
                 .build()
-                .expand(sellerProductId)
+                .expand(requestDTO.getSellerProductId())
                 .toUri();
 
         RestTemplate restTemplate = new RestTemplate();

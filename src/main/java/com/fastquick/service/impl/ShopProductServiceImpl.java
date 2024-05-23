@@ -128,6 +128,10 @@ public class ShopProductServiceImpl implements ShopProductService {
         product.setQuantity(requestDTO.getQuantity());
         this.shopProductRepository.save(product);
 
-
+        if(requestDTO.getShopId().equals("A")){
+            RestTemplateUtil.updateStock("http://localhost:9080", "/v2/providers/seller_api/apis/api/v1/marketplace//update/seller-products/{sellerProductId}", requestDTO);
+        } else {
+            RestTemplateUtil.updateStock("http://localhost:9090", "/v2/providers/seller_api/apis/api/v1/marketplace//update/seller-products/{sellerProductId}", requestDTO);
+        }
     }
 }

@@ -45,8 +45,7 @@
                     $('#detailShopTable tbody').append('<tr>' +
                         '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:25%; max-width:320px;" >' + shopList[i].sellerProductName + '</td>' +
                         '<td>' + shopList[i].shopName + '</td>' +
-                        '<td><input class="form-control border-0 me-2" type="text" size="3" id="quantity' + i + '" value="' + shopList[i].quantity + '"></td>' +
-                        '<td style="width:30%;"><a href="javascript:updateQuantity( '+ i + ',' + '`' + shopList[i].shopId + '`' + ',' + shopList[i].sellerProductId + ',' + shopList[i].shopProductId +');" class="linkbtn">변경</a></td>' +
+                        '<td>' + shopList[i].quantity + '</td>' +
                         '</tr>');
 
                     }
@@ -190,7 +189,6 @@
                                 <th width="30%" scope="col">상품명</th>
                                 <th width="20%" scope="col">쇼핑몰</th>
                                 <th width="20%" scope="col">재고</th>
-                                <th width="30%" scope="col">변경</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -254,6 +252,7 @@
                         $.ajax({
                             type: 'POST',
                             url: '/stock/update/shop',
+                            contentType: 'application/json; charset=utf-8',
                             data: {
                                 "shopId" : _shopId,
                                 "sellerProductId" : _sellerProductId,
