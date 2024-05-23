@@ -9,8 +9,8 @@ import lombok.*;
 @ToString
 @Builder
 public class OrderDTO {
-        private Long orderId;
-        private Long sellerProductId;
+        private Integer orderId;
+        private Integer sellerProductId;
         private String sellerProductName;
         private Integer customId;
         private String customName;

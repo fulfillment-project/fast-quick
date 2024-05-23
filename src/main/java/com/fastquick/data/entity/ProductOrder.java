@@ -21,7 +21,7 @@ public class ProductOrder extends BaseEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "productOrderId")
-	private Long id;
+	private Integer id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shopProductId")
@@ -38,7 +38,7 @@ public class ProductOrder extends BaseEntity {
 	@JoinColumn(name = "memberId")
 	private Member member;
 
-	private Long orderId;
+	private Integer orderId;
 	private String orderName;
 	private int buyProductCount;
 	private int salePrice;
@@ -88,6 +88,7 @@ public class ProductOrder extends BaseEntity {
 
 	public void release() {
 		shopProduct.minusStock(buyProductCount);
+		setStatus(DeliveryStatus.RELEASED);
 	}
 
 }

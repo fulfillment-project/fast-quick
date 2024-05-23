@@ -137,7 +137,6 @@ public class OrderService {
 		ProductOrder productOrder = productOrderRepository.findById(productOrderId).get();
 		ShopProduct shopProduct = shopProductRepository.findById(productOrder.getShopProduct().getShopProductId()).get();
 		Product product = productRepository.findById(productOrder.getShopProduct().getProductId()).get();
-
 		productOrder.release();
 		product.minusStock(productOrder.getBuyProductCount());
 	}

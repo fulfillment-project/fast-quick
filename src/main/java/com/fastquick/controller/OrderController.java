@@ -43,15 +43,15 @@ public class OrderController {
 		return "order/orderDetail";
 	}
 
-	@GetMapping("/order/release")
-	public String orderRelease() {
-
+	@GetMapping("/release/{orderId}")
+	public String orderRelease(@PathVariable Long orderId) {
+		orderService.releaseOrder(orderId.intValue());
 		return "redirect:/order/orderList";
 	}
 
-//	@GetMapping("/order/release")
-//	public String orderRelease(@RequestParam("hiddenValue") String hidden) {
-//
-//		return "redirect:/order/orderList";
-//	}
+	@GetMapping("/cancel")
+	public String orderCancel() {
+
+		return "redirect:/order/orderList";
+	}
 }
