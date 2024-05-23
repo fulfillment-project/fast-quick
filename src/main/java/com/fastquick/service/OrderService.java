@@ -57,17 +57,17 @@ public class OrderService {
 	@Transactional
 	public void updateOrderById (int id){
 		Optional<Member> member = memberRepository.findById(id);
-		member.ifPresent((i) -> saveOrderByMember(member.get()));
+		saveOrderByMember(member.get());
 	}
 
 	private void saveOrderByMember(Member member){
 		List<ShopConnection> shopConnections = shopConnectionRepository.findByMemberId(member.getMemberId());
 		for (ShopConnection shopConnection : shopConnections) {
-			ShopProduct shopProduct = shopProductRepository.findOneByMemberAndShopConnection(member.getMemberId(), shopConnection.getConnectionId(), shopConnection.getShopId());
 			Optional<String> site = getSite(shopConnection.getShopId());
 			if (site.isPresent()) {
 				List<OrderDTO> orders = getByOrderDTOByAPI(site.get(), shopConnection.getConnectionId());
 				for (OrderDTO orderDTO : orders) {
+					ShopProduct shopProduct = shopProductRepository.findByOrderIdAndMemberId(orderDTO.getSellerProductId(), member.getMemberId());
 					productOrderRepository.save(ProductOrder.toEntity(orderDTO, member, shopProduct, shopConnection));
 				}
 			}
