@@ -3,7 +3,7 @@ package com.fastquick.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties.Storage;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -86,6 +86,11 @@ public class StorageServiceImpl implements StorageService{
 	    ).collect(Collectors.toList());
 	}
 
+	@Override
+	public List<StorageRetrieval> findAllStorageRetrievals() {
+		return storageRepository.findAll();
+	}
+	
 	@Override
 	public long countTotalStorages(@Param("productName") String productName) {
 		if (productName == null) {

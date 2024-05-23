@@ -22,27 +22,27 @@
                     <div class="col-sm-6 col-xl-4       ">
                         <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-line fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">입고</p>
-                                <h6 class="mb-0">$1234</h6>
+                            <div class="ms-3 text-center">
+                                <p class="mb-2">입고 수</p>
+                                <h4 class="mb-0"  th:text="${divisionImportCount}"></h4>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-xl-4">
                         <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-bar fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">출고</p>
-                                <h6 class="mb-0">$1234</h6>
+                            <div class="ms-3 text-center">
+                                <p class="mb-2">출고 수</p>
+                                <h4 class="mb-0"  th:text="${divisionExportCount}"></h4>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-xl-4">
                         <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-area fa-3x text-primary"></i>
-                            <div class="ms-3">
+                            <div class="ms-3 text-center">
                                 <p class="mb-2">상품 수</p>
-                                <h6 class="mb-0">$1234</h6>
+                                <h4 class="mb-0"  th:text="${#lists.size(productCount)}"></h4>
                             </div>
                         </div>
                     </div>
@@ -58,14 +58,14 @@
                         <div class="bg-light text-center rounded p-4" style="height: 358px;">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">입고 현황</h6>
-                                <a href="">상세보기</a>
+                                <a th:href="@{/storage/storageList}">상세보기</a>
                             </div>
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th scope="col">상품명</th>
-                                    <th scope="col">입고량</th>
-                                    <th scope="col">등록일</th>
+                                    <th class="text-center"  scope="col"  style="color:red;">입고량</th>
+                                    <th scope="col"  class="text-center" >등록일</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -83,14 +83,14 @@
                         <div class="bg-light text-center rounded p-4" style="height: 358px;">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">출고 현황</h6>
-                                <a href="">상세보기</a>
+                                <a th:href="@{/storage/storageList}">상세보기</a>
                             </div>
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th scope="col">상품명</th>
-                                    <th scope="col">출고량</th>
-                                    <th scope="col">등록일</th>
+                                    <th scope="col"  class="text-center"  style="color:red;">출고량</th>
+                                    <th scope="col"   class="text-center" >등록일</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -109,21 +109,21 @@
                         <div class="bg-light text-center rounded p-4" style="height: 358px;">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">재고 현황</h6>
-                                <a href="">상세보기</a>
+                                <a th:href="@{/stock/stockList}">상세보기</a>
                             </div>
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th scope="col">상품명</th>
-                                    <th scope="col">안전재고</th>
-                                    <th scope="col">현재재고</th>
+                                    <th scope="col"  class="text-center" style="color:red;">안전재고</th>
+                                    <th scope="col"  class="text-center" >현재재고</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="product : ${productList}">
                                     <td th:text="${product.productName}" ></td>
                                     <td align="center" th:text="${product.safeQuantity}"></td>
-                                    <td th:text="${product.quantity}"></td>
+                                    <td th:text="${product.quantity}"  class="text-center" ></td>
                                 </tr>
                                 </tr>
                                 </tbody>
