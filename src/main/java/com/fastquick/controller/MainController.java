@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -26,11 +28,19 @@ public class MainController {
     }
 
     @GetMapping("/index")
-    public ModelAndView index() {
+    public ModelAndView index(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer memberId;
+        if(session.getAttribute("memberId") == null || session.getAttribute("memberId").equals("")){
+            memberId = 1;
+        } else {
+            memberId = (Integer) session.getAttribute("memberId");
+        }
+
         List<StorageListResponseDTO> importList = this.storageService.importStorageList();
         List<StorageListResponseDTO> exportList = this.storageService.exportStorageList();
         List<ProductListResponseDTO> productList = this.productService.findSafeProducts();
-        List<Product> productCount = this.productService.findAllProducts();
+        Integer productCount = this.productService.countProducts(memberId);
         List<StorageRetrieval> divisionImport = this.storageService.findAllStorageRetrievals();
         
         //입고 수 카운트

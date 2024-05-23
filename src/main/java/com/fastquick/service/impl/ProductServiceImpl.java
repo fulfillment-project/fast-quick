@@ -121,6 +121,11 @@ public class ProductServiceImpl implements ProductService {
 		).collect(Collectors.toList());
 	}
 
+	@Override
+	public Integer countProducts(Integer memberId) {
+		return this.productRepository.countByMemberId(memberId);
+	}
+
 
 	@Override
     public List<StockListResponseDTO> stockList(String productName, Integer page) {
