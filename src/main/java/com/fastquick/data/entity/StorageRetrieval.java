@@ -61,6 +61,18 @@ public class StorageRetrieval extends BaseEntity implements Serializable {
 
     @Column
     private String bigo;
-    
+
+    public static StorageRetrieval createStorageRetrieval(Member member, ProductOrder productOrder) {
+        return StorageRetrieval.builder()
+                .address(productOrder.getAddress())
+                .addressDetail(productOrder.getAddressDetail())
+                .bigo(productOrder.getCustomMemo())
+                .productOrderId(productOrder.getId())
+                .division("2")
+                .quantity(productOrder.getShopProduct().getQuantity())
+                .count(productOrder.getBuyProductCount())
+                .productName(productOrder.getOrderName())
+                .zipcode(productOrder.getZipCode());
+    }
     
 }

@@ -1,0 +1,2 @@
+package com.fastquick.data.dto.response;public class ProductOrderResponse {
+}
