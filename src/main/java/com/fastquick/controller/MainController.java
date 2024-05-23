@@ -1,6 +1,5 @@
 package com.fastquick.controller;
 
-import com.fastquick.data.dto.response.CountResponseDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
 import com.fastquick.data.dto.response.StorageListResponseDTO;
 import com.fastquick.service.impl.ProductServiceImpl;
