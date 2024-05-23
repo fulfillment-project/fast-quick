@@ -29,8 +29,8 @@ public class ProductOrder extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
-			@JoinColumn(name = "shopId"),
-			@JoinColumn(name = "connectionId")
+			@JoinColumn(name = "connectionId"),
+			@JoinColumn(name = "shopId")
 	})
 	private ShopConnection shopConnection;
 
@@ -60,7 +60,7 @@ public class ProductOrder extends BaseEntity {
 		ProductOrder productOrder = ProductOrder.builder()
 				.member(member)
 				.shopProduct(shopProduct)
-				.shopConnection(shopConnection) // 관련 엔티티 설정
+				.shopConnection(shopConnection) //------- 관련 엔티티 설정
 				.orderName(orderDTO.getSellerProductName())
 				.buyProductCount(orderDTO.getBuyProductCount())
 				.salePrice(orderDTO.getSalePrice())
@@ -70,6 +70,9 @@ public class ProductOrder extends BaseEntity {
 				.customId(orderDTO.getCustomId())
 				.customMemo(orderDTO.getMemo())
 				.phoneNumber(orderDTO.getPhoneNumber())
+				.addressDetail(orderDTO.getAddressDetail())
+				.zipCode(orderDTO.getZipCode())
+				.orderId(orderDTO.getOrderId())
 				.build();
 		productOrder.setInsertDateTime(time);
 		return productOrder;
@@ -82,7 +85,7 @@ public class ProductOrder extends BaseEntity {
 		if (status == DeliveryStatus.COMP) {
 			throw new IllegalStateException("이미 배송완료되어 취소 불가능합니다.");
 		}
-		this.setStatus(DeliveryStatus.CANCEL);
+		this.setStatus(DeliveryStatus.READY);
 		shopProduct.addStock(buyProductCount);
 	}
 

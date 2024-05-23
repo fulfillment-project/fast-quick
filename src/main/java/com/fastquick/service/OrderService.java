@@ -4,12 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fastquick.data.dto.OrderDTO;
 import com.fastquick.data.dto.request.MemberRequestDTO;
+import com.fastquick.data.dto.response.ProductOrderResponse;
 import com.fastquick.data.entity.*;
 import com.fastquick.data.repository.*;
-import com.fastquick.data.util.DeliveryStatus;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,8 +53,8 @@ public class OrderService {
 
 	@Transactional
 	public void updateOrderById (int id){
-		Optional<Member> member = memberRepository.findById(id);
-		saveOrderByMember(member.get());
+		Member member = memberRepository.findMemberById(id);
+		saveOrderByMember(member);
 	}
 
 	private void saveOrderByMember(Member member){
@@ -67,7 +64,7 @@ public class OrderService {
 			if (site.isPresent()) {
 				List<OrderDTO> orders = getByOrderDTOByAPI(site.get(), shopConnection.getConnectionId());
 				for (OrderDTO orderDTO : orders) {
-					ShopProduct shopProduct = shopProductRepository.findByOrderIdAndMemberId(orderDTO.getSellerProductId(), member.getMemberId());
+					ShopProduct shopProduct = shopProductRepository.findByOrderIdAndShopId(orderDTO.getSellerProductId(), shopConnection.getShopId());
 					productOrderRepository.save(ProductOrder.toEntity(orderDTO, member, shopProduct, shopConnection));
 				}
 			}
@@ -88,7 +85,7 @@ public class OrderService {
 				.build()
 				.toUri();
 		OrderDTO requestDTO = new OrderDTO();
-		requestDTO.setVendorId(connectionId); // 원래라면 258942 connectionId가 들어가야 한다.
+		requestDTO.setVendorId(connectionId);
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Map> result = restTemplate.postForEntity(uri, requestDTO, Map.class);
 		List<LinkedHashMap> data = (List<LinkedHashMap>) result.getBody().get("data");
@@ -98,18 +95,18 @@ public class OrderService {
 		return orders;
 	}
 
-	public List<OrderDTO> getReadyOrders(int id) {
-		List<ProductOrder> readyOrders = productOrderRepository.findAllByStatusAndMemberId(DeliveryStatus.READY, id);
-		List<OrderDTO> orders = new ArrayList<>();
+	public List<ProductOrderResponse> getReadyOrders(int id) {
+		List<ProductOrder> readyOrders = productOrderRepository.findAllByStatusAndMemberId(id);
+		List<ProductOrderResponse> orders = new ArrayList<>();
 		for (ProductOrder productOrder : readyOrders) {
 			orders.add(toDTO(productOrder));
 		}
 		return orders;
 	}
 
-	private OrderDTO toDTO(ProductOrder productOrder) {
+	private ProductOrderResponse toDTO(ProductOrder productOrder) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		return OrderDTO.builder()
+		return ProductOrderResponse.builder()
 				.orderId(productOrder.getId())
 				.buyProductCount(productOrder.getBuyProductCount())
 				.salePrice(productOrder.getTotalPrice())

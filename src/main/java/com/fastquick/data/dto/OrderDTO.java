@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 public class OrderDTO {
         private Integer orderId;
-        private Integer sellerProductId;
+        private Long sellerProductId;
         private String sellerProductName;
         private Integer customId;
         private String customName;
@@ -26,5 +26,4 @@ public class OrderDTO {
         private String deliveryStatus;
         private String insertDateTime;
         private String updateDateTime;
-        private DeliveryStatus status;
 }

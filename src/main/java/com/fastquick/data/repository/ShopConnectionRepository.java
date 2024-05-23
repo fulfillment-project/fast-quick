@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface ShopConnectionRepository extends JpaRepository<ShopConnection, ShopConnectionId> {
 	@Query("select s from ShopConnection s where s.member.memberId=:id")
-	List<ShopConnection> findByMemberId(@Param("id") int id);
+	List<ShopConnection> findByMemberId(@Param("id") Integer id);
 }
