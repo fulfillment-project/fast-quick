@@ -18,7 +18,7 @@
            success: function (data) {
             $('#detailTable').data('product-id', productId); // 제품 ID를 테이블에 저장
             $('#detailTable thead').html('<tr>' +
-                '<th scope="col" style="width:30%; font-size:20px;">상품명 : ' + data.productName + '</th>' +
+                '<th scope="col" style="width:30%; font-size:20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + data.productName + '</th>' +
                 '<th scope="col" style="width:70%; font-size:20px;">상품 코드 : ' + data.barcode + '</th>' +
                 '</tr>');
             
@@ -116,8 +116,7 @@
                                     <button type="submit" class="btn btn-primary">검색</button>
                                 </form>
                                 <div class="ms-auto">
-	                                <button class="btn btn-primary mb-3" th:onclick="'generateExcel()'">Excel</button>
-	                                <a href="#" class="btn btn-primary mb-3 ms-auto">주문 수집</a>
+	                                <button class="btn btn-primary mb-3" th:onclick="'generateExcel()'">Excel로 출력</button>
                                  </div>
                             </div>
                             <table class="table table-hover">

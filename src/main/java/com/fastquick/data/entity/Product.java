@@ -77,6 +77,11 @@ public class Product extends BaseEntity {
         // safeQuantity가 null이면 0으로 설정
         if (safeQuantity == null) {
             this.safeQuantity = 0;
+        }  
+        
+        // tempQuantity가 null이면 0으로 설정
+        if (tempQuantity == null) {
+            this.tempQuantity = 0;
         }
         // barcode 필드가 비어있으면 랜덤한 6자리 숫자를 생성하여 할당
         if (barcode == null) {
