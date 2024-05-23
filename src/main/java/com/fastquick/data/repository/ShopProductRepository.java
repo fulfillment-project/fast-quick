@@ -13,4 +13,6 @@ public interface ShopProductRepository extends JpaRepository<ShopProduct, Intege
 
     @Query("select s from ShopProduct s where s.member.memberId =:m_id and s.shopConnection.connectionId =:c_id and s.shopConnection.shopId =:s_id")
     ShopProduct findOneByMemberAndShopConnection(int m_id, int c_id, String s_id);
+
+    List<ShopProduct> findByProductId(Integer productId);
 }

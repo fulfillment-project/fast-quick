@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class ShopProductConnectRequestDTO {
+    private Integer productId;
     private String productName;
     private Long barcode;
     private Integer quantity;
