@@ -12,7 +12,7 @@
             var formattedDate = dateTime.toLocaleDateString();
             var formattedTime = dateTime.toLocaleTimeString();
             let shopList = data.data.shopList;
-            	
+            	$('#detailShopTable tbody').empty();
                 $('#detailTable tbody').html('<tr>' +
                     '<td> ' + data.data.product.productId + '</td>' +
                     '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:25%; max-width:200px;">' + data.data.product.productName + '</td>' +
@@ -126,8 +126,7 @@
                     <div class="bg-light rounded h-100 p-4">
                         <h4 class="mb-4">상품 정보</h4>
                         <div class="text-end">
-                            <a th:href="@{/stock/stockList}" class="btn btn-primary mb-3">재고 신청</a>
-                            <a th:href="@{/storage/storageRequest}" class="btn btn-primary mb-3 ms-auto">입고 신청</a>
+                            <a th:href="@{/storage/storageRequest" class="btn btn-primary mb-3 ms-auto">입고 신청</a>
                         </div>
                         <input type="hidden" id="productKey" >
                         <table class="table table-hover text-center"  id="detailTable">
@@ -216,10 +215,17 @@
                                             <input type="text" id="quantity" class="form-control" name="quantity" value="">
                                         </div>
                                         <div class="mb-3">
+                                            <label class="form-label">안전 재고</label>
+                                            <input type="text" class="form-control"  name="safeQuantity">
+                                        </div>
+                                        <div class="mb-3">
                                             <label class="form-label">상품 바코드</label>
                                             <input type="text" id="barcode" class="form-control" name="barcode" value="">
                                         </div>
-
+                                        <div class="mb-3">
+                                            <label for="formFile" class="form-label">상품 이미지</label>
+                                            <input class="form-control" type="file" id="formFile"  name="image">
+                                        </div>
                                         <div class="mb-3 text-center">
                                             <button type="button" class="btn btn-primary me-4 pe-3 ps-3">취소</button>
                                             <button type="button" class="btn btn-primary pe-3 ps-3" th:onclick="sendDataToServer();">등록</button>
@@ -446,6 +452,8 @@
             //연동된 쇼핑몰 상품 불러오는 모달창 닫기
             function closeTodoModal(){
                 toggleProductForm(0);
+                $('.select-row').prop('checked', false);
+                window.location.reload();
             }
 
             // 등록 폼 숨기기/보이기 함수1
@@ -466,7 +474,6 @@
 
             //상품 상세정보 페이지 노출
             function toggleProductDetail(){
-                console.log("클릭");
                 $('#product-detail').show();
             }
 
@@ -477,6 +484,7 @@
 
             //등록된 상품에 연동시키는 모달창 닫기
             function closeTodoModal1(){
+                $('.select-row').prop('checked', false);
                 toggleProductForm2();
             }
 

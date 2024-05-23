@@ -94,4 +94,34 @@ public class StorageServiceImpl implements StorageService{
 			return storageRepository.countByProductNameContaining(productName);
 		}
 	}
+
+	@Override
+	public List<StorageListResponseDTO> importStorageList() {
+		List<StorageRetrieval> storages = this.storageRepository.findTop5ByDivisionOrderByInsertDateTimeDesc("1");
+		return storages.stream()
+				.map(storage -> new StorageListResponseDTO(
+						storage.getDivision(),
+						storage.getStorageId(),
+						storage.getProductName(),
+						storage.getQuantity(),
+						storage.getBigo(),
+						storage.getInsertDateTime(),
+						storage.getUpdateDateTime())
+				).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<StorageListResponseDTO> exportStorageList() {
+		List<StorageRetrieval> storages = this.storageRepository.findTop5ByDivisionOrderByInsertDateTimeDesc("2");
+		return storages.stream()
+				.map(storage -> new StorageListResponseDTO(
+						storage.getDivision(),
+						storage.getStorageId(),
+						storage.getProductName(),
+						storage.getQuantity(),
+						storage.getBigo(),
+						storage.getInsertDateTime(),
+						storage.getUpdateDateTime())
+				).collect(Collectors.toList());
+	}
 }
