@@ -72,7 +72,8 @@ public class StorageRetrieval extends BaseEntity implements Serializable {
                 .quantity(productOrder.getShopProduct().getQuantity())
                 .count(productOrder.getBuyProductCount())
                 .productName(productOrder.getOrderName())
-                .zipcode(productOrder.getZipCode());
+                .zipcode(productOrder.getZipCode())
+                .build();
     }
     
 }
