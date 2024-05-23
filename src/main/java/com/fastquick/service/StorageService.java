@@ -12,4 +12,8 @@ public interface StorageService {
 	public List<StorageListResponseDTO> storageList(String ProductName, Integer page);
 
 	public long countTotalStorages(String productName);
+
+	public List<StorageListResponseDTO> importStorageList();
+
+	public List<StorageListResponseDTO> exportStorageList();
 }

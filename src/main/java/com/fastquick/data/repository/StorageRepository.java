@@ -13,4 +13,6 @@ public interface StorageRepository extends JpaRepository<StorageRetrieval, Integ
 	public List<StorageRetrieval> findByProductNameContaining(@Param("productName") String productName, Pageable pageable) ;
 
 	public long countByProductNameContaining(@Param("productName") String productName);
+
+	public List<StorageRetrieval> findTop5ByDivisionOrderByInsertDateTimeDesc(String division);
 }

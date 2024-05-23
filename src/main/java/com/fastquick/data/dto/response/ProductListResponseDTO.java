@@ -8,11 +8,20 @@ public class ProductListResponseDTO {
     private String productName;
     private Long barcode;
     private Integer quantity;
+    private Integer safeQuantity;
     
     public ProductListResponseDTO(Integer productId, String productName, Long barcode, Integer quantity) {
     	this.productId = productId;
     	this.productName = productName;
     	this.barcode = barcode;
     	this.quantity = quantity;
+    }
+
+    public ProductListResponseDTO(Integer productId, String productName, Long barcode, Integer quantity, Integer safeQuantity) {
+        this.productId = productId;
+        this.productName = productName;
+        this.barcode = barcode;
+        this.quantity = quantity;
+        this.safeQuantity = safeQuantity;
     }
 }

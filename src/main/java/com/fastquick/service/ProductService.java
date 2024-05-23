@@ -22,4 +22,6 @@ public interface ProductService {
   public long countTotalProducts(String productName);
 
   public List<Product> findAllProducts();
+
+  public List<ProductListResponseDTO> findSafeProducts();
 }
