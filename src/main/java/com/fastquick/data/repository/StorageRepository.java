@@ -18,5 +18,5 @@ public interface StorageRepository extends JpaRepository<StorageRetrieval, Integ
 	public List<StorageRetrieval> findTop5ByDivisionOrderByInsertDateTimeDesc(String division);
 
 	@Query("select s from StorageRetrieval s where s.productOrderId=:id")
-	StorageRetrieval findByProductOrderId(Integer id);
+	StorageRetrieval findByProductOrderId(@Param("id") Integer id);
 }
