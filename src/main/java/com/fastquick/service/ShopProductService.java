@@ -2,6 +2,7 @@ package com.fastquick.service;
 
 import com.fastquick.data.dto.request.ShopProductConnectRequestDTO;
 import com.fastquick.data.dto.request.ShopProductInquiryRequestDTO;
+import com.fastquick.data.dto.request.StockUpdateRequeestDTO;
 import com.fastquick.data.dto.response.ShopProductInquiryResponseDTO;
 import com.fastquick.data.dto.response.ShopProductListResponseDTO;
 
@@ -15,4 +16,6 @@ public interface ShopProductService {
     public void connectShopProduct(ShopProductConnectRequestDTO requestDTO);
 
     public Integer connectClear(Integer shopProductId);
+
+    public void updateStock(StockUpdateRequeestDTO requestDTO);
 }

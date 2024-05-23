@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import com.fastquick.data.dto.request.StockUpdateRequeestDTO;
 import com.fastquick.data.dto.response.ShopProductListResponseDTO;
 import com.fastquick.service.impl.ShopProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,12 @@ public class StockController {
     public ResponseEntity<?> updateStock(@PathVariable Integer productId, @RequestBody StockEditRequestDTO request) {
     	productService.updateStock(productId, request);
     	return ResponseEntity.ok().body(null);
+    }
+
+    @PostMapping("/update/shop")
+    public ResponseEntity<?> updateShopStock( @RequestBody StockUpdateRequeestDTO request) {
+        this.shopProductService.updateStock(request);
+        return ResponseEntity.ok().body(null);
     }
 
 }

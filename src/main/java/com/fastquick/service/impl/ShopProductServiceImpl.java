@@ -1,9 +1,6 @@
 package com.fastquick.service.impl;
 
-import com.fastquick.data.dto.request.ProductWriteRequestDTO;
-import com.fastquick.data.dto.request.ShopProductConnectRequestDTO;
-import com.fastquick.data.dto.request.ShopProductCreateRequestDTO;
-import com.fastquick.data.dto.request.ShopProductInquiryRequestDTO;
+import com.fastquick.data.dto.request.*;
 import com.fastquick.data.dto.response.ShopProductInquiryResponseDTO;
 import com.fastquick.data.dto.response.ShopProductListResponseDTO;
 import com.fastquick.data.entity.ShopProduct;
@@ -123,5 +120,14 @@ public class ShopProductServiceImpl implements ShopProductService {
         product.setProductId(null);
         ShopProduct shopProduct = this.shopProductRepository.save(product);
         return shopProduct.getShopProductId();
+    }
+
+    @Override
+    public void updateStock(StockUpdateRequeestDTO requestDTO) {
+        ShopProduct product = this.shopProductRepository.findById(requestDTO.getShopProductId()).orElseThrow();
+        product.setQuantity(requestDTO.getQuantity());
+        this.shopProductRepository.save(product);
+
+
     }
 }
