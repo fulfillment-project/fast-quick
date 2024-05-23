@@ -32,7 +32,7 @@ public class StorageCreateRequestDTO {
 	
 	private Integer memberId;
 	
-	private Integer shopProductId;
+	private Integer productId;
 	
 	
 }

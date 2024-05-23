@@ -47,7 +47,7 @@ public class StorageServiceImpl implements StorageService{
 	    storageRetrieval.setAddress(storageCreateRequestDTO.getAddress());
 	    storageRetrieval.setAddressDetail(storageCreateRequestDTO.getAddressDetail());
 	    storageRetrieval.setBigo(storageCreateRequestDTO.getBigo());
-	    storageRetrieval.setShopProductId(storageCreateRequestDTO.getShopProductId());
+	    storageRetrieval.setProductId(storageCreateRequestDTO.getProductId());
 
 	    this.storageRepository.save(storageRetrieval);
 	    return storageRetrieval.getStorageId();
@@ -80,7 +80,7 @@ public class StorageServiceImpl implements StorageService{
 	    				storage.getDivision(),
 	    				storage.getStorageId(),
 	    				storage.getProductName(),
-	    				storage.getQuantity(),
+	    				storage.getCount(),
 	    				storage.getBigo(),
 	    				storage.getInsertDateTime(),
 	    				storage.getUpdateDateTime())
@@ -104,7 +104,7 @@ public class StorageServiceImpl implements StorageService{
 						storage.getDivision(),
 						storage.getStorageId(),
 						storage.getProductName(),
-						storage.getQuantity(),
+						storage.getCount(),
 						storage.getBigo(),
 						storage.getInsertDateTime(),
 						storage.getUpdateDateTime())
@@ -119,7 +119,7 @@ public class StorageServiceImpl implements StorageService{
 						storage.getDivision(),
 						storage.getStorageId(),
 						storage.getProductName(),
-						storage.getQuantity(),
+						storage.getCount(),
 						storage.getBigo(),
 						storage.getInsertDateTime(),
 						storage.getUpdateDateTime())
