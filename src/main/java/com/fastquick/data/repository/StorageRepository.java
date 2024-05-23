@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.fastquick.data.entity.Product;
@@ -15,4 +16,7 @@ public interface StorageRepository extends JpaRepository<StorageRetrieval, Integ
 	public long countByProductNameContaining(@Param("productName") String productName);
 
 	public List<StorageRetrieval> findTop5ByDivisionOrderByInsertDateTimeDesc(String division);
+
+	@Query("select s from StorageRetrieval s where s.productOrderId=:id")
+	StorageRetrieval findByProductOrderId(Integer id);
 }
