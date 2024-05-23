@@ -82,7 +82,7 @@ public class ShopProduct extends BaseEntity {
 
 	public void minusStock(int count) {
         if (quantity - count < 0)
-            throw new StockStarvationException("재고 이상으로 구매할 수 없습니다");
+            throw new StockStarvationException("재고 이상으로 판매할 수 없습니다");
         quantity -= count;
 //        exportAmount += count;
 	}
