@@ -1,5 +1,6 @@
 package com.fastquick.controller;
 
+import com.fastquick.data.dto.response.CountResponseDTO;
 import com.fastquick.data.dto.response.ProductListResponseDTO;
 import com.fastquick.data.dto.response.StorageListResponseDTO;
 import com.fastquick.service.impl.ProductServiceImpl;
@@ -26,9 +27,6 @@ public class MainController {
         List<StorageListResponseDTO> importList = this.storageService.importStorageList();
         List<StorageListResponseDTO> exportList = this.storageService.exportStorageList();
         List<ProductListResponseDTO> productList = this.productService.findSafeProducts();
-        System.out.println("1=======> " + importList.size());
-        System.out.println("2=======> " + exportList.size());
-        System.out.println("3=======> " + productList.size());
         ModelAndView mav = new ModelAndView();
         mav.setViewName("index");
         mav.addObject("importList", importList);

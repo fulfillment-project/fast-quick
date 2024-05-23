@@ -19,7 +19,7 @@
             <!-- Sale & Revenue Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
-                    <div class="col-sm-6 col-xl-3">
+                    <div class="col-sm-6 col-xl-4       ">
                         <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-line fa-3x text-primary"></i>
                             <div class="ms-3">
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xl-3">
+                    <div class="col-sm-6 col-xl-4">
                         <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-bar fa-3x text-primary"></i>
                             <div class="ms-3">
@@ -37,20 +37,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xl-3">
+                    <div class="col-sm-6 col-xl-4">
                         <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-area fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">상품 수</p>
-                                <h6 class="mb-0">$1234</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-pie fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">판매 수</p>
                                 <h6 class="mb-0">$1234</h6>
                             </div>
                         </div>
@@ -63,22 +54,80 @@
             <!-- Sales Chart Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-light text-center rounded p-4">
+                    <div class="col-sm-12 col-xl-4">
+                        <div class="bg-light text-center rounded p-4" style="height: 358px;">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">입고 현황</h6>
-                                <a href="">Show All</a>
+                                <a href="">상세보기</a>
                             </div>
-                            <canvas id="worldwide-sales"></canvas>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">상품명</th>
+                                    <th scope="col">입고량</th>
+                                    <th scope="col">등록일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="importList : ${importList}">
+                                    <td th:text="${importList.productName}" ></td>
+                                    <td align="center" th:text="${importList.quantity}"></td>
+                                    <td th:text="${#temporals.format(importList.insertDateTime,'yyyy-MM-dd')}"></td>
+                                </tr>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-light text-center rounded p-4">
+                    <div class="col-sm-12 col-xl-4">
+                        <div class="bg-light text-center rounded p-4" style="height: 358px;">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">출고 현황</h6>
-                                <a href="">Show All</a>
+                                <a href="">상세보기</a>
                             </div>
-                            <canvas id="salse-revenue"></canvas>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">상품명</th>
+                                    <th scope="col">출고량</th>
+                                    <th scope="col">등록일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="exportList : ${exportList}">
+                                        <td th:text="${exportList.productName}" ></td>
+                                        <td align="center" th:text="${exportList.quantity}"></td>
+                                        <td th:text="${#temporals.format(exportList.insertDateTime,'yyyy-MM-dd')}"></td>
+                                    </tr>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-xl-4">
+                        <div class="bg-light text-center rounded p-4" style="height: 358px;">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">재고 현황</h6>
+                                <a href="">상세보기</a>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">상품명</th>
+                                    <th scope="col">안전재고</th>
+                                    <th scope="col">현재재고</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="product : ${productList}">
+                                    <td th:text="${product.productName}" ></td>
+                                    <td align="center" th:text="${product.safeQuantity}"></td>
+                                    <td th:text="${product.quantity}"></td>
+                                </tr>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -89,36 +138,18 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-light rounded h-100 p-4">
-                            <h6 class="mb-4">재고 현황</h6>
-                            <div class="owl-carousel testimonial-carousel">
-                                <div class="testimonial-item text-center">
-                                    <img class="img-fluid rounded-circle mx-auto mb-4" th:src="@{/img/testimonial-1.jpg}" style="width: 100px; height: 100px;">
-                                    <h5 class="mb-1">Client Name</h5>
-                                    <p>Profession</p>
-                                    <p class="mb-0">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
-                                </div>
-                                <div class="testimonial-item text-center">
-                                    <img class="img-fluid rounded-circle mx-auto mb-4" th:src="@{/img/testimonial-2.jpg}" style="width: 100px; height: 100px;">
-                                    <h5 class="mb-1">Client Name</h5>
-                                    <p>Profession</p>
-                                    <p class="mb-0">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-light rounded h-100 p-4">
-                            <h6 class="mb-4">보관창고</h6>
-                            <iframe class="position-relative rounded w-100"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.5438375460694!2d126.83644508511135!3d37.54224899996475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c9d9f6a5bb64f%3A0x2a36dc0962275b13!2z64yA7ZWc7IOB6rO17ZqM7J2Y7IaMIOyEnOyauOq4sOyIoOq1kOycoeyEvO2EsA!5e0!3m2!1sko!2skr!4v1716113754891!5m2!1sko!2skr"
-                            frameborder="0" style="border:0; height: 87%;" allowfullscreen="" aria-hidden="false"
-                            tabindex="0"></iframe>
-                    
-                        </div>
-                    </div>
+
+<!--                    <div class="col-sm-12 col-xl-6">-->
+<!--                        <div class="bg-light rounded h-100 p-4">-->
+<!--                            <h6 class="mb-4">보관창고</h6>-->
+<!--                            <iframe class="position-relative rounded w-100"-->
+<!--                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.5438375460694!2d126.83644508511135!3d37.54224899996475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c9d9f6a5bb64f%3A0x2a36dc0962275b13!2z64yA7ZWc7IOB6rO17ZqM7J2Y7IaMIOyEnOyauOq4sOyIoOq1kOycoeyEvO2EsA!5e0!3m2!1sko!2skr!4v1716113754891!5m2!1sko!2skr"-->
+<!--                            frameborder="0" style="border:0; height: 87%;" allowfullscreen="" aria-hidden="false"-->
+<!--                            tabindex="0"></iframe>-->
+<!--                    -->
+<!--                        </div>-->
+<!--                    </div>-->
                     
                 </div>
             </div>
