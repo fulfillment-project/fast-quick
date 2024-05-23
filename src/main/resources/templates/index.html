@@ -97,11 +97,7 @@
                                     <tr th:each="exportList : ${exportList}">
                                         <td th:text="${exportList.productName}" ></td>
                                         <td align="center" th:text="${exportList.count}"></td>
-
-                                        <td th:text="${#temporals.format(exportList.insertDateTime,'yyyy-MM-dd')}"></td>
-
                                         <td align="center" th:text="${#temporals.format(exportList.insertDateTime,'yyyy-MM-dd')}"></td>
-
                                     </tr>
                                 </tr>
                                 </tbody>

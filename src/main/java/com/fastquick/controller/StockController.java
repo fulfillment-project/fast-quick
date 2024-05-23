@@ -1,9 +1,12 @@
 package com.fastquick.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import com.fastquick.data.dto.response.ShopProductListResponseDTO;
+import com.fastquick.service.impl.ShopProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,9 @@ public class StockController {
 
 	@Autowired
 	private ProductService productService;
+
+    @Autowired
+    private ShopProductServiceImpl shopProductService;
 	
     @GetMapping("/stockList")
     public ModelAndView stockList(String productName, Integer page, ModelAndView mav) {
@@ -57,9 +63,15 @@ public class StockController {
     }
     
     @GetMapping(value = ("/stockDetail/{productId}"))
-    public ResponseEntity<StockDetailResponseDTO>  stockDetail(@PathVariable("productId") Integer productId) throws NoSuchElementException {
+    public ResponseEntity<Map<String,Object>>  stockDetail(@PathVariable("productId") Integer productId) throws NoSuchElementException {
     	StockDetailResponseDTO stockDetailResponseDTO = this.productService.detailStock(productId);
-    	return ResponseEntity.ok().body(stockDetailResponseDTO);
+        List<ShopProductListResponseDTO> shopProductList = this.shopProductService.selectShopProduct(productId);
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
+        data.put("stockDetail", stockDetailResponseDTO);
+        data.put("shopList", shopProductList);
+        map.put("data", data);
+    	return ResponseEntity.ok().body(map);
     }
     
     @PostMapping("/edit/{productId}")

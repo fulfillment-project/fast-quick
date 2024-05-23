@@ -41,24 +41,24 @@ public class StorageServiceImpl implements StorageService{
 		Member member = memberRepository.findById(storageCreateRequestDTO.getMemberId())
 	            .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
 
-	    StorageRetrieval storageRetrieval = new StorageRetrieval();
-	    storageRetrieval.setProductName(storageCreateRequestDTO.getProductName());
-	    storageRetrieval.setDivision(storageCreateRequestDTO.getDivision());
-	    storageRetrieval.setMember(member);
-	    storageRetrieval.setCount(storageCreateRequestDTO.getCount());
-	    storageRetrieval.setWarehouse(storageCreateRequestDTO.getWarehouse());
-	    storageRetrieval.setZipcode(storageCreateRequestDTO.getZipcode());
-	    storageRetrieval.setAddress(storageCreateRequestDTO.getAddress());
-	    storageRetrieval.setAddressDetail(storageCreateRequestDTO.getAddressDetail());
-	    storageRetrieval.setBigo(storageCreateRequestDTO.getBigo());
-	    storageRetrieval.setProductId(storageCreateRequestDTO.getProductId());
-
 		Product product = this.productRepository.findById(storageCreateRequestDTO.getProductId()).orElseThrow();
 		if(product.getTempQuantity() - storageCreateRequestDTO.getCount() < 0){
 			product.setQuantity(product.getQuantity() + storageCreateRequestDTO.getCount());
 		} else {
 			product.setTempQuantity(product.getQuantity() - storageCreateRequestDTO.getCount());
 		}
+
+		StorageRetrieval storageRetrieval = new StorageRetrieval();
+		storageRetrieval.setProductName(storageCreateRequestDTO.getProductName());
+		storageRetrieval.setDivision(storageCreateRequestDTO.getDivision());
+		storageRetrieval.setMember(member);
+		storageRetrieval.setCount(storageCreateRequestDTO.getCount());
+		storageRetrieval.setWarehouse(storageCreateRequestDTO.getWarehouse());
+		storageRetrieval.setZipcode(storageCreateRequestDTO.getZipcode());
+		storageRetrieval.setAddress(storageCreateRequestDTO.getAddress());
+		storageRetrieval.setAddressDetail(storageCreateRequestDTO.getAddressDetail());
+		storageRetrieval.setBigo(storageCreateRequestDTO.getBigo());
+		storageRetrieval.setProductId(storageCreateRequestDTO.getProductId());
 
 		this.productRepository.save(product);
 
@@ -96,7 +96,8 @@ public class StorageServiceImpl implements StorageService{
 	    				storage.getCount(),
 	    				storage.getBigo(),
 	    				storage.getInsertDateTime(),
-	    				storage.getUpdateDateTime())
+	    				storage.getUpdateDateTime(),
+						storage.getQuantity())
 	    ).collect(Collectors.toList());
 	}
 
@@ -125,7 +126,8 @@ public class StorageServiceImpl implements StorageService{
 						storage.getCount(),
 						storage.getBigo(),
 						storage.getInsertDateTime(),
-						storage.getUpdateDateTime())
+						storage.getUpdateDateTime(),
+						storage.getQuantity())
 				).collect(Collectors.toList());
 	}
 
@@ -140,7 +142,8 @@ public class StorageServiceImpl implements StorageService{
 						storage.getCount(),
 						storage.getBigo(),
 						storage.getInsertDateTime(),
-						storage.getUpdateDateTime())
+						storage.getUpdateDateTime(),
+						storage.getQuantity())
 				).collect(Collectors.toList());
 	}
 }

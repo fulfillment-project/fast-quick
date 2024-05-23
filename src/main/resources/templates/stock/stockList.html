@@ -15,38 +15,37 @@
         $.ajax({
             type: 'GET',
             url: '/stock/stockDetail/' + productId,
-           success: function (data) {
+            success: function (data) {
+            let shopList = data.data.shopList;
             $('#detailTable').data('product-id', productId); // 제품 ID를 테이블에 저장
             $('#detailTable thead').html('<tr>' +
-                '<th scope="col" style="width:30%; font-size:20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + data.productName + '</th>' +
-                '<th scope="col" style="width:70%; font-size:20px;">상품 코드 : ' + data.barcode + '</th>' +
+                '<th scope="col" style="width:30%; font-size:20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + data.data.stockDetail.productName + '</th>' +
+                '<th scope="col" style="width:70%; font-size:20px;">상품 코드 : ' + data.data.stockDetail.barcode + '</th>' +
                 '</tr>');
             
             $('#detailTable tbody').html('<tr>' +
                 '<td>총 재고</td>' +
-                '<td><input class="form-control border-0 me-2" name="quantity" type="text"  value="' + data.quantity + '" readonly></td>' +
+                '<td><input class="form-control border-0 me-2" name="quantity" type="text"  value="' + data.data.stockDetail.quantity + '" readonly></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>창고 재고</td>' +
-                '<td><input class="form-control border-0 me-2" type="text"  value="' + (data.quantity - data.tempQuantity) + '" readonly></td>' +
+                '<td><input class="form-control border-0 me-2" type="text"  value="' + (data.data.stockDetail.quantity - data.data.stockDetail.tempQuantity) + '" readonly></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>임시 재고</td>' +
-                '<td><input class="form-control border-0 me-2" name="tempQuantity" type="text" value="' + data.tempQuantity + '"></td>' +
+                '<td><input class="form-control border-0 me-2" name="tempQuantity" type="text" value="' + data.data.stockDetail.tempQuantity + '"></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>안전 재고</td>' +
-                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data.safeQuantity + '"></td>' +
+                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data.data.stockDetail.safeQuantity + '"></td>' +
                 '</tr>');
-                
-                $('#productKey').val(data.data.product.productId);
 
                 for(let i=0; i<shopList.length; i++){
                     $('#detailShopTable tbody').append('<tr>' +
                         '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:25%; max-width:320px;" >' + shopList[i].sellerProductName + '</td>' +
-                        '<td>' + shopList[i].quantity + '</td>' +
                         '<td>' + shopList[i].shopName + '</td>' +
-                        '<td style="width:30%;"><a href="#" class="linkbtn">연동해제</a></td>' +
+                        '<td><input class="form-control border-0 me-2" type="text" size="3"  value="' + shopList[i].quantity + '"></td>' +
+                        '<td style="width:30%;"><a href="javascript:updateQuantity();" class="linkbtn">변경</a></td>' +
                         '</tr>');
 
                     }
@@ -188,9 +187,9 @@
                             <thead>
                             <tr>
                                 <th width="30%" scope="col">상품명</th>
-                                <th width="20%" scope="col">재고</th>
                                 <th width="20%" scope="col">쇼핑몰</th>
-                                <th width="30%" scope="col">연동</th>
+                                <th width="20%" scope="col">재고</th>
+                                <th width="30%" scope="col">변경</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -239,6 +238,21 @@
                             console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
                         }
                     });
+                }
+
+                function updateQuantity(){
+                    if(confirm("해당 쇼핑몰 재고를 변경하시겠습니까?")){
+                        $.ajax({
+                            type: 'POST',
+                            url: '/stock/stockDetail/' + productId,
+                            success: function (data) {
+
+                            },
+                            error: function () {
+                                console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
+                            }
+                        });
+                    }
                 }
 			</script>
            
