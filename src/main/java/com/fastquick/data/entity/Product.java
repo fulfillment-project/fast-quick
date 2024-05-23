@@ -1,5 +1,6 @@
 package com.fastquick.data.entity;
 
+import com.fastquick.exception.StockStarvationException;
 import lombok.*;
 
 import java.util.Random;
@@ -101,7 +102,7 @@ public class Product extends BaseEntity {
 
     public void minusStock(int count) {
         if (quantity - count < 0) {
-            throw new IllegalArgumentException("재고 이상으로 구매 불가");
+            throw new StockStarvationException("재고 이상으로 구매 불가");
         }
         quantity -= count;
         exportAmount += count;
