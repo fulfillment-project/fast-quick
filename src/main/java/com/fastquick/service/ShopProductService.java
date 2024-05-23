@@ -12,5 +12,7 @@ public interface ShopProductService {
     public Integer connectProduct(ShopProductConnectRequestDTO requestDTO);
     public List<ShopProductListResponseDTO> selectShopProduct(Integer productId);
 
-    void connectShopProduct(ShopProductConnectRequestDTO requestDTO);
+    public void connectShopProduct(ShopProductConnectRequestDTO requestDTO);
+
+    public Integer connectClear(Integer shopProductId);
 }

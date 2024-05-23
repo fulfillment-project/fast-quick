@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ShopProductListResponseDTO {
     private Long sellerProductId;
     private String sellerProductName;
+    private Integer shopProductId;
     private String content;
     private Integer vendorId;
     private Integer salePrice;
@@ -29,6 +30,7 @@ public class ShopProductListResponseDTO {
         this.salePrice = product.getSalePrice();
         this.shopName = product.getShopName();
         this.quantity = product.getQuantity();
+        this.shopProductId = product.getShopProductId();
         return this;
     }
 

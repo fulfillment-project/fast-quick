@@ -28,7 +28,7 @@
                         '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:25%; max-width:320px;" >' + shopList[i].sellerProductName + '</td>' +
                         '<td>' + shopList[i].quantity + '</td>' +
                         '<td>' + shopList[i].shopName + '</td>' +
-                        '<td style="width:30%;"><a href="#" class="linkbtn">연동해제</a></td>' +
+                        '<td style="width:30%;"><a href="javascript:connectClear('+ shopList[i].shopProductId + ',' + productId +')" class="linkbtn">연동해제</a></td>' +
                         '</tr>');
 
                     }
@@ -330,6 +330,21 @@
 
             function modalOpen(){
                searchShopProduct1();
+            }
+
+            //연동 해제
+            function connectClear(id, productId){
+                $.ajax({
+                    type: 'GET',
+                    url: '/shop-product/connect-clear/' + id,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        fetchProductDetails(productId);
+                    },
+                    error: function () {
+                        console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
+                    }
+                });
             }
 
             //연동된 쇼핑몰 상품 조회

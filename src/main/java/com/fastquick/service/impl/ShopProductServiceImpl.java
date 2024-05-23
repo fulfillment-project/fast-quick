@@ -116,4 +116,12 @@ public class ShopProductServiceImpl implements ShopProductService {
             RestTemplateUtil.connectShopProduct(url, "/v2/providers/seller_api/apis/api/v1/marketplace/update/seller-products/change-connect/{sellerProductId}", shopProduct.getSellerProductId());
         }
     }
+
+    @Override
+    public Integer connectClear(Integer shopProductId) {
+        ShopProduct product = this.shopProductRepository.findById(shopProductId).orElseThrow();
+        product.setProductId(null);
+        ShopProduct shopProduct = this.shopProductRepository.save(product);
+        return shopProduct.getShopProductId();
+    }
 }
