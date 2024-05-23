@@ -13,6 +13,7 @@ public class ProductDetailResponseDTO {
 	private Integer productId;
 	private String productName;
 	private Integer quantity;
+	private Integer tempQuantity;
 	private Long barcode;
 	private LocalDateTime insertDateTime;
 	private LocalDateTime updateDateTime;
@@ -23,6 +24,7 @@ public class ProductDetailResponseDTO {
 		this.productName = product.getProductName();
 		this.quantity = product.getQuantity();
 		this.barcode = product.getBarcode();
+		this.tempQuantity = product.getTempQuantity();
 		this.insertDateTime = product.getInsertDateTime();
 		this.updateDateTime = product.getUpdateDateTime();
 		

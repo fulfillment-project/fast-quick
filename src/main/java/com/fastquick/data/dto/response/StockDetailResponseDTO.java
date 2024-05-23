@@ -13,6 +13,7 @@ public class StockDetailResponseDTO {
 	private Integer productId;
 	private String productName;
 	private Integer quantity;
+	private Integer tempQuantity;
 	private Long barcode;
 	private Integer safeQuantity;
 	
@@ -23,6 +24,7 @@ public class StockDetailResponseDTO {
 		this.quantity = product.getQuantity();
 		this.barcode = product.getBarcode();
 		this.safeQuantity = product.getSafeQuantity();
+		this.tempQuantity = product.getTempQuantity();
 		
 		return this;
 	}

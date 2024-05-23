@@ -27,4 +27,6 @@ public interface ProductService {
   public List<Product> findAllProducts();
 
   public List<ProductListResponseDTO> findSafeProducts();
+
+  public Integer countProducts(Integer memberId);
 }

@@ -35,7 +35,7 @@
                                 <form th:action="@{/storage/storageRequest}"  method="post">
                                 	    <div class="mb-3">
 								        <label for="exampleInputEmail1" class="form-label">구분</label>
-								        <select class="form-select mb-3" id="productSelect" name="division" aria-label="구분선택">
+								        <select class="form-select mb-3" name="division" aria-label="구분선택">
 								            <option>구분선택</option>
 								            <option value="1">입고</option>
 								            <option value="2">출고</option>
@@ -54,7 +54,7 @@
                                     </div>
                                        <div class="mb-3">
 									        <label for="productSelect" class="form-label">입고센터</label>
-									        <select class="form-select mb-3" id="productSelect" name="warehouse" aria-label="입고지선택">
+									        <select class="form-select mb-3" name="warehouse" aria-label="입고지선택">
 									            <option>입고지 선택</option>
 									            <option th:value="화곡물류센터" th:text="화곡물류센터" selected></option>
 									        </select>

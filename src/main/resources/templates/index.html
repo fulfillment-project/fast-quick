@@ -42,7 +42,7 @@
                             <i class="fa fa-chart-area fa-3x text-primary"></i>
                             <div class="ms-3 text-center">
                                 <p class="mb-2">상품 수</p>
-                                <h4 class="mb-0"  th:text="${#lists.size(productCount)}"></h4>
+                                <h4 class="mb-0" th:text="${productCount}"></h4>
                             </div>
                         </div>
                     </div>
@@ -64,15 +64,19 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">상품명</th>
-                                    <th class="text-center"  scope="col"  style="color:red;">입고량</th>
-                                    <th scope="col"  class="text-center" >등록일</th>
+                                    <th class="text-center" scope="col" style="color:red;">입고량</th>
+                                    <th scope="col" class="text-center">등록일</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="importList : ${importList}">
                                     <td th:text="${importList.productName}" ></td>
                                     <td align="center" th:text="${importList.count}"></td>
+<<<<<<< HEAD
                                     <td th:text="${#temporals.format(importList.insertDateTime,'yyyy-MM-dd')}"></td>
+=======
+                                    <td align="center" th:text="${#temporals.format(importList.insertDateTime,'yyyy-MM-dd')}"></td>
+>>>>>>> a86201c5c1f6d7729f710e185f44b16330d2e31b
                                 </tr>
                                 </tr>
                                 </tbody>
@@ -89,15 +93,19 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">상품명</th>
-                                    <th scope="col"  class="text-center"  style="color:red;">출고량</th>
-                                    <th scope="col"   class="text-center" >등록일</th>
+                                    <th scope="col"  class="text-center" style="color:red;">출고량</th>
+                                    <th scope="col" class="text-center">등록일</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="exportList : ${exportList}">
                                         <td th:text="${exportList.productName}" ></td>
                                         <td align="center" th:text="${exportList.count}"></td>
+<<<<<<< HEAD
                                         <td th:text="${#temporals.format(exportList.insertDateTime,'yyyy-MM-dd')}"></td>
+=======
+                                        <td align="center" th:text="${#temporals.format(exportList.insertDateTime,'yyyy-MM-dd')}"></td>
+>>>>>>> a86201c5c1f6d7729f710e185f44b16330d2e31b
                                     </tr>
                                 </tr>
                                 </tbody>
@@ -123,7 +131,7 @@
                                 <tr th:each="product : ${productList}">
                                     <td th:text="${product.productName}" ></td>
                                     <td align="center" th:text="${product.safeQuantity}"></td>
-                                    <td th:text="${product.quantity}"  class="text-center" ></td>
+                                    <td align="center" th:text="${product.quantity}"  class="text-center" ></td>
                                 </tr>
                                 </tr>
                                 </tbody>

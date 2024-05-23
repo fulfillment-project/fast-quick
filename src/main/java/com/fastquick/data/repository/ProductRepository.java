@@ -20,4 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query(value = "SELECT (p.quantity - p.safe_quantity) AS difference, p.* FROM product p ORDER BY difference ASC LIMIT 1, 5", nativeQuery = true)
 	public List<Product> findByDangerous();
 
+	@Query(value = "select count(*) from product where member_id =:memberId",nativeQuery = true)
+	Integer countByMemberId(@Param("memberId") int memberId);
 }

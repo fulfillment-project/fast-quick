@@ -38,7 +38,7 @@
                                         <th scope="col">입/출고</th>
                                         <th scope="col">상품명</th>
                                         <th scope="col">상품코드</th>
-                                        <th scope="col">보유재고</th>
+                                        <th scope="col">수량</th>
                                         <th scope="col">등록일</th>
                                         <th scope="col">수정일</th>
                                         <th scope="col">비고</th>
@@ -53,7 +53,7 @@
                             	  <a th:text="'출고'" class="linkbtn pe-3 ps-3">
                             	</td>                       	
                                 <td><a style="color: #757575" th:text="${storages.productName}" ></a></td>
-                                <td align="center" th:text="${storages.storageId}"></td>
+                                <td th:text="${storages.storageId}"></td>
                                 <td th:text="${storages.count}"></td>
                                 <td th:text="${#temporals.format(storages.insertDateTime,'yyyy-MM-dd')}"></td>
                                 <td th:text="${#temporals.format(storages.updateDateTime,'yyyy-MM-dd')}"></td>
