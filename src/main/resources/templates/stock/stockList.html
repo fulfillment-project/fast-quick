@@ -14,11 +14,17 @@
             
             $('#detailTable tbody').html('<tr>' +
                 '<td>총 재고</td>' +
-                '<td><input class="form-control border-0 me-2" name="quantity" type="text" value="' + data.quantity + '"></td>' +
+                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data.quantity + '" readonly></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>창고 재고</td>' +
-                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data-quantity - data.tempQuantity + '" readonly></td>' +
+                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + (data.quantity - data.tempQuantity) + '" readonly></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>임시 재고</td>' +
+                '<td><input class="form-control border-0 me-2" name="quantity" type="text" value="' + data.tempQuantity + '"></td>' +
+                '</tr>' +
+                '<tr>' +
                 '<td>안전 재고</td>' +
                 '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data.safeQuantity + '"></td>' +
                 '</tr>');
@@ -127,18 +133,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <tr>
-                                            <td>총 재고</td>
-                                            <td><input class="form-control border-0 me-2" type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>창고 재고</td>
-                                            <td><input class="form-control border-0 me-2" type="text"></td>
-                                        </tr>
- 										<tr>
-                                            <td>안전 재고</td>
-                                            <td><input class="form-control border-0 me-2" type="text"></td>
-                                        </tr>                 
+
                                 </tbody>
                             </table>
                             <button type="submit" class="btn btn-primary mb-3" style="width: 100%;">등록</button>
@@ -173,6 +168,19 @@
 			                console.error('Error:', error);
 			            });
 			    }
+
+                function sendToData(){
+                    $.ajax({
+                        type: 'POST',
+                        url: '/stock/stockDetail/' + productId,
+                        success: function (data) {
+
+                        },
+                        error: function () {
+                            console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
+                        }
+                    });
+                }
 			</script>
            
 

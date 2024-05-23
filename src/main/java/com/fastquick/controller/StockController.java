@@ -1,6 +1,7 @@
 package com.fastquick.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,4 +59,5 @@ public class StockController {
     	StockDetailResponseDTO stockDetailResponseDTO = this.productService.detailStock(productId);
     	return ResponseEntity.ok().body(stockDetailResponseDTO);
     }
+
 }
