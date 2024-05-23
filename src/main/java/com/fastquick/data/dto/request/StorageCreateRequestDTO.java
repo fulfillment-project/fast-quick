@@ -12,6 +12,8 @@ import lombok.Setter;
 @Builder
 public class StorageCreateRequestDTO {
 	
+	private String division;
+	
 	private Integer storageId;
 	
 	private String productName;

@@ -39,6 +39,7 @@ public class StorageServiceImpl implements StorageService{
 
 	    StorageRetrieval storageRetrieval = new StorageRetrieval();
 	    storageRetrieval.setProductName(storageCreateRequestDTO.getProductName());
+	    storageRetrieval.setDivision(storageCreateRequestDTO.getDivision());
 	    storageRetrieval.setMember(member);
 	    storageRetrieval.setCount(storageCreateRequestDTO.getCount());
 	    storageRetrieval.setWarehouse(storageCreateRequestDTO.getWarehouse());

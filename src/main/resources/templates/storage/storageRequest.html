@@ -31,8 +31,16 @@
                 <div class="row g-4 justify-content-center">
                         <div class="col-sm-12 col-xl-8">
                             <div class="bg-light rounded h-100 p-4">
-                                <h3 class="mb-4">입고 신청</h3>
+                                <h3 class="mb-4">입/출고 신청</h3>
                                 <form th:action="@{/storage/storageRequest}"  method="post">
+                                	    <div class="mb-3">
+								        <label for="exampleInputEmail1" class="form-label">구분</label>
+								        <select class="form-select mb-3" id="productSelect" name="division" aria-label="구분선택">
+								            <option>구분선택</option>
+								            <option value="1">입고</option>
+								            <option value="2">출고</option>
+								        </select>
+								    </div>
 	    							<div class="mb-3">
 	    							 <label for="exampleInputEmail1" class="form-label">상품명</label>
 	                           		 <select class="form-select mb-3" id="productSelect" name="productName" aria-label="상품 선택">
@@ -44,10 +52,13 @@
                                         <label for="exampleInputPassword1" class="form-label">상품 수량</label>
                                         <input type="text" class="form-control" name="count">
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">입고 센터</label>
-                                        <input type="text" class="form-control" name="warehouse">
-                                    </div>
+                                       <div class="mb-3">
+									        <label for="productSelect" class="form-label">입고센터</label>
+									        <select class="form-select mb-3" id="productSelect" name="warehouse" aria-label="입고지선택">
+									            <option>입고지 선택</option>
+									            <option th:value="화곡물류센터" th:text="화곡물류센터" selected></option>
+									        </select>
+									    </div>
                                     <div class="mb-3">
                                     	<label for="exampleInputPassword1" class="form-label" >우편번호</label>
                                     	<div class="d-flex">

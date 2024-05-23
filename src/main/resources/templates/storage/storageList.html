@@ -44,17 +44,17 @@
                                         <th scope="col">비고</th>
                                     </tr>
                                 </thead>
-                            <tbody>
+               				<tbody>
                             <tr th:each="storages : ${storages}">
-                            	<!-- <td th:if="${storages.division} == 1"> --><td>
-                            	  <a th:text="${storages.division}" class="linkbtn pe-3 ps-3" style="background-color: yellowgreen;">
+                            	 <td th:if="${storages.division} == 1" >
+                            	  <a th:text="'입고'" class="linkbtn pe-3 ps-3" style="background-color: yellowgreen;">
                             	</td>
-                            <!-- 	<td th:if="${storages.division} == 0">
-                            	  <a th:text="${storages.division}" class="linkbtn pe-3 ps-3" style="background-color: yellowgreen;">
-                            	</td> -->                        	
+                             	<td th:if="${storages.division} == 2">
+                            	  <a th:text="'출고'" class="linkbtn pe-3 ps-3">
+                            	</td>                       	
                                 <td><a style="color: #757575" th:text="${storages.productName}" ></a></td>
                                 <td align="center" th:text="${storages.storageId}"></td>
-                                <td th:text="${storages.quantity}"></td>
+                                <td th:text="${storages.count}"></td>
                                 <td th:text="${#temporals.format(storages.insertDateTime,'yyyy-MM-dd')}"></td>
                                 <td th:text="${#temporals.format(storages.updateDateTime,'yyyy-MM-dd')}"></td>
                                 <td th:text="${storages.bigo}"></td>
