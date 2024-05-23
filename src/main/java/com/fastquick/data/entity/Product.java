@@ -88,4 +88,15 @@ public class Product extends BaseEntity {
         // 10000000부터 99999999까지의 랜덤값 생성
         return (long) (new Random().nextInt(90000000) + 10000000);
     }
+
+	public void addStock(int count) {
+        quantity += count;
+	}
+
+    public void minusStock(int count) {
+        if (quantity - count < 0) {
+            throw new IllegalArgumentException("재고 이상으로 구매 불가");
+        }
+        quantity -= count;
+    }
 }
