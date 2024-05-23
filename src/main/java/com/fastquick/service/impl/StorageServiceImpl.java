@@ -11,11 +11,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.fastquick.data.dto.request.StorageCreateRequestDTO;
-<<<<<<< HEAD
 import com.fastquick.data.dto.response.StorageListResponseDTO;
-=======
+
 import com.fastquick.data.entity.Member;
->>>>>>> 6bc0ca36e7339877e1790e527fdb06a03bb04c46
+
 import com.fastquick.data.entity.StorageRetrieval;
 import com.fastquick.data.repository.MemberRepository;
 import com.fastquick.data.repository.StorageRepository;
@@ -25,12 +24,8 @@ import com.fastquick.service.StorageService;
 public class StorageServiceImpl implements StorageService{
 
 	private final StorageRepository storageRepository;
-<<<<<<< HEAD
-	private String productName;
-=======
 	private final MemberRepository memberRepository;
->>>>>>> 6bc0ca36e7339877e1790e527fdb06a03bb04c46
-	
+
 	public StorageServiceImpl(StorageRepository storageRepository, MemberRepository memberRepository) {
 		this.storageRepository = storageRepository;
 		 this.memberRepository = memberRepository;
@@ -38,21 +33,7 @@ public class StorageServiceImpl implements StorageService{
 
 	@Override
 	public Integer storageCreate(StorageCreateRequestDTO storageCreateRequestDTO) {
-<<<<<<< HEAD
-		StorageRetrieval storageRetrieval = StorageRetrieval.builder()
-				.productName(storageCreateRequestDTO.getProductName())
-				.member(storageCreateRequestDTO.getMemberId())
-				.count(storageCreateRequestDTO.getCount())
-				.warehouse(storageCreateRequestDTO.getWarehouse())
-				.zipcode(storageCreateRequestDTO.getZipcode())
-				.address(storageCreateRequestDTO.getAddress())
-				.addressDetail(storageCreateRequestDTO.getAddressDetail())
-				.bigo(storageCreateRequestDTO.getBigo())
-				.shopProductId(storageCreateRequestDTO.getShopProductId())
-				.build();
-			this.storageRepository.save(storageRetrieval);
-		return storageRetrieval.getStorageId();
-=======
+
 		Member member = memberRepository.findById(storageCreateRequestDTO.getMemberId())
 	            .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
 
@@ -69,7 +50,7 @@ public class StorageServiceImpl implements StorageService{
 
 	    this.storageRepository.save(storageRetrieval);
 	    return storageRetrieval.getStorageId();
->>>>>>> 6bc0ca36e7339877e1790e527fdb06a03bb04c46
+
 	}
 
 	@Override
