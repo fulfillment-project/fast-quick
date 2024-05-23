@@ -8,7 +8,7 @@
             url: '/stock/stockDetail/' + productId,
            success: function (data) {
             $('#detailTable thead').html('<tr>' +
-                '<th scope="col" style="width:30%; font-size:20px;">' + data.productName + '</th>' +
+                '<th scope="col" style="width:30%; font-size:20px;">상품명 : ' + data.productName + '</th>' +
                 '<th scope="col" style="width:70%; font-size:20px;">상품 코드 : ' + data.barcode + '</th>' +
                 '</tr>');
             
@@ -18,7 +18,7 @@
                 '</tr>' +
                 '<tr>' +
                 '<td>창고 재고</td>' +
-                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data-quantity - data.tempQuantity + '"></td>' +
+                '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data-quantity - data.tempQuantity + '" readonly></td>' +
                 '<td>안전 재고</td>' +
                 '<td><input class="form-control border-0 me-2" name="safeQuantity" type="text"  value="' + data.safeQuantity + '"></td>' +
                 '</tr>');

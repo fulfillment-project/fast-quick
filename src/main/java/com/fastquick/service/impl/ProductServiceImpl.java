@@ -37,12 +37,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Integer productInsert(ProductWriteRequestDTO productWriteRequestDTO) {
-    	 Member member = memberRepository.findById(productWriteRequestDTO.getMemberId())
+    	 Member member = memberRepository.findById(productWriteRequestDTO.getMemberId(	))
                  .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
     	
     	 	Product product = new Product();
     	    product.setProductName(productWriteRequestDTO.getProductName());
     	    product.setQuantity(productWriteRequestDTO.getQuantity());
+			product.setTempQuantity(productWriteRequestDTO.getQuantity());
     	    product.setSafeQuantity(productWriteRequestDTO.getSafeQuantity());
     	    product.setBarcode(productWriteRequestDTO.getBarcode());
     	    product.setImage(productWriteRequestDTO.getImage());
@@ -94,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
     	}   
     	
     	return products.stream().map(product ->
-    			new ProductListResponseDTO(product.getProductId(), product.getProductName(), product.getBarcode(), product.getQuantity())
+    			new ProductListResponseDTO(product.getProductId(), product.getProductName(), product.getBarcode(), product.getQuantity(), product.getTempQuantity(), product.getSafeQuantity())
     			).collect(Collectors.toList());
     	
     }
@@ -116,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductListResponseDTO> findSafeProducts() {
 		List<Product> products = this.productRepository.findByDangerous();
 		return products.stream().map(product ->
-				new ProductListResponseDTO(product.getProductId(), product.getProductName(), product.getBarcode(), product.getQuantity(), product.getSafeQuantity())
+				new ProductListResponseDTO(product.getProductId(), product.getProductName(), product.getBarcode(), product.getQuantity(), product.getTempQuantity(), product.getSafeQuantity())
 		).collect(Collectors.toList());
 	}
 

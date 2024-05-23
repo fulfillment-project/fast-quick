@@ -3,6 +3,8 @@ package com.fastquick.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fastquick.data.entity.Product;
+import com.fastquick.data.repository.ProductRepository;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties.Storage;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,11 +27,13 @@ public class StorageServiceImpl implements StorageService{
 
 	private final StorageRepository storageRepository;
 	private final MemberRepository memberRepository;
+	private final ProductRepository productRepository;
 
-	public StorageServiceImpl(StorageRepository storageRepository, MemberRepository memberRepository) {
+	public StorageServiceImpl(StorageRepository storageRepository, MemberRepository memberRepository, ProductRepository productRepository) {
 		this.storageRepository = storageRepository;
 		 this.memberRepository = memberRepository;
-	}
+        this.productRepository = productRepository;
+    }
 
 	@Override
 	public Integer storageCreate(StorageCreateRequestDTO storageCreateRequestDTO) {
@@ -48,6 +52,15 @@ public class StorageServiceImpl implements StorageService{
 	    storageRetrieval.setAddressDetail(storageCreateRequestDTO.getAddressDetail());
 	    storageRetrieval.setBigo(storageCreateRequestDTO.getBigo());
 	    storageRetrieval.setProductId(storageCreateRequestDTO.getProductId());
+
+		Product product = this.productRepository.findById(storageCreateRequestDTO.getProductId()).orElseThrow();
+		if(product.getTempQuantity() - storageCreateRequestDTO.getCount() < 0){
+			product.setQuantity(product.getQuantity() + storageCreateRequestDTO.getCount());
+		} else {
+			product.setTempQuantity(product.getQuantity() - storageCreateRequestDTO.getCount());
+		}
+
+		this.productRepository.save(product);
 
 	    this.storageRepository.save(storageRetrieval);
 	    return storageRetrieval.getStorageId();
