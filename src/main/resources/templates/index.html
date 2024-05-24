@@ -70,7 +70,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="importList : ${importList}">
-                                    <td th:text="${importList.productName}" ></td>
+                                    <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:260px;" th:text="${importList.productName}" ></td>
                                     <td align="center" th:text="${importList.count}" class="fw-bold" style="color:red;"></td>
                                     <td align="center"  th:text="${#temporals.format(importList.insertDateTime,'yyyy-MM-dd')}"></td>
                                 </tr>
@@ -95,7 +95,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="exportList : ${exportList}">
-                                        <td th:text="${exportList.productName}" ></td>
+                                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:260px;"th:text="${exportList.productName}" ></td>
                                         <td align="center" th:text="${exportList.count}" class="fw-bold" style="color:red;"></td>
                                         <td align="center" th:text="${#temporals.format(exportList.insertDateTime,'yyyy-MM-dd')}"></td>
                                     </tr>

@@ -1,13 +1,38 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Error</title>
-</head>
+<div th:include="fragments/head.html"></div>
 <body>
-<h1>Something went wrong!</h1>
-<p>We are sorry, but an unexpected error occurred.</p>
-<h2 th:text="${error}"> 에러가 발생했어용</h2>
-<a href="/">Go to Home</a>
-</body>
-</html>
+    <div class="position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+		<div th:include="fragments/sidebar.html"></div>
+
+        <!-- Content Start -->
+        <div class="content">
+            
+		<div th:include="fragments/header.html"></div>
+
+            <!-- Sale & Revenue End -->
+			<div class="container-fluid pt-4 px-4">
+                <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">
+                    <div class="col-md-6 text-center p-4">
+                        <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
+                        <h1 class="display-1 fw-bold">404</h1>
+                        <h1 class="mb-4">에러가 발생하였습니다. 관리자에게 문의바랍니다</h1>
+                        <p class="mb-4"  th:text="${error}"></p>
+                        <a class="btn btn-primary rounded-pill py-3 px-5"  th:href="@{/index}">메인으로 가기</a>
+                    </div>
+                </div>
+            </div>
+
+            
+                    
+                </div>
+            </div>
+            <!-- Widgets End -->
+			<div th:include="fragments/footer.html"></div>
+           
