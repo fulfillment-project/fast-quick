@@ -351,17 +351,19 @@
 
             //연동 해제
             function connectClear(id, productId){
-                $.ajax({
-                    type: 'GET',
-                    url: '/shop-product/connect-clear/' + id,
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data) {
-                        fetchProductDetails(productId);
-                    },
-                    error: function () {
-                        console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
-                    }
-                });
+                if(confirm("연동을 해제 하시겠습니까?")){
+                    $.ajax({
+                        type: 'GET',
+                        url: '/shop-product/connect-clear/' + id,
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            fetchProductDetails(productId);
+                        },
+                        error: function () {
+                            console.log('제품 세부 정보를 가져오는 중 오류가 발생했습니다.');
+                        }
+                    });
+                }
             }
 
             //연동된 쇼핑몰 상품 조회
@@ -574,6 +576,7 @@
                         });
                         $('.select-row').prop('checked', false);
                         toggleProductForm();
+                        alert("상품이 등록되었습니다");
                     },
                     error: function() {
                         console.log('데이터 전송 중 오류가 발생했습니다.');
@@ -615,6 +618,7 @@
                         toggleProductForm2();
                         fetchProductDetails(_productId);
                         $('#todoModals').modal('hide');
+                        alert("상품이 연동되었습니다");
                     },
                     error: function() {
                         console.log('데이터 전송 중 오류가 발생했습니다.');
