@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductListResponseDTO> findSafeProducts() {
-		List<Product> products = this.productRepository.findByDangerous();
+		List<Product> products = this.productRepository.findAll();
 		return products.stream().map(product ->
 				new ProductListResponseDTO(product.getProductId(), product.getProductName(), product.getBarcode(), product.getQuantity(), product.getTempQuantity(), product.getSafeQuantity())
 		).collect(Collectors.toList());
