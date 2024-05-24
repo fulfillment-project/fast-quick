@@ -134,13 +134,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	public void updateStock(Integer productId, StockEditRequestDTO request) {
 		Product product = productRepository.findById(productId).orElseThrow();
-		Integer _tempQuantity;
-		if(product.getTempQuantity() > request.getTempQuantity()){
-			_tempQuantity = - (product.getTempQuantity() - request.getTempQuantity());
-		} else {
-			_tempQuantity = request.getTempQuantity() - product.getTempQuantity();
-		}
-
+		Integer _tempQuantity = request.getTempQuantity() - product.getTempQuantity() ;;
 
 		product.setTempQuantity(request.getTempQuantity());
 		product.setQuantity(product.getQuantity() + _tempQuantity);
