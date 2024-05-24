@@ -16,7 +16,7 @@ public class ErrorController {
 
 	@ExceptionHandler(StockStarvationException.class)
 	public String handleStockStarvation(StockStarvationException e, Model model) {
-		model.addAttribute("error", e.getMessage());
+		model.addAttribute("error", "stock");
 		return "error";
 	}
 }

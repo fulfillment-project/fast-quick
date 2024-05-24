@@ -25,12 +25,12 @@
                             <h1 class="display-1 fw-bold">404</h1>
                             <h1 class="mb-4">페이지가 없습니다</h1>
                             <a class="btn btn-primary rounded-pill py-3 px-5"  th:href="@{/index}">메인으로 가기</a>
-                        <th:block>
+                        </th:block>
                         <th:block th:if="${error == 'stock'}">
                             <h1 class="display-1 fw-bold">500</h1>
                             <h1 class="mb-4">재고 이상으로 판매할 수 없습니다.</h1>
                             <a class="btn btn-primary rounded-pill py-3 px-5"  th:href="@{/index}">메인으로 가기</a>
-                        <th:block>
+                        </th:block>
                     </div>
                 </div>
             </div>
